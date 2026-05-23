@@ -9,10 +9,31 @@ Este é um trabalho para a disciplina de _Laboratório de Programação II_, par
 - Lucas Rodrigues
 - Isabela Beraldi _(a confirmar)_ 
 
-# Regra de negócio
+O propósito deste sistema é permitir o gerenciamento de pedidos, onde produtos podem 
+
+## Funcionalidades
+
+- Acesso ao sistema usando contas de usuário (login)
+- Cadastro, visualização, alteração e remoção de produtos
+- Cadastro, visualização, atualização e cancelamento de pedidos
+
+## Regra de negócio
+
+### Contas de usuário
 
 O sistema possui dois tipos usuários: atendente ou administrador. Os atendentes podem gerar pedidos, usando os produtos já cadastrados. Os adminstradores possuem um código de autorização e podem gerenciar produtos, usuários e gerar e cancelar pedidos. 
 
-Para um atendente criar um pedido, um administrador deverá efetuar a abertura de caixa usando seu código de autorização e informar qual atendente irá utilizar o caixa. Ao final do expediente, um administrador poderá fechar o caixa e verificar qual o saldo restante no caixa.
+### Abertura e fechamento de caixa
+
+Para um atendente criar um pedido, este deverá entrar em sua conta e efetuar a abertura de caixa usando o código de autorização do administrador. Ao final do expediente o atendente poderá solicitar o fechamento do caixa, que será concluído mediante o uso do código de autorização de um administrador.
+
+Um atendente NÃO PODERÁ abrir outro caixa até que o caixa atual seja fechado.
+
+### Gerenciamento de pedidos
+
+Com o caixa aberto, um atendente poderá iniciar um novo pedido e adicionar produtos, com suas respectivas quantidades e finalizá-lo mediante o pagamento do cliente. Um caixa NÃO PODERÁ permitir que mais de um pedido seja aberto.
+
+Somente será permitido cancelar pedidos que ainda não foram finalizados (cliente ainda não pagou). O cancelamento só ocorrerá mediante um administrador inserindo seu código de autorização.
 
 O sistema poderá aceitar dois tipos de pagamentos para os pedidos: cartão, pix, ou dinheiro em espécie. Caso o método de pagamento seja "cartão", o lucro da venda deverá ser reduzido em 5%.
+`
