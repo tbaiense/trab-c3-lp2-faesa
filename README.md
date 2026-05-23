@@ -13,15 +13,26 @@ O propósito deste sistema é permitir o gerenciamento de pedidos, onde produtos
 
 ## Funcionalidades
 
-- Acesso ao sistema usando contas de usuário (login)
+- Acesso ao sistema usando contas de usuário (login) e cadastro de atendentes pelo administrador.
 - Cadastro, visualização, alteração e remoção de produtos
 - Cadastro, visualização, atualização e cancelamento de pedidos
 
 ## Regra de negócio
+### Dados
+`
+dados:
+- usuarios: nome, e cargo (atendente ou admin (codigo))
+- produtos: nome, preco unitario venda e custo, categoria, perecivel*
+- itemPedido: produto, quantidade, precoSubTotal (mudança de preco)
+- pedido: itemPedido, vendedor, preco total, data e hora
+
+
 
 ### Contas de usuário
 
 O sistema possui dois tipos usuários: atendente ou administrador. Os atendentes podem gerar pedidos, usando os produtos já cadastrados. Os adminstradores possuem um código de autorização e podem gerenciar produtos, usuários e gerar e cancelar pedidos. 
+
+Criaçao de conta por admin
 
 ### Abertura e fechamento de caixa
 
@@ -36,4 +47,3 @@ Com o caixa aberto, um atendente poderá iniciar um novo pedido e adicionar prod
 Somente será permitido cancelar pedidos que ainda não foram finalizados (cliente ainda não pagou). O cancelamento só ocorrerá mediante um administrador inserindo seu código de autorização.
 
 O sistema poderá aceitar dois tipos de pagamentos para os pedidos: cartão, pix, ou dinheiro em espécie. Caso o método de pagamento seja "cartão", o lucro da venda deverá ser reduzido em 5%.
-`
