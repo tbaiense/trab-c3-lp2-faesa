@@ -19,13 +19,12 @@ O propósito deste sistema é permitir o gerenciamento de pedidos, onde produtos
 
 ## Regra de negócio
 ### Dados
-`
+
 dados:
 - usuarios: nome, e cargo (atendente ou admin (codigo))
 - produtos: nome, preco unitario venda e custo, categoria, perecivel*
 - itemPedido: produto, quantidade, precoSubTotal (mudança de preco)
-- pedido: itemPedido, vendedor, preco total, data e hora
-
+- pedido: itemPedido, vendedor, preco total, taxa do cartão, data e hora
 
 
 ### Contas de usuário
