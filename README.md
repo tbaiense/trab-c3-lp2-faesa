@@ -7,7 +7,7 @@ Este é um trabalho para a disciplina de _Laboratório de Programação II_, par
 - Igor Rios
 - Thiago Moura
 - Lucas Rodrigues
-- Isabela Beraldi _(a confirmar)_ 
+- Isabela Beraldi
 
 O propósito deste sistema é permitir o gerenciamento de pedidos, onde produtos podem 
 
@@ -31,7 +31,7 @@ dados:
 
 O sistema possui dois tipos usuários: atendente ou administrador. Os atendentes podem gerar pedidos, usando os produtos já cadastrados. Os adminstradores possuem um código de autorização e podem gerenciar produtos, usuários e gerar e cancelar pedidos. 
 
-Criaçao de conta por admin.
+Os usuários do tipo `administrador` poderão realizar o cadastro de novas contas do tipo `atendente`.
 
 ### Abertura e fechamento de caixa
 
@@ -49,4 +49,4 @@ O sistema poderá aceitar dois tipos de pagamentos para os pedidos: cartão, pix
 
 ### Salvamento
 
-O salvamento dos dados ocorrerá mediante a finalização de um pedido e cadastro, atualização ou remoção de um produto, e criação de conta.`
+O salvamento dos dados ocorrerá mediante a finalização de um pedido e cadastro, atualização ou remoção de um produto, e criação de conta.
