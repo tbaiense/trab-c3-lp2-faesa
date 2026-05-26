@@ -14,6 +14,7 @@ Resumo dos requisitos funcionais:
 - Atualização de pedido
 - Remoção de produto
 - Cancelamento de pedido
+- Salvamento em arquivo
 
 # Requisitos funcionais
 
