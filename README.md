@@ -9,7 +9,7 @@ Este é um trabalho para a disciplina de _Laboratório de Programação II_, par
 - Lucas Rodrigues
 - Isabela Beraldi
 
-O propósito deste sistema é permitir o gerenciamento de pedidos, onde produtos podem 
+O propósito deste sistema é permitir o gerenciamento de pedidos. Para acessar os requisitos [clique aqui](./docs/requisitos.md).
 
 ## Funcionalidades
 
