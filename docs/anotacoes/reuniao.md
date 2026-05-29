@@ -1,0 +1,19 @@
+tarefas thiago:
+- finalizar requisitos
+- auxiliar lucas no UML (caso precise)
+
+tarefas lucas:
+- definir pacotes (se possível)
+- definir tipos de uml
+- definir cardinalidade e direção (onde casa variável vai)
+- definir métodos (simplificado)
+- definir classe loja 
+	- vetores de produtos, atendente e admins
+	- caixa aberto
+	- vetor de caixas fechados (histórico)
+
+
+proxima:
+- avaliar o uml finalizado
+- debater o mockup
+- requisitos (suguestões)

@@ -23,9 +23,9 @@ O propósito deste sistema é permitir o gerenciamento de pedidos. Para acessar 
 
 dados:
 - usuarios: nome, e cargo (atendente ou admin (codigo))
-- produtos: nome, preco unitario venda e custo, categoria
+- produtos: id, nome, preco unitario venda e custo, ~categoria~ (removido na ultima reuniao)
 - itemPedido: produto, quantidade, precoSubTotal (somente no arquivo gerado)
-- pedido: itemPedido, vendedor, preco total, taxa do cartão, data e hora
+- pedido: itemsPedido[], vendedor, preco total, taxa do cartão, data e hora, forma de pagamento
 
 ### Contas de usuário
 
@@ -45,7 +45,7 @@ Com o caixa aberto, um atendente poderá iniciar um novo pedido e adicionar prod
 
 Somente será permitido cancelar pedidos que ainda não foram finalizados (cliente ainda não pagou). O cancelamento só ocorrerá mediante um administrador inserindo seu código de autorização.
 
-O sistema poderá aceitar dois tipos de pagamentos para os pedidos: cartão, pix, ou dinheiro em espécie. Caso o método de pagamento seja "cartão", o lucro da venda deverá ser reduzido em 5%.
+O sistema poderá aceitar três tipos de pagamentos para os pedidos: cartão, pix, ou dinheiro em espécie. Caso o método de pagamento seja "cartão", o lucro da venda deverá ser reduzido em 5%.
 
 ### Salvamento
 
