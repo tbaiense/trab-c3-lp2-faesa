@@ -1,6 +1,7 @@
 # Documento de requisitos
 
-Resumo dos requisitos funcionais:
+<details>
+<summary>Lista de requisitos funcionais:</summary>
 
 - Login de conta de usuário
 - Cadastro de conta de atendente
@@ -15,7 +16,20 @@ Resumo dos requisitos funcionais:
 - Remoção de produto
 - Cancelamento de pedido
 - Salvamento em arquivo
+</details>
 
+<details>
+<summary>Lista de requisitos não funcionais:</summary>
+
+- Conta inicial de administrador
+</details>
+
+Atualizações:
+
+| Versão | Descrição | Autores |
+|:-------:| -------- | :-------: |  
+| 0.1 | Adiciona resumo dos requisitos funcionais | Thiago M. Baiense |
+| 0.2  | 1) Adiciona descrição dos requisitos; 2) Remove categoria de produto conforme decisão do grupo. | Thiago M. Baiense |
 ## Termos usados
 
 A seguir, temos a definição de alguns termos usados com frequência neste documento:
@@ -29,11 +43,6 @@ A seguir, temos a definição de alguns termos usados com frequência neste docu
 # Requisitos funcionais
 
 A seguir serão detalhados os requisitos funcionais.
-
-## Conta inicial de administrador
-
-> **definido na última reunião**: 
-> matricula, senha e cod de autorizacao gerados automaticamente (primeira conta).
 
 ## Login de conta de usuário
 
@@ -70,9 +79,6 @@ Dados solicitados:
 - Nome do produto: String
 - Preço unitário de custo: double (>= 0)
 - Preco unitário de venda: double (>= 0)
-- Categoria: String
-
-> **SUGESTÃO (THIAGO)**: permitir que `categoria` seja apenas valores prédefinidos, como "comida", "bebida",...
 
 **Resultado gerado**: sendo o cadastro bem-sucedido, o sistema deverá atualizar sua base de dados armazendo um novo registro de produto na memória secundária.
 
@@ -111,3 +117,10 @@ Descrição...
 ## Cancelamento de pedido
 
 Descrição...
+
+# Requisitos não funcionais
+
+## Conta inicial de administrador
+
+> **definido na última reunião**: 
+> matricula, senha e cod de autorizacao gerados automaticamente (primeira conta).
