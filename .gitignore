@@ -1,1 +1,3 @@
 bin
+*.drawio.bkp
+**/.obsidian/

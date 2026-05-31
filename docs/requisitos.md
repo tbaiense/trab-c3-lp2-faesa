@@ -3,25 +3,24 @@
 <details open>
 <summary>Lista de requisitos funcionais:</summary>
 
-- Login de conta de usuário
-- Cadastro de conta de atendente
-- Cadastro de produto
-- Cadastro de pedido
-- Abertura de caixa
-- Fechamento de caixa
-- Listagem de produtos
-- Listagem de pedido
-- Atualização de produto
-- Atualização de pedido
-- Remoção de produto
-- Salvamento em arquivo
+- [Login de conta de usuário](#login-de-conta-de-usuário)
+- [Cadastro de conta de atendente](#cadastro-de-conta-de-atendente)
+- [Cadastro de produto](#cadastro-de-produto)
+- [Abertura de caixa](#abertura-de-caixa)
+- [Cadastro de pedido](#cadastro-de-pedido)
+- [Fechamento de caixa](#fechamento-de-caixa)
+- [Listagem de produtos](#listagem-de-produtos)
+- [Listagem de pedidos](#listagem-de-pedidos)
+- [Atualização de produto](#atualização-de-produto)
+- [Atualização de pedido](#atualização-de-pedido)
+- [Remoção de produto](#remoção-de-produto)
 
 </details>
 
 <details>
 <summary>Lista de requisitos não funcionais:</summary>
 
-- Conta inicial de administrador
+- [Conta inicial de administrador](#conta-inicial-de-administrador)
 </details>
 
 Atualizações:
@@ -30,6 +29,7 @@ Atualizações:
 |:-------:| -------- | :-------: |  
 | 0.1 | Adiciona resumo dos requisitos funcionais | Thiago M. Baiense |
 | 0.2  | 1) Adiciona descrição dos requisitos; 2) Remove categoria de produto conforme decisão do grupo. | Thiago M. Baiense |
+| 0.3  | 1) Adiciona imagens de casos de uso; 2) Adiciona link para requisitos; 3) Correção de erros | Thiago M. Baiense |
 
 ## Termos usados
 
@@ -47,6 +47,9 @@ A seguir serão detalhados os requisitos funcionais.
 
 ## Login de conta de usuário
 
+Caso de uso:
+![uc_login](./casos_uso/uc_login.png)
+
 O sistema deverá permitir que o usuário acesse as demais funcionalidades somente após este inserir seu número de matrícula e a senha correspondente. O sistema deverá verificar se existe um registro com as informações fornecidas e permitir o acesso ao restante do sistema caso as credenciais sejam válidas. Caso a matrícula não seja encontrada ou a senha seja incorreta para a matrícula em questão, o sistema deverá impedir o acesso às demais funções e exibir uma mensagem de erro.
 
 > **SUGESTÃO (THIAGO)**: O sistema deverá também verificar se há algum caixa aberto após confirmar que as credenciais são válidas. Caso haja um caixa aberto, o sistema deverá permitir o acesso somente se o caixa aberto esteja associado à conta de usuário associada às credenciais inseridas.
@@ -57,9 +60,9 @@ Dados solicitados:
 
 **Resultado gerado**: permitir ou impedir o acesso ao restante do sistema com base nas credenciais.
 
-## Cadastro de conta de atendente
+## Cadastro de conta de Atendente
 
-O sistema deverá permitir que um Administrador cadastre novas contas com privilégios de atendente. Para isso, o sistema deverá gerar um código de matrícula com base no número de contas previamente cadastradas, ou seja, um código sequencial. O sistema também deverá registrar uma senha que será exatamente o código de matrícula. 
+O sistema deverá permitir que um Administrador cadastre novas contas com privilégios de Atendente. Para isso, o sistema deverá gerar um código de matrícula com base no número de contas previamente cadastradas, ou seja, um código sequencial. O sistema também deverá registrar uma senha que será exatamente o código de matrícula. 
 
 Dados gerados:
 - nova conta de usuário:
@@ -69,6 +72,9 @@ Dados gerados:
 **Resultado gerado**: sendo o cadastro bem-sucedido, o sistema deverá atualizar sua base de dados armazendo um novo registro de conta de usuário na memória secundária.
 
 ## Cadastro de produto
+
+Caso de uso:
+![uc_gerenciamento_produtos](./casos_uso/uc_gerenciar_produtos.png)
 
 O sistema deverá permir que um Administrador cadastre novos produtos.
 
@@ -80,6 +86,9 @@ Dados solicitados:
 **Resultado gerado**: sendo o cadastro bem-sucedido, o sistema deverá atualizar sua base de dados armazendo um novo registro de produto na memória secundária.
 
 ## Abertura de caixa
+
+Caso de uso:
+![uc_gerenciamento_caixa](./casos_uso/uc_gerenciar_caixa.png)
 
 Caso não haja um caixa aberto, o sistema deverá permitir que um Atendente realize a abertura de caixa. Para concluir esta operação, será necessário inserir o código de autorização de um Administrador e que seja informado o valor em dinheiro em espécie contido no caixa no momento da abertura. 
 
@@ -96,6 +105,9 @@ Dados solicitados:
 **Resultado gerado**: sendo a abertura bem-sucedida, o sistema deverá atualizar sua base de dados armazenando um registro contendo os dados do novo caixa aberto.
 
 ## Cadastro de pedido
+
+Caso de uso:
+![uc_cadastrar_pedido](./casos_uso/uc_cadastrar_pedido.png)
 
 O sistema deverá permitir que um Atendente realize a abertura de um pedido, adicionando produtos e suas repectivas quantidades. O sistema deverá exibir o valor total a ser pago pelo cliente e atualizá-lo à medida que novos itens sejam adicionados.
 
@@ -116,13 +128,17 @@ Dados solicitados:
   - caso seja "dinheiro", o valor em dinheiro fornecido pelo cliente
 
 **Validações necessárias**:
+- se a quantidade dos produtos são maiores que zero
 - Se o caixa possui valor suficiente para o troco, caso o pagamento seja em dinheiro
 
 **Resultado gerado**: sendo o pedido finalizado, o sistema deverá atualizar sua base de dados armazenando um registro contendo os dados do novo pedido.
 
 ## Fechamento de caixa
 
-Caso haja um caixa em aberto, o sistema deverá permitir que o Atendente feche o caixa. Para isso, será solicitado o código de autorização do Administrador. 
+Caso de uso:
+![uc_gerenciamento_caixa](./casos_uso/uc_gerenciar_caixa.png)
+
+Caso haja um caixa em aberto, o sistema deverá permitir que o Atendente feche o caixa, armazenando a quantia em dinheiro atual no caixa, o horário do fechamento e o valor final do caixa. Para isso, será solicitado o código de autorização do Administrador. 
 Caso o código de autorização seja válido, o sistema deverá exibir o valor em dinheiro que o caixa deve ter e solicitar a confirmação para o fechamento do caixa. 
 
 Se for confirmado o fechamento do caixa, o sistema deverá atualizar o estado do caixa para fechado e não permitir o cadastro de novos pedidos para o caixa fechado. Caso o fechamento seja cancelado, o caixa permanecerá aberto.
@@ -139,7 +155,10 @@ Entradas solicitadas:
 
 ## Listagem de produtos
 
-O sistema deverá permitir que o Atendente visualize a lista de produtos cadastrados por meio de uma funcionalidade específica ou durante o cadastro de um novo pedido. Em cada item da lista, deverão ser exibidos todas as propriedades existentes para um produto cadastrado.
+Caso de uso:
+![uc_gerenciamento_produtos](./casos_uso/uc_gerenciar_produtos.png)
+
+O sistema deverá permitir que o Atendente visualize a lista de produtos cadastrados por meio de uma funcionalidade específica e também durante o cadastro de um novo pedido. Em cada item da lista, deverão ser exibidos todas as propriedades existentes para um produto cadastrado.
 
 
 ## Listagem de pedidos
@@ -149,9 +168,12 @@ O sistema deverá permitir que o Atendente visualize uma listagem dos pedidos fi
 
 ## Atualização de produto
 
+Caso de uso:
+![uc_gerenciamento_produtos](./casos_uso/uc_gerenciar_produtos.png)
+
 O sistema deverá permitir que o Administrador altere as informações dos produtos cadastrados. O sistema deverá solicitar ao Administrador qual informação deverá ser alterada e qual será o novo valor. Para concluir a atualização, o sistema deverá exibir os valores antigos e os inseridos e solicitar a confirmação da atualização. 
 
-Caso o Administrador confirme a ação, o sistema deverá atualizar as informações do pedido. Caso seja cancelada a ação, o sistema deverá fechar a funcionalidade de atualização, mantendo os dados do produto inalterado.  
+Caso o Administrador confirme a ação, o sistema deverá atualizar as informações do pedido. Caso seja cancelada a ação, o sistema deverá fechar a funcionalidade de atualização, mantendo os dados do produto inalterados.  
 
 Dados que poderão ser alterados:
 - nome
@@ -161,10 +183,13 @@ Dados que poderão ser alterados:
 **Validações necessárias**:
 - se os preços informados são maiores ou iguais a zero
 
-**Resultado gerado**: sendo a <ação>, o sistema deverá atualizar sua base de dados armazenando um registro contendo os dados do novo <foobar>.
+**Resultado gerado**: sendo a atualização efetuada, o sistema deverá atualizar sua base de dados atualizando o registro do produto.
 
 
 ## Atualização de pedido
+
+Casos de uso:
+![uc_atualizar_pedido](./casos_uso/uc_atualizar_pedido.png)
 
 Durante o cadastro de um pedido, o sistema deverá permitir que o Atendente remova e altere a quantidade dos produtos inseridos no pedido e também que o Atendente cancele o pedido. Para finalizar a atualização o sistema deverá solicitar o código de autorização do Administrador. 
 
@@ -181,9 +206,12 @@ Dados solicitados:
 
 ## Remoção de produto
 
+Caso de uso:
+![uc_gerenciamento_produtos](./casos_uso/uc_gerenciar_produtos.png)
+
 O sistema deverá permitir que o Administrador remova um produto do catálogo. Antes de finalizar a remoção, o sistema deverá solicitar a confirmação da ação.
 
-Caso o Atendente confirme a ação, o sistema deverá remover o produto em questão. Caso ele cancele a ação, o produto deverá ser mantido.
+Caso o Administrado confirme a ação, o sistema deverá remover o produto em questão. Caso ele cancele a ação, o produto deverá ser mantido.
 
 Dados solicitados:
 - qual produto será removido
