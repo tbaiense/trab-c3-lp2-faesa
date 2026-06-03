@@ -14,7 +14,7 @@
               "type": "markdown",
               "state": {
                 "file": "requisitos.md",
-                "mode": "preview",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
@@ -186,6 +186,9 @@
   },
   "active": "e92005d91e2c1665",
   "lastOpenFiles": [
+    "Sem título 1.md",
+    "requisitos.md",
+    "Sem título.md",
     "diagrama_classes/anteriores/diagrama_classes_v2.png",
     "diagrama_classes/anteriores/diagrama_classes.jpg",
     "diagrama_classes/anteriores/diagrama_classes_v2.jpg",
@@ -200,7 +203,6 @@
     "diagrama_classes_v2.jpg",
     "diagrama_classes.jpg",
     "diagrama_classes/classes.png",
-    "requisitos.md",
     "anotacoes/reuniao.md",
     "anotacoes",
     "anotacoes.md",

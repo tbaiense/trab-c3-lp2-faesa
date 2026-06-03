@@ -47,8 +47,12 @@ A seguir serão detalhados os requisitos funcionais.
 
 ## Login de conta de usuário
 
-Caso de uso:
-![uc_login](./casos_uso/uc_login.png)
+<details>
+<summary>Caso de uso:</summary>
+
+<img src="./casos_uso/uc_login.png">
+
+</details>
 
 O sistema deverá permitir que o usuário acesse as demais funcionalidades somente após este inserir seu número de matrícula e a senha correspondente. O sistema deverá verificar se existe um registro com as informações fornecidas e permitir o acesso ao restante do sistema caso as credenciais sejam válidas. Caso a matrícula não seja encontrada ou a senha seja incorreta para a matrícula em questão, o sistema deverá impedir o acesso às demais funções e exibir uma mensagem de erro.
 
@@ -73,8 +77,13 @@ Dados gerados:
 
 ## Cadastro de produto
 
-Caso de uso:
-![uc_gerenciamento_produtos](./casos_uso/uc_gerenciar_produtos.png)
+
+<details>
+<summary>Caso de uso:</summary>
+
+<img src="./casos_uso/uc_gerenciar_produtos.png">
+
+</details>
 
 O sistema deverá permir que um Administrador cadastre novos produtos.
 
@@ -87,8 +96,12 @@ Dados solicitados:
 
 ## Abertura de caixa
 
-Caso de uso:
-![uc_gerenciamento_caixa](./casos_uso/uc_gerenciar_caixa.png)
+<details>
+<summary>Caso de uso:</summary>
+
+<img src="./casos_uso/uc_gerenciar_caixa.png">
+
+</details>
 
 Caso não haja um caixa aberto, o sistema deverá permitir que um Atendente realize a abertura de caixa. Para concluir esta operação, será necessário inserir o código de autorização de um Administrador e que seja informado o valor em dinheiro em espécie contido no caixa no momento da abertura. 
 
@@ -106,8 +119,12 @@ Dados solicitados:
 
 ## Cadastro de pedido
 
-Caso de uso:
-![uc_cadastrar_pedido](./casos_uso/uc_cadastrar_pedido.png)
+<details>
+<summary>Caso de uso:</summary>
+
+<img src="./casos_uso/uc_cadastrar_pedido.png">
+
+</details>
 
 O sistema deverá permitir que um Atendente realize a abertura de um pedido, adicionando produtos e suas repectivas quantidades. O sistema deverá exibir o valor total a ser pago pelo cliente e atualizá-lo à medida que novos itens sejam adicionados.
 
@@ -135,8 +152,12 @@ Dados solicitados:
 
 ## Fechamento de caixa
 
-Caso de uso:
-![uc_gerenciamento_caixa](./casos_uso/uc_gerenciar_caixa.png)
+<details>
+<summary>Caso de uso:</summary>
+
+<img src="./casos_uso/uc_gerenciar_caixa.png">
+
+</details>
 
 Caso haja um caixa em aberto, o sistema deverá permitir que o Atendente feche o caixa, armazenando a quantia em dinheiro atual no caixa, o horário do fechamento e o valor final do caixa. Para isso, será solicitado o código de autorização do Administrador. 
 Caso o código de autorização seja válido, o sistema deverá exibir o valor em dinheiro que o caixa deve ter e solicitar a confirmação para o fechamento do caixa. 
@@ -155,8 +176,12 @@ Entradas solicitadas:
 
 ## Listagem de produtos
 
-Caso de uso:
-![uc_gerenciamento_produtos](./casos_uso/uc_gerenciar_produtos.png)
+<details>
+<summary>Caso de uso:</summary>
+
+<img src="./casos_uso/uc_gerenciar_produtos.png">
+
+</details>
 
 O sistema deverá permitir que o Atendente visualize a lista de produtos cadastrados por meio de uma funcionalidade específica e também durante o cadastro de um novo pedido. Em cada item da lista, deverão ser exibidos todas as propriedades existentes para um produto cadastrado.
 
@@ -168,8 +193,12 @@ O sistema deverá permitir que o Atendente visualize uma listagem dos pedidos fi
 
 ## Atualização de produto
 
-Caso de uso:
-![uc_gerenciamento_produtos](./casos_uso/uc_gerenciar_produtos.png)
+<details>
+<summary>Caso de uso:</summary>
+
+<img src="./casos_uso/uc_gerenciar_produtos.png">
+
+</details>
 
 O sistema deverá permitir que o Administrador altere as informações dos produtos cadastrados. O sistema deverá solicitar ao Administrador qual informação deverá ser alterada e qual será o novo valor. Para concluir a atualização, o sistema deverá exibir os valores antigos e os inseridos e solicitar a confirmação da atualização. 
 
@@ -188,8 +217,12 @@ Dados que poderão ser alterados:
 
 ## Atualização de pedido
 
-Casos de uso:
-![uc_atualizar_pedido](./casos_uso/uc_atualizar_pedido.png)
+<details>
+<summary>Caso de uso:</summary>
+
+<img src="./casos_uso/uc_atualizar_pedido.png">
+
+</details>
 
 Durante o cadastro de um pedido, o sistema deverá permitir que o Atendente remova e altere a quantidade dos produtos inseridos no pedido e também que o Atendente cancele o pedido. Para finalizar a atualização o sistema deverá solicitar o código de autorização do Administrador. 
 
@@ -206,8 +239,12 @@ Dados solicitados:
 
 ## Remoção de produto
 
-Caso de uso:
-![uc_gerenciamento_produtos](./casos_uso/uc_gerenciar_produtos.png)
+<details>
+<summary>Caso de uso:</summary>
+
+<img src="./casos_uso/uc_gerenciar_produtos.png">
+
+</details>
 
 O sistema deverá permitir que o Administrador remova um produto do catálogo. Antes de finalizar a remoção, o sistema deverá solicitar a confirmação da ação.
 
