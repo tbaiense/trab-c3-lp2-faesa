@@ -1,0 +1,18 @@
+package io;
+
+import java.nio.file.Path;
+
+public class ArquivoCSV {
+
+    String cabecalho;
+    String[] linhas;
+    Path caminho;
+
+    public ArquivoCSV() {}
+
+    public ArquivoCSV(String cabecalho, String[] linhas, Path caminho) {
+        this.cabecalho = cabecalho;
+        this.linhas = linhas;
+        this.caminho = caminho;
+    }
+}
