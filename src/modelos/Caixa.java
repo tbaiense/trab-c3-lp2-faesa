@@ -5,37 +5,47 @@ import java.time.format.DateTimeFormatter; //biblioteca para formatar data e hor
 import java.util.ArrayList;
 
 public class Caixa {
+	public Funcionario funcionarioAbriu = null;
+	private Pedido pedidoAtual = null;
 	private LocalDateTime abertoEm = null;
 	private LocalDateTime fechadoEm = null;
 	private double totalPagamento = 0;
 	private double dinheiroInicial = 0;
 	private double dinheiroFinal = 0;
-	private Pedido pedidoAtual;
 	private ArrayList<Pedido> pedidosAntigos = new ArrayList<Pedido>();
 	
-	DateTimeFormatter dthrFormatadaBrasil = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"); //Formata a hora para formato brasileiro.
+	//DateTimeFormatter dthrFormatadaBrasil = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"); //Formata a hora para formato brasileiro.
 
-	public Caixa() {
-
+	public Caixa(Funcionario funcAbriu, double dinheiroInicial) {
+		funcAbriu = this.funcionarioAbriu;
+		dinheiroInicial = this.dinheiroFinal;
 	}
 
+	public Pedido getPedidoAtual() {
+		return pedidoAtual;
+	}
+
+	public void setPedidoAtual(Pedido pedidoAtual) {
+		this.pedidoAtual = pedidoAtual;
+	}
+
+
+
 	public LocalDateTime getAbertoEm() {
-		abertoEm = LocalDateTime.now();
 		return abertoEm;
 	}
 
-	/*public void setAbertoEm(LocalDateTime abertoEm) {
+	public void setAbertoEm(LocalDateTime abertoEm) {
 		this.abertoEm = abertoEm;
-	}*/
+	}
 
 	public LocalDateTime getFechadoEm() {
-		fechadoEm = LocalDateTime.now();
 		return fechadoEm;
 	}
 
-	/*public void setFechadoEm(LocalDateTime fechadoEm) {
+	public void setFechadoEm(LocalDateTime fechadoEm) {
 		this.fechadoEm = fechadoEm;
-	}*/
+	}
 
 	public double getTotalPagamento() {
 		return totalPagamento;
@@ -57,5 +67,42 @@ public class Caixa {
 		return dinheiroFinal;
 	}
 	
+	public Pedido novoPedido() {
+		//todo: Implementar validação, obter ID do pedido
+		pedidoAtual = new Pedido();
+		return pedidoAtual;
+	}
 	
+	public Pedido buscarPedido(int id) {
+		//obter parâmetro ID do pedido
+		Pedido pedidoBuscado = null;
+		for (int i = 0; i < pedidosAntigos.size(); i++) {
+			//Colocar verificação de id para finalizar for
+			pedidoBuscado = pedidosAntigos.get(i);
+			//Retorna o pedido que for achado
+			return pedidoBuscado;
+		}
+		//Retorna um pedido nulo
+		return pedidoBuscado;
+	}
+	
+	public boolean concluirPedidoAtual() {
+		//todo: implementar validação e troca de estado
+		if(pedidoAtual == null) {
+			return false;
+		}
+		pedidosAntigos.add(pedidoAtual);
+		pedidoAtual = null;
+		return true;
+	}
+	
+	public boolean cancelarPedidoAtual() {
+		//todo: implementar validação e troca de estado
+		if(pedidoAtual == null) {
+			return false;
+		}
+		pedidosAntigos.add(pedidoAtual);
+		pedidoAtual = null;
+		return true;
+	}
 }
