@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -113,6 +114,8 @@ public abstract class Armazenamento {
             linhasBuilder += c.getDinheiroInicial() + separador;
             linhasBuilder += c.getDinheiroFinal();
 
+            // TODO: adiocioar id do funcionario
+
             strList.add(linhasBuilder);
         }
 
@@ -130,13 +133,11 @@ public abstract class Armazenamento {
     private static void teste() {
         Caixa[] caixas = new Caixa[3];
 
-        Caixa c1 = new Caixa();
-        c1.getAbertoEm();
-        c1.getFechadoEm();
+        Caixa c1 = new Caixa(new Funcionario(), 0.0);
+        c1.setFechadoEm(LocalDateTime.now());
+        c1.setAbertoEm(LocalDateTime.now());
 
         caixas[0] = c1;
-        caixas[1] = c1;
-        caixas[2] = c1;
         salvarCaixasFechados(caixas);
     }
 }

@@ -19,7 +19,7 @@ public final class Loja {
     private Loja() {}
 
     public static void main(String[] args) {
-    	System.out.println("Teste!");
+        System.out.println("Teste!");
     }
 
     protected static int carregarContasExistentes() {
@@ -60,10 +60,7 @@ public final class Loja {
             );
         }
 
-        // TODO: mudar assim que implementarem `Caixa(Funcionario funcAbriu, double dinheiroInicial)
-        // Loja.caixaAtual = new Caixa(Loja.contaAtual, dinheiroInicial);
-
-        Loja.caixaAtual = new Caixa();
+        Loja.caixaAtual = new Caixa(Loja.contaAtual, dinheiroInicial);
         return Loja.caixaAtual;
     }
 
