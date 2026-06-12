@@ -1,8 +1,30 @@
 package modelos;
 
+//meu
 public class Admin extends Funcionario {
-	public static void main(String[] args) {
-		
-		
+    
+   
+    private int codAutorizacao;
+
+    
+    public Admin() {
+        super();
+    }
+
+   
+    public boolean autorizar(int codAutorizacao) {
+        
+        return this.codAutorizacao == codAutorizacao;
+    }
+
+    
+    public int getCodAutorizacao() {
+        return codAutorizacao;
+    }
+
+    public void setCodAutorizacao(int codAutorizacao) {
+        this.codAutorizacao = codAutorizacao;
+    }
+
 	}
-}
+
