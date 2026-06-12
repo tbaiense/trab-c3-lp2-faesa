@@ -18,9 +18,7 @@ public class Admin extends Funcionario {
         setCodAutorizacao(codAutorizacao);
     }
 
-
     public boolean autorizar(int codAutorizacao) {
-
         return this.codAutorizacao == codAutorizacao;
     }
 

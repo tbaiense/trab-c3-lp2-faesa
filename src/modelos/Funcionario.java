@@ -18,7 +18,6 @@ public class Funcionario {
         this.setSenhaLogin(senhaLogin);
 	}
 
-
 	public int getSenhaLogin() {
 		return senhaLogin;
 	}

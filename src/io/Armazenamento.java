@@ -73,7 +73,7 @@ public abstract class Armazenamento {
     }
 
     private static void teste() {
-        Loja.inicializar(new Atendente("foo", "1", 1));
+        Loja.inicializar(new Atendente("1", "joao", 1));
         Caixa c1 = Loja.abrirCaixa(200.0);
         c1.setId(1);
 
