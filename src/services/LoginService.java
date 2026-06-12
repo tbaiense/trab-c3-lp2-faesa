@@ -14,12 +14,11 @@ public class LoginService {
     public static boolean credenciaisValidas(int numMatricula, int senha) {
         Funcionario[] contas = ContaUsuarioService.obterTodos();
 
-        // TODO: descomentar assim que implementarem propriedades e métodos de modelos.Funcionario
-        // for (var f : contas) {
-        //     if (f.getNumMatricula() == numMatricula && f.getSenha() == senha) {
-        //         return true;
-        //     }
-        // }
+        for (var f : contas) {
+            if (f.numMatricula == numMatricula && f.getSenhaLogin() == senha) {
+                return true;
+            }
+        }
 
         return false;
     }

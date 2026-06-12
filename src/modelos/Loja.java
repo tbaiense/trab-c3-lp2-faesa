@@ -105,10 +105,7 @@ public final class Loja {
         Funcionario f;
         for (int i = 0; i < funcionarios.length; ++i) {
             f = funcionarios[i];
-            // TODO: mudar assim que colocarem propriedade `funcionario.numMatricula`
-            // Loja.usuarios.put(f.numMatricula, f);
-
-            Loja.usuarios.put(i + 1, f);
+            Loja.usuarios.put(f.numMatricula, f);
         }
     }
 }
