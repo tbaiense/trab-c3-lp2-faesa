@@ -10,6 +10,10 @@ public class ArquivoCSV {
 
     public ArquivoCSV() {}
 
+    public ArquivoCSV(String[] linhas, Path caminho) {
+        this(null, linhas, caminho);
+    }
+
     public ArquivoCSV(String cabecalho, String[] linhas, Path caminho) {
         this.cabecalho = cabecalho;
         this.linhas = linhas;

@@ -1,5 +1,7 @@
 package io;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Path;
@@ -14,45 +16,27 @@ public abstract class Armazenamento {
     // TODO: fazer usar sempre a raíz do repositório e não baseado no atual
 
     public static void main(String[] args) {
-        inicializar();
+        Arquivos.inicializar();
         teste();
-    }
-
-    public static void inicializar() {
-        // teste();`
-        Arquivos.inicializar(Arquivos.DIR_RAIZ);
-
-        String cabecalho = "foo,bar,baz";
-        String[] linhas = new String[0];
-
-        // TODO: alterar para escrever cabecalho correto
-        escrever(new ArquivoCSV(cabecalho, linhas, Arquivos.Caixas.caixaAtual));
-        escrever(
-            new ArquivoCSV(cabecalho, linhas, Arquivos.Caixas.caixasFechados)
-        );
-        escrever(new ArquivoCSV(cabecalho, linhas, Arquivos.Contas.admin));
-        escrever(new ArquivoCSV(cabecalho, linhas, Arquivos.Contas.atendente));
-        escrever(
-            new ArquivoCSV(cabecalho, linhas, Arquivos.Pedidos.itemsPedido)
-        );
-        escrever(
-            new ArquivoCSV(cabecalho, linhas, Arquivos.Pedidos.pedidosAntigos)
-        );
-        escrever(
-            new ArquivoCSV(
-                cabecalho,
-                linhas,
-                Arquivos.Produtos.catalogoProdutos
-            )
-        );
     }
 
     // TODO: FINALIZAR (final de linha, otimizar)
     public static boolean escrever(ArquivoCSV csv) {
-        try (PrintWriter pw = new PrintWriter(csv.caminho.toFile())) {
-            pw.println(csv.cabecalho);
+        boolean inserirCabecalho = false;
 
-            // TODO: otimizar usando buffered reader
+        if (!csv.caminho.toFile().exists()) {
+            inserirCabecalho = true;
+        }
+
+        try (
+            FileWriter fw = new FileWriter(csv.caminho.toFile(), true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+        ) {
+            if (inserirCabecalho && csv.cabecalho != null) {
+                pw.println(csv.cabecalho);
+            }
+
             // TODO: finalizar linhas com crlf (RFC 4180)
             for (var l : csv.linhas) {
                 pw.println(l);
@@ -88,49 +72,36 @@ public abstract class Armazenamento {
         }
     }
 
-    // TODO: finalizar
-    public static boolean salvarCaixasFechados(Caixa[] caixas) {
-        // salvar caixa
-        ArrayList<String> strList = new ArrayList<String>();
-        String linhasBuilder;
-        String separador = ",";
-
-        for (var c : caixas) {
-            if (c == null) {
-                continue;
-            }
-
-            linhasBuilder = "";
-            linhasBuilder += c.getAbertoEm().toString() + separador; // TODO: obter formatado
-            linhasBuilder += c.getFechadoEm().toString() + separador; // Todo: obter formatado
-            linhasBuilder += c.getTotalPagamento() + separador;
-            linhasBuilder += c.getDinheiroInicial() + separador;
-            linhasBuilder += c.getDinheiroFinal();
-
-            // TODO: adiocioar id do funcionario
-
-            strList.add(linhasBuilder);
-        }
-
-        ArquivoCSV csv = new ArquivoCSV(
-            Arquivos.Caixas.cabecalho,
-            strList.toArray(new String[0]),
-            Arquivos.Caixas.caixasFechados
-        );
-
-        escrever(csv);
-        // salvar pedidos antigos
-        return false;
-    }
-
     private static void teste() {
-        Caixa[] caixas = new Caixa[3];
+        Loja.inicializar(new Atendente("foo", "1", 1));
+        Caixa c1 = Loja.abrirCaixa(200.0);
+        c1.setId(1);
 
-        Caixa c1 = new Caixa(new Funcionario(), 0.0);
         c1.setFechadoEm(LocalDateTime.now());
         c1.setAbertoEm(LocalDateTime.now());
 
-        caixas[0] = c1;
-        salvarCaixasFechados(caixas);
+        Arquivos.Caixas.inserir_caixaAtual(c1);
+
+        Pedido p = c1.novoPedido();
+        c1.concluirPedidoAtual();
+
+        Arquivos.Pedidos.inserir_pedidoAntigo(p, c1);
+
+        p = c1.novoPedido();
+        c1.concluirPedidoAtual();
+
+        Arquivos.Pedidos.inserir_pedidoAntigo(p, c1);
+
+        p = c1.novoPedido();
+        c1.concluirPedidoAtual();
+
+        Arquivos.Pedidos.inserir_pedidoAntigo(p, c1);
+
+        Loja.fecharCaixaAtual();
+
+        c1.setTotalPagamento(1000.0);
+        c1.setDinheiroFinal(800.0);
+
+        Arquivos.Caixas.inserir_caixaFechado(c1);
     }
 }
