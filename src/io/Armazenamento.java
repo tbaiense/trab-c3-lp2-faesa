@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import modelos.*;
 
@@ -73,7 +74,15 @@ public abstract class Armazenamento {
     }
 
     private static void teste() {
-        Loja.inicializar(new Atendente("1", "joao", 1));
+        // contas
+        Funcionario joao = new Atendente("1", "joao", 1);
+        Arquivos.Contas.inserir_conta(joao);
+        Funcionario[] funcionarios = Arquivos.Contas.ler_contas();
+
+        System.out.println("Contas cadastradas lidas: \n" + Arrays.toString(funcionarios));
+
+        // caixa
+        Loja.inicializar(joao);
         Caixa c1 = Loja.abrirCaixa(200.0);
         c1.setId(1);
 

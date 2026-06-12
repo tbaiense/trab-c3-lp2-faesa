@@ -3,6 +3,10 @@ package io;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
+
+import modelos.Admin;
+import modelos.Atendente;
 import modelos.Pedido;
 
 public class Arquivos {
@@ -84,7 +88,7 @@ public class Arquivos {
 
             Armazenamento.escrever(csv);
             // salvar pedidos antigos
-            return false;
+            return true;
         }
 
         // TODO: finalizar
@@ -115,26 +119,104 @@ public class Arquivos {
             );
 
             Armazenamento.escrever(csv);
-            return false;
+            return true;
         }
     }
 
     public static class Contas {
 
+        public static String cabecalho_contas =
+            "numMatricula," +
+            "cargo," + // define se é admin ou nao
+            "nome," +
+            "senhaLogin," +
+            "codAutorizacao";
+
         private static Path _dir = DIR_RAIZ.resolve("contas");
-        public static Path admin = _dir.resolve("admin.csv");
-        public static Path atendente = _dir.resolve("atendente.csv");
+        public static Path contas = _dir.resolve("contas.csv");
 
         public static void inicializar() {
             String[] linhas = new String[0];
-            String cabecalho = "todo, todo, todo";
             _dir.toFile().mkdirs();
 
-            Armazenamento.escrever(new ArquivoCSV(cabecalho, linhas, admin));
-            Armazenamento.escrever(
-                new ArquivoCSV(cabecalho, linhas, atendente)
-            );
+            Armazenamento.escrever(new ArquivoCSV(cabecalho_contas, linhas, contas));
         }
+
+        // TODO: finalizar
+        public static boolean inserir_conta(modelos.Funcionario f) {
+            // salvar caixa
+            ArrayList<String> strList = new ArrayList<String>();
+            String linhasBuilder = "";
+            String separador = ",";
+
+            if (f == null) {
+                return false;
+            }
+
+            String cargo = "atendente";
+            String codAutorizacao = "";
+            if (f instanceof modelos.Admin) {
+                cargo = "admin";
+                codAutorizacao = Integer.toString(((Admin)f).getCodAutorizacao());
+            }
+
+            linhasBuilder += f.numMatricula + separador;
+            linhasBuilder += cargo + separador;
+            linhasBuilder += f.nome + separador;
+            linhasBuilder += f.getSenhaLogin() + separador;
+            linhasBuilder += codAutorizacao;
+
+            strList.add(linhasBuilder);
+
+            ArquivoCSV csv = new ArquivoCSV(
+                strList.toArray(new String[0]),
+                contas
+            );
+
+            Armazenamento.escrever(csv);
+            return true;
+        }
+
+        public static modelos.Funcionario[] ler_contas() {
+            modelos.Funcionario f;
+            ArrayList<modelos.Funcionario> lista = new ArrayList<modelos.Funcionario>();
+            String [] linha;
+
+            ArquivoCSV csv = Armazenamento.ler(contas);
+
+            String numMatricula;
+            String cargo;
+            String nome;
+            int senhaLogin;
+            int codAutorizacao;
+
+            for (String l: csv.linhas) {
+               linha = l.split(",");
+
+                numMatricula = linha[0];
+                cargo =        linha[1];
+                nome =         linha[2];
+                senhaLogin = Integer.parseInt(linha[3]);
+
+               if (cargo.equals("admin")) { // cargo
+                   codAutorizacao = Integer.parseInt(linha[4]);
+
+                   f = new modelos.Admin(
+                        numMatricula,
+                        nome,
+                        senhaLogin,
+                        codAutorizacao
+                   );
+               } else {
+                   f = new Atendente(numMatricula, nome, senhaLogin);
+               }
+
+               lista.add(f);
+            }
+
+            return lista.toArray(new modelos.Funcionario[0]);
+        }
+
     }
 
     public static class Pedidos {
@@ -199,7 +281,7 @@ public class Arquivos {
             );
 
             Armazenamento.escrever(csv);
-            return false;
+            return true;
         }
     }
 
