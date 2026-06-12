@@ -21,7 +21,10 @@ public final class Loja {
     private Loja() {}
 
     public static void main(String[] args) {
-        System.out.println("Teste!");
+        inicializar(new Funcionario("1", "joao", 1));
+        carregarContasExistentes();
+
+        System.out.println(usuarios.size());
     }
 
     protected static int carregarContasExistentes() {
