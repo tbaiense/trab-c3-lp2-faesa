@@ -18,8 +18,9 @@ public class Caixa {
 	//DateTimeFormatter dthrFormatadaBrasil = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"); //Formata a hora para formato brasileiro.
 
 	public Caixa(Funcionario funcAbriu, double dinheiroInicial) {
-		funcAbriu = this.funcionarioAbriu;
-		dinheiroInicial = this.dinheiroFinal;
+		this.funcionarioAbriu = funcAbriu;
+		this.dinheiroInicial = dinheiroInicial;
+		this.dinheiroFinal = dinheiroInicial;
 	}
 
 	public Pedido getPedidoAtual() {
