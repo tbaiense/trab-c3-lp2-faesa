@@ -1,7 +1,6 @@
 package modelos;
 
 import java.time.LocalDateTime; //biblioteca para pegar data e hora.
-import java.time.format.DateTimeFormatter; //biblioteca para formatar data e hora.
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -14,9 +13,13 @@ public class Caixa {
 	private double dinheiroInicial = 0;
 	private double dinheiroFinal = 0;
 	private ArrayList<Pedido> pedidosAntigos = new ArrayList<Pedido>();
-	
-	//DateTimeFormatter dthrFormatadaBrasil = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"); //Formata a hora para formato brasileiro.
 
+	public Caixa() {
+		this.funcionarioAbriu = null;
+		this.dinheiroInicial = 0.0;
+		this.dinheiroFinal = 0.0;
+	}
+	
 	public Caixa(Funcionario funcAbriu, double dinheiroInicial) {
 		this.funcionarioAbriu = funcAbriu;
 		this.dinheiroInicial = dinheiroInicial;
