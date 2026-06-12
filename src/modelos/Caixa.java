@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Caixa {
+
+	private int id; // usado para associá-lo os pedidos antigos nos arquivos csv
 	public Funcionario funcionarioAbriu = null;
 	private Pedido pedidoAtual = null;
 	private LocalDateTime abertoEm = null;
@@ -26,49 +28,61 @@ public class Caixa {
 		this.dinheiroFinal = dinheiroInicial;
 	}
 
-	public Pedido getPedidoAtual() {
-		return pedidoAtual;
-	}
+    public int getId() {
+        return this.id;
+    }
 
-	public void setPedidoAtual(Pedido pedidoAtual) {
-		this.pedidoAtual = pedidoAtual;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public LocalDateTime getAbertoEm() {
-		return abertoEm;
-	}
+    public Pedido getPedidoAtual() {
+        return pedidoAtual;
+    }
 
-	public void setAbertoEm(LocalDateTime abertoEm) {
-		this.abertoEm = abertoEm;
-	}
+    public void setPedidoAtual(Pedido pedidoAtual) {
+        this.pedidoAtual = pedidoAtual;
+    }
 
-	public LocalDateTime getFechadoEm() {
-		return fechadoEm;
-	}
+    public LocalDateTime getAbertoEm() {
+        return abertoEm;
+    }
 
-	public void setFechadoEm(LocalDateTime fechadoEm) {
-		this.fechadoEm = fechadoEm;
-	}
+    public void setAbertoEm(LocalDateTime abertoEm) {
+        this.abertoEm = abertoEm;
+    }
 
-	public double getTotalPagamento() {
-		return totalPagamento;
-	}
+    public LocalDateTime getFechadoEm() {
+        return fechadoEm;
+    }
 
-	public void setTotalPagamento(double totalPagamento) {
-		this.totalPagamento = totalPagamento;
-	}
+    public void setFechadoEm(LocalDateTime fechadoEm) {
+        this.fechadoEm = fechadoEm;
+    }
+
+    public double getTotalPagamento() {
+        return totalPagamento;
+    }
+
+    public void setTotalPagamento(double totalPagamento) {
+        this.totalPagamento = totalPagamento;
+    }
 
 	public double getDinheiroInicial() {
-		return dinheiroInicial;
-	}
+        return dinheiroInicial;
+    }
 
-	public void setDinheiroInicial(double dinheiroInicial) {
-		this.dinheiroInicial = dinheiroInicial;
-	}
+    public void setDinheiroInicial(double dinheiroInicial) {
+        this.dinheiroInicial = dinheiroInicial;
+    }
 
-	public double getDinheiroFinal() {
-		return dinheiroFinal;
-	}
+    public void setDinheiroFinal(double dinheiroFinal) {
+        this.dinheiroFinal = dinheiroFinal;
+    }
+
+    public double getDinheiroFinal() {
+        return dinheiroFinal;
+    }
 	
 	public Pedido novoPedido() {
 		//todo: Implementar validação, obter ID do pedido
@@ -136,7 +150,5 @@ public class Caixa {
 				&& Objects.equals(pedidosAntigos, other.pedidosAntigos)
 				&& Double.doubleToLongBits(totalPagamento) == Double.doubleToLongBits(other.totalPagamento);
 	}	
-	
-	
 	
 }

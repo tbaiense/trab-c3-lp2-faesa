@@ -7,7 +7,6 @@
 package services;
 
 import modelos.Funcionario;
-import services.ContaUsuarioService;
 
 public class LoginService {
 
