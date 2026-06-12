@@ -6,3 +6,4 @@ divisão:
 - criacao de atendente: gabriel
 - cancelar pedido: gabriel
 - cadastrar produto: gabriel
+- implementação tela de produto: Lucas
