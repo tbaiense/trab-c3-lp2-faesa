@@ -3,6 +3,7 @@ package modelos;
 import java.time.LocalDateTime; //biblioteca para pegar data e hora.
 import java.time.format.DateTimeFormatter; //biblioteca para formatar data e hora.
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Caixa {
 	public Funcionario funcionarioAbriu = null;
@@ -28,8 +29,6 @@ public class Caixa {
 	public void setPedidoAtual(Pedido pedidoAtual) {
 		this.pedidoAtual = pedidoAtual;
 	}
-
-
 
 	public LocalDateTime getAbertoEm() {
 		return abertoEm;
@@ -105,4 +104,35 @@ public class Caixa {
 		pedidoAtual = null;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		String resposta = "";
+		for (int i = 0; i < pedidosAntigos.size(); i++) {
+			resposta+="Caixa aberto em: " + abertoEm + ", fechado em: " + fechadoEm + ", pagamento total: " + totalPagamento+ ", dinheiro inicial: " + dinheiroInicial + ", dinheiro final: "+dinheiroFinal;
+		}
+		return resposta;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Caixa other = (Caixa) obj;
+		return Objects.equals(abertoEm, other.abertoEm)
+				&& Double.doubleToLongBits(dinheiroFinal) == Double.doubleToLongBits(other.dinheiroFinal)
+				&& Double.doubleToLongBits(dinheiroInicial) == Double.doubleToLongBits(other.dinheiroInicial)
+				&& Objects.equals(fechadoEm, other.fechadoEm)
+				&& Objects.equals(funcionarioAbriu, other.funcionarioAbriu)
+				&& Objects.equals(pedidoAtual, other.pedidoAtual)
+				&& Objects.equals(pedidosAntigos, other.pedidosAntigos)
+				&& Double.doubleToLongBits(totalPagamento) == Double.doubleToLongBits(other.totalPagamento);
+	}	
+	
+	
+	
 }
