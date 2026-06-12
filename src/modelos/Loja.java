@@ -7,6 +7,7 @@
 
 package modelos;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import services.ContaUsuarioService;
 
@@ -15,6 +16,7 @@ public final class Loja {
     private static HashMap<Integer, Funcionario> usuarios;
     private static Funcionario contaAtual;
     private static Caixa caixaAtual;
+    private static HashMap<Integer, Caixa> caixasFechados;
 
     private Loja() {}
 
@@ -32,6 +34,7 @@ public final class Loja {
         usuarios = new HashMap<Integer, Funcionario>();
         contaAtual = funcionarioLogado;
         caixaAtual = null;
+        caixasFechados = new HashMap<Integer, Caixa>(); // TODO: popular a partir de arquivos
     }
 
     public static Funcionario getContaLogada() {
@@ -52,7 +55,7 @@ public final class Loja {
         return usuarios.get(numMatricula);
     }
 
-    // TODO: FINALIZAR
+    // TODO: FINALIZAR escrevendo no arquivo
     public static Caixa abrirCaixa(double dinheiroInicial) {
         if (Loja.caixaAtual != null) {
             throw new IllegalStateException(
@@ -60,8 +63,33 @@ public final class Loja {
             );
         }
 
+        if (Loja.contaAtual == null) {
+            throw new IllegalStateException(
+                "Deve haver uma conta logada antes de abrir o caixa"
+            );
+        }
+
         Loja.caixaAtual = new Caixa(Loja.contaAtual, dinheiroInicial);
         return Loja.caixaAtual;
+    }
+
+    // TODO: finalizar escrevendo no arquivo
+    public static boolean fecharCaixaAtual() {
+        if (Loja.caixaAtual == null) {
+            return false;
+        }
+
+        Caixa c = Loja.caixaAtual;
+
+        // TODO: remover caixa de arquivo caixaAtual.csv
+        Loja.caixaAtual = null;
+
+        c.setFechadoEm(LocalDateTime.now());
+
+        //TODO: calcular total de pagamentos (talvez fazer um método em caixa)
+
+        Loja.caixasFechados.put(c.getId(), c);
+        return true;
     }
 
     // getters e setters =======================================================
