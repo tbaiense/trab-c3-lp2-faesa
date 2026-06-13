@@ -82,7 +82,7 @@ public abstract class Armazenamento {
         }
     }
 
-    private static void teste() {
+    public static void inserirDadosTeste() {
         // contas
         Funcionario joao = new Atendente("1", "joao", 1);
         Arquivos.Contas.inserir_conta(joao);

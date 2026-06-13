@@ -3,6 +3,7 @@ import sistema.io.Armazenamento;
 import sistema.modelos.Caixa;
 import sistema.modelos.Loja;
 import sistema.modelos.Pedido;
+import sistema.services.ContaUsuarioService;
 import sistema.services.LoginService;
 
 public class ProgramaPrincipal {
@@ -16,9 +17,10 @@ public class ProgramaPrincipal {
     }
 
     private static void teste() {
+        `
         // LOGIN =============================================================
-        String numMatricula = "2";
-        String senhaLogin = "123";
+        String numMatricula = "1";
+        String senhaLogin = "1";
 
         if (!LoginService.credenciaisValidas(numMatricula, senhaLogin)) {
             System.out.println("[Login] credenciais inválidas!");
@@ -60,16 +62,20 @@ public class ProgramaPrincipal {
             Loja.fecharCaixaAtual();
             System.out.println("[Caixa] caixa fechado com sucesso!");
 
-            return;
+            finalizarExecucao();
         }
 
         // Simulando abertura de caixa ========================================
         caixaAtual = Loja.abrirCaixa(0.0);
         System.out.println("\n[Caixa] novo caixa aberto!");
 
+        // TODO: gerenciar produtos
+        // ...
+
         Pedido pedidoAtual = caixaAtual.novoPedido();
 
         // TODO: gerenciar pedido
+        // ...
 
         caixaAtual.concluirPedidoAtual();
 
