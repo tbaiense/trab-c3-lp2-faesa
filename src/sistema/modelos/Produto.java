@@ -1,8 +1,8 @@
 package sistema.modelos;
 
 public class Produto {
-	private int idProduto;
-	private String nomeProduto;
+	private int id;
+	private String nome;
 	private double precoCusto;
 	private double precoVenda;
 
@@ -10,20 +10,20 @@ public class Produto {
 
 	}
 
-	public int getIdProduto() {
-		return idProduto;
+	public int getId() {
+		return id;
 	}
 
-	public void setIdProduto(int idProduto) {
-		this.idProduto = idProduto;
+	public void setId(int idProduto) {
+		this.id = idProduto;
 	}
 
-	public String getNomeProduto() {
-		return nomeProduto;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setNomeProduto(String nomeProduto) {
-		this.nomeProduto = nomeProduto;
+	public void setNome(String nomeProduto) {
+		this.nome = nomeProduto;
 	}
 
 	public double getPrecoCusto() {
@@ -44,8 +44,8 @@ public class Produto {
 
 	public Produto(int idProduto, String nomeProduto, double precoCusto, double precoVenda) {
 		super();
-		this.idProduto = idProduto;
-		this.nomeProduto = nomeProduto;
+		this.id = idProduto;
+		this.nome = nomeProduto;
 		this.precoCusto = precoCusto;
 		this.precoVenda = precoVenda;
 	}
