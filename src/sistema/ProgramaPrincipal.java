@@ -17,8 +17,12 @@ public class ProgramaPrincipal {
     }
 
     private static void teste() {
-        `
+        if (ContaUsuarioService.obterTodos().length == 0) {
+            Armazenamento.inserirDadosTeste();
+        }
+
         // LOGIN =============================================================
+        // contas cadastradas: arquivos/contas/contas.csv
         String numMatricula = "1";
         String senhaLogin = "1";
 
