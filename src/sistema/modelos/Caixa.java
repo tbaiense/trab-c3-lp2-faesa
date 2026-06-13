@@ -1,4 +1,4 @@
-package modelos;
+package sistema.modelos;
 
 import java.time.LocalDateTime; //biblioteca para pegar data e hora.
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class Caixa {
 		this.dinheiroInicial = 0.0;
 		this.dinheiroFinal = 0.0;
 	}
-	
+
 	public Caixa(Funcionario funcAbriu, double dinheiroInicial) {
 		this.funcionarioAbriu = funcAbriu;
 		this.dinheiroInicial = dinheiroInicial;
@@ -32,7 +32,7 @@ public class Caixa {
         return this.id;
     }
 
-    public void setId(int id) {
+    protected void setId(int id) {
         this.id = id;
     }
 
@@ -40,15 +40,59 @@ public class Caixa {
         return pedidoAtual;
     }
 
-    public void setPedidoAtual(Pedido pedidoAtual) {
+    public boolean possuiPedidoAtual() {
+        return pedidoAtual != null;
+    }
+
+    protected void setPedidoAtual(Pedido pedidoAtual) {
         this.pedidoAtual = pedidoAtual;
     }
+
+    public Pedido novoPedido() {
+		//todo: Implementar validação, obter ID do pedido
+		pedidoAtual = new Pedido();
+		return pedidoAtual;
+	}
+
+	public Pedido buscarPedido(int id) {
+		//obter parâmetro ID do pedido
+		Pedido pedidoBuscado = null;
+		for (int i = 0; i < pedidosAntigos.size(); i++) {
+			//Colocar verificação de id para finalizar for
+			pedidoBuscado = pedidosAntigos.get(i);
+			//Retorna o pedido que for achado
+			return pedidoBuscado;
+		}
+		//Retorna um pedido nulo
+		return pedidoBuscado;
+	}
+
+	public boolean concluirPedidoAtual() {
+		//todo: implementar validação e troca de estado
+		if(pedidoAtual == null) {
+			return false;
+		}
+		pedidosAntigos.add(pedidoAtual);
+		pedidoAtual = null;
+		return true;
+	}
+
+	public boolean cancelarPedidoAtual() {
+		//todo: implementar validação e troca de estado
+		if(pedidoAtual == null) {
+			return false;
+		}
+		pedidosAntigos.add(pedidoAtual);
+		pedidoAtual = null;
+		return true;
+	}
+
 
     public LocalDateTime getAbertoEm() {
         return abertoEm;
     }
 
-    public void setAbertoEm(LocalDateTime abertoEm) {
+    protected void setAbertoEm(LocalDateTime abertoEm) {
         this.abertoEm = abertoEm;
     }
 
@@ -56,7 +100,7 @@ public class Caixa {
         return fechadoEm;
     }
 
-    public void setFechadoEm(LocalDateTime fechadoEm) {
+    protected void setFechadoEm(LocalDateTime fechadoEm) {
         this.fechadoEm = fechadoEm;
     }
 
@@ -83,45 +127,6 @@ public class Caixa {
     public double getDinheiroFinal() {
         return dinheiroFinal;
     }
-	
-	public Pedido novoPedido() {
-		//todo: Implementar validação, obter ID do pedido
-		pedidoAtual = new Pedido();
-		return pedidoAtual;
-	}
-	
-	public Pedido buscarPedido(int id) {
-		//obter parâmetro ID do pedido
-		Pedido pedidoBuscado = null;
-		for (int i = 0; i < pedidosAntigos.size(); i++) {
-			//Colocar verificação de id para finalizar for
-			pedidoBuscado = pedidosAntigos.get(i);
-			//Retorna o pedido que for achado
-			return pedidoBuscado;
-		}
-		//Retorna um pedido nulo
-		return pedidoBuscado;
-	}
-	
-	public boolean concluirPedidoAtual() {
-		//todo: implementar validação e troca de estado
-		if(pedidoAtual == null) {
-			return false;
-		}
-		pedidosAntigos.add(pedidoAtual);
-		pedidoAtual = null;
-		return true;
-	}
-	
-	public boolean cancelarPedidoAtual() {
-		//todo: implementar validação e troca de estado
-		if(pedidoAtual == null) {
-			return false;
-		}
-		pedidosAntigos.add(pedidoAtual);
-		pedidoAtual = null;
-		return true;
-	}
 
 	@Override
 	public String toString() {
@@ -149,6 +154,6 @@ public class Caixa {
 				&& Objects.equals(pedidoAtual, other.pedidoAtual)
 				&& Objects.equals(pedidosAntigos, other.pedidosAntigos)
 				&& Double.doubleToLongBits(totalPagamento) == Double.doubleToLongBits(other.totalPagamento);
-	}	
-	
+	}
+
 }

@@ -1,4 +1,4 @@
-package modelos;
+package sistema.modelos;
 
 public class Produto {
 	private int idProduto;

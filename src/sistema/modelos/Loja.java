@@ -1,15 +1,18 @@
 /**
- * Armazena as variáveis principais do sistema e fornece métodos de gerenciamento diversos.
+ * Armazena as variáveis principais do sistema e fornece métodos de
+ * gerenciamento diversos.
  *
  * @author Thiago M. Baiense <thiagomourabaiense@gmail.com>
  *
  */
 
-package modelos;
+package sistema.modelos;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import services.ContaUsuarioService;
+
+import sistema.io.Arquivos;
+import sistema.services.ContaUsuarioService;
 
 public final class Loja {
 
@@ -18,20 +21,40 @@ public final class Loja {
     private static Caixa caixaAtual;
     private static HashMap<Integer, Caixa> caixasFechados;
 
+    static {
+        usuarios = new HashMap<Integer, Funcionario>();
+        caixasFechados = new HashMap<Integer, Caixa>();
+    }
 
     private Loja() {}
 
-    protected static int carregarContasExistentes() {
+    private static int carregarContasExistentes() {
         Loja.setUsuarios(ContaUsuarioService.obterTodos());
+        ContaUsuarioService.descarregarContas(); // liberar memória, uma vez que as pesquisas serão feitas a partir da Loja agora em diante
 
         return Loja.usuarios.size();
     }
 
+    // TODO: finalizar
     public static void inicializar(Funcionario funcionarioLogado) {
-        usuarios = new HashMap<Integer, Funcionario>();
+        if (funcionarioLogado == null) {
+            throw new IllegalArgumentException("funcionarioLogado não pode ser null");
+        }
+
+        carregarContasExistentes();
         contaAtual = funcionarioLogado;
         caixaAtual = null;
-        caixasFechados = new HashMap<Integer, Caixa>(); // TODO: popular a partir de arquivos
+
+        // TODO: DESCOMENTAR ASSIM QUE IMPLEMENTAR LEITURA DE CAIXAS FECHADOS
+        // Caixa[] caixasFechados = Arquivos.Caixas.ler_caixasFechados();
+        //
+        // if (caixasFechados == null) {
+        //  return;
+        // }
+        //
+        // for (var c: caixasFechados) {
+        //      caixasFechados.put(c.getId(), c);
+        // }
     }
 
     public static Funcionario getContaLogada() {
@@ -67,6 +90,14 @@ public final class Loja {
         }
 
         Loja.caixaAtual = new Caixa(Loja.contaAtual, dinheiroInicial);
+        return Loja.caixaAtual;
+    }
+
+    public static boolean existeCaixaAberto() {
+       return getCaixaAtual() != null;
+    }
+
+    public static Caixa getCaixaAtual() {
         return Loja.caixaAtual;
     }
 

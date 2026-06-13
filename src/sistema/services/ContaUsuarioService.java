@@ -1,0 +1,47 @@
+/** Permite realizar buscas e gerencias as contas cadastradas.
+ *
+ * @author Thiago M. Baiense <thiagomourabaiense@gmail.com>
+ *
+ */
+
+package sistema.services;
+
+import sistema.io.Arquivos;
+import sistema.modelos.Funcionario;
+
+public class ContaUsuarioService {
+
+    private static Funcionario[] contas = null;
+
+    /** Lê as contas dos arquivos e armazena internamente na classe
+     *
+     */
+    public static void atualizarContas() {
+        try {
+            contas = Arquivos.Contas.ler_contas();
+        } catch (Exception ex) {
+            System.err.println(
+                "[services.ContaUsuarioService.atualizarContas(...)] \n"
+                + "\t-> [ERRO] "
+                + "Falha ao ler contas do arquivo CSV: \n\t\t"
+                + ex.getLocalizedMessage());
+        }
+    }
+
+    /** Retorna as contas carregadas. Ao criar uma nova conta, será necessário chamar o método {@code carregarContas()} para atualizar os resultados.
+    *
+    * @return as contas carregadas.
+ */
+    public static Funcionario[] obterTodos() {
+        if (contas == null) {
+            atualizarContas();
+        }
+
+        return contas;
+    }
+
+    /** Remove as contas carregadas do cache da classe pra liberar memória. */
+    public static void descarregarContas() {
+        contas = null;
+    }
+}

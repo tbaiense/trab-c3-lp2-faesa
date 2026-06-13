@@ -1,5 +1,5 @@
-package interfaces;
+package sistema.interfaces;
 
 public class MenuExemplo {
-	
+
 }

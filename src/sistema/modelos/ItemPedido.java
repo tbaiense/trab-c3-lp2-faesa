@@ -1,4 +1,4 @@
-package modelos;
+package sistema.modelos;
 
 public class ItemPedido {
 

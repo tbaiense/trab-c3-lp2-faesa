@@ -1,13 +1,18 @@
-package io;
+/** Responsável por armazenar e recuperar registros usando arquivos locais.
+ *
+ * @author Thiago M. Baiense <thiagomourabaiense@gmail.com>
+ */
+
+package sistema.io;
 
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-import modelos.Admin;
-import modelos.Atendente;
-import modelos.Pedido;
+import sistema.modelos.Admin;
+import sistema.modelos.Atendente;
+import sistema.modelos.Pedido;
 
 public class Arquivos {
 
@@ -60,7 +65,7 @@ public class Arquivos {
         }
 
         // TODO: finalizar
-        public static boolean inserir_caixaAtual(modelos.Caixa c) {
+        public static boolean inserir_caixaAtual(sistema.modelos.Caixa c) {
             // salvar caixa
             ArrayList<String> strList = new ArrayList<String>();
             String linhasBuilder = "";
@@ -92,7 +97,7 @@ public class Arquivos {
         }
 
         // TODO: finalizar
-        public static boolean inserir_caixaFechado(modelos.Caixa c) {
+        public static boolean inserir_caixaFechado(sistema.modelos.Caixa c) {
             ArrayList<String> strList = new ArrayList<String>();
             String linhasBuilder;
             String separador = ",";
@@ -143,7 +148,7 @@ public class Arquivos {
         }
 
         // TODO: finalizar
-        public static boolean inserir_conta(modelos.Funcionario f) {
+        public static boolean inserir_conta(sistema.modelos.Funcionario f) {
             // salvar caixa
             ArrayList<String> strList = new ArrayList<String>();
             String linhasBuilder = "";
@@ -155,7 +160,7 @@ public class Arquivos {
 
             String cargo = "atendente";
             String codAutorizacao = "";
-            if (f instanceof modelos.Admin) {
+            if (f instanceof sistema.modelos.Admin) {
                 cargo = "admin";
                 codAutorizacao = Integer.toString(((Admin)f).getCodAutorizacao());
             }
@@ -177,9 +182,9 @@ public class Arquivos {
             return true;
         }
 
-        public static modelos.Funcionario[] ler_contas() {
-            modelos.Funcionario f;
-            ArrayList<modelos.Funcionario> lista = new ArrayList<modelos.Funcionario>();
+        public static sistema.modelos.Funcionario[] ler_contas() {
+            sistema.modelos.Funcionario f;
+            ArrayList<sistema.modelos.Funcionario> lista = new ArrayList<sistema.modelos.Funcionario>();
             String [] linha;
 
             ArquivoCSV csv = Armazenamento.ler(contas);
@@ -201,7 +206,7 @@ public class Arquivos {
                if (cargo.equals("admin")) { // cargo
                    codAutorizacao = Integer.parseInt(linha[4]);
 
-                   f = new modelos.Admin(
+                   f = new sistema.modelos.Admin(
                         numMatricula,
                         nome,
                         senhaLogin,
@@ -214,7 +219,7 @@ public class Arquivos {
                lista.add(f);
             }
 
-            return lista.toArray(new modelos.Funcionario[0]);
+            return lista.toArray(new sistema.modelos.Funcionario[0]);
         }
 
     }
@@ -253,8 +258,8 @@ public class Arquivos {
          * @return true, se a operação foi bem sucedida
          */
         public static boolean inserir_pedidoAntigo(
-            modelos.Pedido pedido,
-            modelos.Caixa caixaAssociado
+            sistema.modelos.Pedido pedido,
+            sistema.modelos.Caixa caixaAssociado
         ) {
             ArrayList<String> strList = new ArrayList<String>();
             String linhasBuilder = "";

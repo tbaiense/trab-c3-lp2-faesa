@@ -1,4 +1,4 @@
-package modelos;
+package sistema.modelos;
 
 //meu
 public class Funcionario {

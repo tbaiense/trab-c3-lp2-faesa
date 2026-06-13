@@ -1,4 +1,9 @@
-package io;
+/** Responsável por armazenar e recuperar registros usando arquivos locais.
+ *
+ * @author Thiago M. Baiense <thiagomourabaiense@gmail.com>
+ */
+
+package sistema.io;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -9,17 +14,18 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
-import modelos.*;
+
+import sistema.modelos.*;
 
 // TODO: FINALIZAR
 public abstract class Armazenamento {
 
     // TODO: fazer usar sempre a raíz do repositório e não baseado no atual
 
-    public static void main(String[] args) {
-        Arquivos.inicializar();
-        teste();
-    }
+    // public static void main(String[] args) {
+        // Arquivos.inicializar();
+        // teste();
+    // }
 
     // TODO: FINALIZAR (final de linha, otimizar)
     public static boolean escrever(ArquivoCSV csv) {

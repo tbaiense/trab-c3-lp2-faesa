@@ -1,17 +1,14 @@
-package modelos;
+package sistema.modelos;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CatalogoProdutos {
 
-	private List<Produto> produtos;
+	private static List<Produto> produtos;
 
-	public CatalogoProdutos() {
-		this.produtos = new ArrayList<>();
-	}
 
-	public boolean cadastar(Produto p) {
+	public static boolean cadastar(Produto p) {
 		for (Produto produto : produtos) {
 			if (produto.getIdProduto() == p.getIdProduto()) {
 				return false;
@@ -21,7 +18,7 @@ public class CatalogoProdutos {
 		return true;
 	}
 
-	public Produto remover(int id) { // ele via procurar o id do produto pra conseguir fazer a remoção
+	public static Produto remover(int id) { // ele via procurar o id do produto pra conseguir fazer a remoção
 		for (Produto produto : produtos) {
 			if (produto.getIdProduto() == id) {
 				produtos.remove(produto);
@@ -31,7 +28,7 @@ public class CatalogoProdutos {
 		return null;
 	}
 
-	public Produto buscar(int id) {
+	public static Produto buscar(int id) {
 		for (Produto produto : produtos) { // o produto do tipo Produto percorre a lista produtos
 			if (produto.getIdProduto() == id) {
 				return produto; // vai retornar o produto se for true
@@ -40,7 +37,7 @@ public class CatalogoProdutos {
 		return null; // se n encontrar o id ele vai retornar null
 	}
 
-	public Produto atualizar(int id, Produto atualizado) { // função para atualizar os dados usando o id do produto
+	public static Produto atualizar(int id, Produto atualizado) { // função para atualizar os dados usando o id do produto
 		for (Produto produto : produtos) {
 			if (produto.getIdProduto() == id) {
 				produto.setNomeProduto(atualizado.getNomeProduto());
