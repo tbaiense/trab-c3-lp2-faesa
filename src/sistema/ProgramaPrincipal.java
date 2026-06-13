@@ -1,21 +1,26 @@
 package sistema;
 import sistema.io.Armazenamento;
 import sistema.modelos.Caixa;
+import sistema.modelos.CatalogoProdutos;
 import sistema.modelos.Loja;
 import sistema.modelos.Pedido;
 import sistema.services.ContaUsuarioService;
 import sistema.services.LoginService;
 
 public class ProgramaPrincipal {
+
+    /** Ponto de entrada do sistema e direcionamento para telas */
     public static void main(String[] args) {
-        System.out.println("[SISTEMA] iniciando execução...");
+        System.out.println("[SISTEMA] inicializando...");
         Armazenamento.inicializar();
 
-        System.out.println("[SISTEMA] iniciado com sucesso.");
+        System.out.println("[SISTEMA] inicializado com sucesso.");
 
+        // Iniciar telas abaixo
         teste();
     }
 
+    /** Exibe uma simulação do sistema, cadastrando dados de teste */
     private static void teste() {
         if (ContaUsuarioService.obterTodos().length == 0) {
             Armazenamento.inserirDadosTeste();
@@ -33,8 +38,8 @@ public class ProgramaPrincipal {
 
         System.out.println("[Login] Logado com sucesso!");
 
+        CatalogoProdutos.carregarProdutos();
         Loja.inicializar(LoginService.buscarFuncionario(numMatricula, senhaLogin));
-
 
         // CAIXA ==============================================================
 
@@ -73,12 +78,32 @@ public class ProgramaPrincipal {
         caixaAtual = Loja.abrirCaixa(0.0);
         System.out.println("\n[Caixa] novo caixa aberto!");
 
-        // TODO: gerenciar produtos
-        // ...
+        // Gerenciar produtos =================================================
+        var prod1 = CatalogoProdutos.buscar(1);
+
+        if (prod1 != null) {
+            System.out.println("Produto 1 antes da atualização: \n" + prod1.toString());
+
+            prod1.setPrecoVenda(prod1.getPrecoVenda() + 10);
+            CatalogoProdutos.atualizar(prod1.getId(), prod1); // por enquanto nao atualiza no arquivo
+
+            prod1 = CatalogoProdutos.buscar(prod1.getId());
+            System.out.println("Produto 1 depois da atualização: \n" + prod1.toString());
+        } else {
+            System.out.println("Produto 1 não encontrado...");
+        }
+
+        var prodRm = CatalogoProdutos.remover(2); // por enquanto não remove do arquivo
+
+        if (prodRm != null) {
+            System.out.println("Produto 2 removido:\n" + prodRm.toString());
+        } else {
+            System.out.println("Produto 2 não encontrado...");
+        }
 
         Pedido pedidoAtual = caixaAtual.novoPedido();
 
-        // TODO: gerenciar pedido
+        // TODO: gerenciar pedido =============================================
         // ...
 
         caixaAtual.concluirPedidoAtual();
@@ -95,6 +120,7 @@ public class ProgramaPrincipal {
         finalizarExecucao();
     }
 
+    /** Encerra o sistema, salvando informações e descarregando dados */
     public static void finalizarExecucao() {
         System.out.println("[SISTEMA] Finalizando execução...");
 

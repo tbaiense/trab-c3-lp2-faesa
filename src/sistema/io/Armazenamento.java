@@ -10,7 +10,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Path;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -89,6 +88,26 @@ public abstract class Armazenamento {
         Funcionario[] funcionarios = Arquivos.Contas.ler_contas();
 
         System.out.println("Contas cadastradas lidas: \n" + Arrays.toString(funcionarios));
+
+        // produtos
+        Produto[] produtosTeste = {
+            new Produto(1,   "Agua",   1.50, 2.50),
+            new Produto(2,   "Refri",   1.50, 2.50),
+            new Produto(3,   "Hamburger",   1.50, 2.50),
+            new Produto(4,   "Chave de fenda",   1.50, 2.50),
+            new Produto(5,   "Brita",   1.50, 2.50),
+            new Produto(6,   "Cimento",   1.50, 2.50),
+            new Produto(7,   "Gabinete sequíssimo",   1.50, 2.50),
+            new Produto(8,   "Intel Core i5 3330 3.00 Ghz",   1.50, 2.50),
+            new Produto(9,   "Jujubinha",   1.50, 2.50),
+            new Produto(10,  "Pão de Queijo quentinhooo",   1.50, 2.50),
+        };
+
+        Arquivos.Produtos.inserir_produto(produtosTeste);
+
+        var produtos = Arquivos.Produtos.ler_produtos();
+
+        System.out.println("Produtos cadastrados lidos: \n" + Arrays.toString(produtos));
 
         // caixa
         Loja.inicializar(joao);

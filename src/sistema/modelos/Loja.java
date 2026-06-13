@@ -8,11 +8,9 @@
 
 package sistema.modelos;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
-import sistema.io.Arquivos;
 import sistema.services.ContaUsuarioService;
 
 public final class Loja {

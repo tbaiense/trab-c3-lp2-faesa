@@ -1,14 +1,12 @@
 package sistema.modelos;
 
-public class Produto {
+public class Produto implements Cloneable {
 	private int id;
 	private String nome;
 	private double precoCusto;
 	private double precoVenda;
 
-	public Produto() {
-
-	}
+	public Produto() {}
 
 	public int getId() {
 		return id;
@@ -50,4 +48,25 @@ public class Produto {
 		this.precoVenda = precoVenda;
 	}
 
+	// TODO: FINALIZAR
+	@Override
+	public String toString() {
+	    return String.format(
+			"id: %-2d | nome: %-16s | custo: R$ %.2f | venda: R$ %.2f\n",
+		    this.getId(), this.getNome(), this.getPrecoCusto(), this.getPrecoVenda()
+		);
+	}
+
+	// interface Cloneable
+	@Override
+	public Produto clone() {
+	    Produto p = new Produto();
+
+		p.setId(this.getId());
+		p.setNome(this.getNome());
+		p.setPrecoCusto(this.getPrecoCusto());
+		p.setPrecoVenda(this.getPrecoVenda());
+
+		return p;
+	}
 }

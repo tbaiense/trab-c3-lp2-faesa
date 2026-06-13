@@ -8,11 +8,10 @@ package sistema.io;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.List;
 
 import sistema.modelos.Admin;
 import sistema.modelos.Atendente;
-import sistema.modelos.Pedido;
+import sistema.modelos.Produto;
 
 public class Arquivos {
 
@@ -20,6 +19,7 @@ public class Arquivos {
         "arquivos"
     );
 
+    /** Inicializa os arquivos */
     protected static void inicializar() {
         Caixas.inicializar();
         Contas.inicializar();
@@ -52,6 +52,7 @@ public class Arquivos {
         private static Path caixaAtual = _dir.resolve("caixaAtual.csv");
         private static Path caixasFechados = _dir.resolve("caixasFechados.csv");
 
+        /** Cria o arquivo CSV e inicializa-o inserindo o cabeçalho */
         protected static void inicializar() {
             String[] linhas = new String[0];
 
@@ -140,6 +141,7 @@ public class Arquivos {
         private static Path _dir = DIR_RAIZ.resolve("contas");
         private static Path contas = _dir.resolve("contas.csv");
 
+        /** Cria o arquivo CSV e inicializa-o inserindo o cabeçalho */
         protected static void inicializar() {
             String[] linhas = new String[0];
             _dir.toFile().mkdirs();
@@ -238,6 +240,7 @@ public class Arquivos {
         private static Path itemsPedido = _dir.resolve("itemsPedido.csv");
         private static Path pedidosAntigos = _dir.resolve("pedidosAntigos.csv");
 
+        /** Cria o arquivo CSV e inicializa-o inserindo o cabeçalho */
         public static void inicializar() {
             String[] linhas = new String[0];
             String cabecalho = "todo, todo, todo";
@@ -291,20 +294,95 @@ public class Arquivos {
     }
 
     public static class Produtos {
+        private static String[] cabecalho_catalogoProdutos = {
+            "id",
+            "nome",
+            "precoCusto",
+            "precoVenda"
+        };
 
         private static Path _dir = DIR_RAIZ.resolve("produtos");
         private static Path catalogoProdutos = _dir.resolve(
             "catalogoProdutos.csv"
         );
 
+        /** Cria o arquivo CSV e inicializa-o inserindo o cabeçalho */
         public static void inicializar() {
             String[] linhas = new String[0];
-            String cabecalho = "todo, todo, todo";
+            String cabecalho = "";
+            String separador = ",";
+
             _dir.toFile().mkdirs();
+
+            for (var coluna: cabecalho_catalogoProdutos) {
+                cabecalho += (coluna + separador);
+            }
+
+            cabecalho = cabecalho.substring(
+                0, cabecalho.length()-1
+            ); // remove último separador
 
             Armazenamento.escrever(
                 new ArquivoCSV(cabecalho, linhas, catalogoProdutos)
             );
+        }
+
+        // TODO: finalizar
+        public static boolean inserir_produto(sistema.modelos.Produto... pList) {
+            // salvar caixa
+            ArrayList<String> strList = new ArrayList<String>();
+            String linhasBuilder;
+            String separador = ",";
+
+            if (pList == null) {
+                return false;
+            }
+
+            for (var p: pList) {
+                linhasBuilder = "";
+                linhasBuilder += p.getId() + separador;
+                linhasBuilder += p.getNome() + separador;
+                linhasBuilder += p.getPrecoCusto() + separador;
+                linhasBuilder += p.getPrecoVenda();
+
+                strList.add(linhasBuilder);
+            }
+
+
+            ArquivoCSV csv = new ArquivoCSV(
+                strList.toArray(new String[0]),
+                catalogoProdutos
+            );
+
+            Armazenamento.escrever(csv);
+            return true;
+        }
+
+        public static sistema.modelos.Produto[] ler_produtos() {
+            sistema.modelos.Produto p;
+            var lista = new ArrayList<sistema.modelos.Produto>();
+            String [] linha;
+
+            ArquivoCSV csv = Armazenamento.ler(catalogoProdutos);
+
+            int id;
+            String nome;
+            double precoCusto;
+            double precoVenda;
+
+            for (String l: csv.linhas) {
+                linha = l.split(",");
+
+                id =         Integer.parseInt(linha[0]);
+                nome =       linha[1];
+                precoCusto = Double.parseDouble(linha[2]);
+                precoVenda = Double.parseDouble(linha[3]);
+
+                p = new Produto(id, nome, precoCusto, precoVenda);
+                lista.add(p);
+            }
+
+            return lista.toArray(new sistema.modelos.Produto[0]);
         }
     }
 }
