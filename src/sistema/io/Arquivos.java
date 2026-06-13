@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import sistema.modelos.Admin;
 import sistema.modelos.Atendente;
+import sistema.modelos.ItemPedido;
 import sistema.modelos.Produto;
 
 public class Arquivos {
@@ -325,6 +326,16 @@ public class Arquivos {
         public static sistema.modelos.Pedido[] ler_pedidos() {
             return null;
         }
+
+        // TODO: implementar
+        public static boolean inserir_itensPedido (sistema.modelos.ItemPedido... itens) {
+            return false;
+        }
+
+        // TODO: implementar
+        public static sistema.modelos.ItemPedido[] ler_itensPedido(int idPedido) {
+            return null;
+        }
     }
 
     public static class Produtos {
@@ -402,6 +413,18 @@ public class Arquivos {
             }
 
             return lista.toArray(new sistema.modelos.Produto[0]);
+        }
+
+        // TODO: implementar
+        public static boolean remover_produto(int id) {
+           return false;
+        }
+
+        // TODO: implementar
+        public static boolean atualizar_produto(
+            int id, sistema.modelos.Produto produto
+        ) {
+           return false;
         }
     }
 }
