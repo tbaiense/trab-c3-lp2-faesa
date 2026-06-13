@@ -18,14 +18,8 @@ public final class Loja {
     private static Caixa caixaAtual;
     private static HashMap<Integer, Caixa> caixasFechados;
 
+
     private Loja() {}
-
-    public static void main(String[] args) {
-        inicializar(new Funcionario("1", "joao", 1));
-        carregarContasExistentes();
-
-        System.out.println(usuarios.size());
-    }
 
     protected static int carregarContasExistentes() {
         Loja.setUsuarios(ContaUsuarioService.obterTodos());

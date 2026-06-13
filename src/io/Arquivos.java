@@ -15,7 +15,7 @@ public class Arquivos {
         "arquivos"
     );
 
-    public static void inicializar() {
+    protected static void inicializar() {
         Caixas.inicializar();
         Contas.inicializar();
         Pedidos.inicializar();
@@ -24,7 +24,7 @@ public class Arquivos {
 
     public static class Caixas {
 
-        public static String cabecalho_caixaAtual =
+        private static String cabecalho_caixaAtual =
             "id," +
             "aberto_em," +
             "total_pagamento," +
@@ -32,7 +32,7 @@ public class Arquivos {
             "dinheiro_final";
         // + "funcionario_num_matricula";
 
-        public static String cabecalho_caixasFechados =
+        private static String cabecalho_caixasFechados =
             "id," +
             "aberto_em," +
             "fechado_em," +
@@ -44,10 +44,10 @@ public class Arquivos {
         // pedidosAntigos -> arquivos/pedidos/pedidosAntigos.csv
 
         private static Path _dir = DIR_RAIZ.resolve("caixas");
-        public static Path caixaAtual = _dir.resolve("caixaAtual.csv");
-        public static Path caixasFechados = _dir.resolve("caixasFechados.csv");
+        private static Path caixaAtual = _dir.resolve("caixaAtual.csv");
+        private static Path caixasFechados = _dir.resolve("caixasFechados.csv");
 
-        public static void inicializar() {
+        protected static void inicializar() {
             String[] linhas = new String[0];
 
             _dir.toFile().mkdirs();
@@ -125,7 +125,7 @@ public class Arquivos {
 
     public static class Contas {
 
-        public static String cabecalho_contas =
+        private static String cabecalho_contas =
             "numMatricula," +
             "cargo," + // define se é admin ou nao
             "nome," +
@@ -133,9 +133,9 @@ public class Arquivos {
             "codAutorizacao";
 
         private static Path _dir = DIR_RAIZ.resolve("contas");
-        public static Path contas = _dir.resolve("contas.csv");
+        private static Path contas = _dir.resolve("contas.csv");
 
-        public static void inicializar() {
+        protected static void inicializar() {
             String[] linhas = new String[0];
             _dir.toFile().mkdirs();
 
@@ -221,7 +221,7 @@ public class Arquivos {
 
     public static class Pedidos {
 
-        public static String cabecalho_pedidosAntigos =
+        private static String cabecalho_pedidosAntigos =
             "id_caixa, " +
             "id, " +
             "finalizado_em, " +
@@ -230,8 +230,8 @@ public class Arquivos {
             "preco_venda_total";
 
         private static Path _dir = DIR_RAIZ.resolve("pedidos");
-        public static Path itemsPedido = _dir.resolve("itemsPedido.csv");
-        public static Path pedidosAntigos = _dir.resolve("pedidosAntigos.csv");
+        private static Path itemsPedido = _dir.resolve("itemsPedido.csv");
+        private static Path pedidosAntigos = _dir.resolve("pedidosAntigos.csv");
 
         public static void inicializar() {
             String[] linhas = new String[0];
@@ -288,7 +288,7 @@ public class Arquivos {
     public static class Produtos {
 
         private static Path _dir = DIR_RAIZ.resolve("produtos");
-        public static Path catalogoProdutos = _dir.resolve(
+        private static Path catalogoProdutos = _dir.resolve(
             "catalogoProdutos.csv"
         );
 
