@@ -26,6 +26,9 @@ public abstract class Armazenamento {
         // Arquivos.inicializar();
         // teste();
     // }
+    public static void inicializar() {
+        Arquivos.inicializar();
+    }
 
     // TODO: FINALIZAR (final de linha, otimizar)
     public static boolean escrever(ArquivoCSV csv) {
@@ -90,10 +93,6 @@ public abstract class Armazenamento {
         // caixa
         Loja.inicializar(joao);
         Caixa c1 = Loja.abrirCaixa(200.0);
-        c1.setId(1);
-
-        c1.setFechadoEm(LocalDateTime.now());
-        c1.setAbertoEm(LocalDateTime.now());
 
         Arquivos.Caixas.inserir_caixaAtual(c1);
 

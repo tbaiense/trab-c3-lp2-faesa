@@ -1,4 +1,5 @@
 package sistema;
+import sistema.io.Armazenamento;
 import sistema.modelos.Caixa;
 import sistema.modelos.Loja;
 import sistema.modelos.Pedido;
@@ -7,6 +8,8 @@ import sistema.services.LoginService;
 public class ProgramaPrincipal {
     public static void main(String[] args) {
         System.out.println("[SISTEMA] iniciando execução...");
+        Armazenamento.inicializar();
+
         System.out.println("[SISTEMA] iniciado com sucesso.");
 
         teste();

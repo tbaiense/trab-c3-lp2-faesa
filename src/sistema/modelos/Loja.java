@@ -8,6 +8,7 @@
 
 package sistema.modelos;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
@@ -75,7 +76,7 @@ public final class Loja {
         return usuarios.get(numMatricula);
     }
 
-    // TODO: FINALIZAR escrevendo no arquivo
+    // TODO: FINALIZAR salvando
     public static Caixa abrirCaixa(double dinheiroInicial) {
         if (Loja.caixaAtual != null) {
             throw new IllegalStateException(
@@ -89,7 +90,11 @@ public final class Loja {
             );
         }
 
-        Loja.caixaAtual = new Caixa(Loja.contaAtual, dinheiroInicial);
+        Caixa c = new Caixa(Loja.contaAtual, dinheiroInicial);
+        c.setId((int)Math.random() * 10000); // TODO: obter id do arquivo (sequencial)
+        c.setAbertoEm(LocalDateTime.now());
+
+        Loja.caixaAtual = c;
         return Loja.caixaAtual;
     }
 
