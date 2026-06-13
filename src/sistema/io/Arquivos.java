@@ -27,24 +27,44 @@ public class Arquivos {
         Produtos.inicializar();
     }
 
+    private static void criarArquivo(String[] cabecalho, Path caminho) {
+        String[] linhas = new String[0];
+        String strCabecalho = "";
+        String separador = ",";
+
+        for (var coluna: cabecalho) {
+            strCabecalho += (coluna + separador);
+        }
+
+        strCabecalho = strCabecalho.substring(
+            0, strCabecalho.length()-1
+        ); // remove último separador
+
+        Armazenamento.escrever(
+            new ArquivoCSV(strCabecalho, linhas, caminho)
+        );
+    }
+
     public static class Caixas {
 
-        private static String cabecalho_caixaAtual =
-            "id," +
-            "aberto_em," +
-            "total_pagamento," +
-            "dinheiro_inicial," +
-            "dinheiro_final";
-        // + "funcionario_num_matricula";
+        private static String[] cabecalho_caixaAtual = {
+            "id",
+            "aberto_em",
+            "total_pagamento",
+            "dinheiro_inicial",
+            "dinheiro_final",
+            "num_matricula_func_abriu"
+        };
 
-        private static String cabecalho_caixasFechados =
-            "id," +
-            "aberto_em," +
-            "fechado_em," +
-            "total_pagamento," +
-            "dinheiro_inicial," +
-            "dinheiro_final";
-        // + "funcionario_num_matricula";
+        private static String[] cabecalho_caixasFechados = {
+            "id",
+            "aberto_em",
+            "fechado_em",
+            "total_pagamento",
+            "dinheiro_inicial",
+            "dinheiro_final",
+            "num_matricula_func_abriu"
+        };
         // pedidoAtual não é armazenado
         // pedidosAntigos -> arquivos/pedidos/pedidosAntigos.csv
 
@@ -54,15 +74,9 @@ public class Arquivos {
 
         /** Cria o arquivo CSV e inicializa-o inserindo o cabeçalho */
         protected static void inicializar() {
-            String[] linhas = new String[0];
-
             _dir.toFile().mkdirs();
-            Armazenamento.escrever(
-                new ArquivoCSV(cabecalho_caixaAtual, linhas, caixaAtual)
-            );
-            Armazenamento.escrever(
-                new ArquivoCSV(cabecalho_caixasFechados, linhas, caixasFechados)
-            );
+            criarArquivo(cabecalho_caixaAtual, caixaAtual);
+            criarArquivo(cabecalho_caixasFechados, caixasFechados);
         }
 
         // TODO: finalizar
@@ -80,10 +94,8 @@ public class Arquivos {
             linhasBuilder += c.getAbertoEm().toString() + separador; // TODO: obter formatado
             linhasBuilder += c.getTotalPagamento() + separador;
             linhasBuilder += c.getDinheiroInicial() + separador;
-            linhasBuilder += c.getDinheiroFinal();
-
-            // TODO: descomentar assim que implementarem `funcionario.numMatricula`
-            // linhasBuilder += c.funcionarioAbriu.numMatricula;
+            linhasBuilder += c.getDinheiroFinal() + separador;
+            linhasBuilder += c.funcionarioAbriu.numMatricula;
 
             strList.add(linhasBuilder);
 
@@ -95,6 +107,11 @@ public class Arquivos {
             Armazenamento.escrever(csv);
             // salvar pedidos antigos
             return true;
+        }
+
+        // TODO: implementar
+        public static boolean remover_caixaAtual(int id) {
+            return false;
         }
 
         // TODO: finalizar
@@ -113,9 +130,9 @@ public class Arquivos {
             linhasBuilder += c.getFechadoEm().toString() + separador; // Todo: obter formatado
             linhasBuilder += c.getTotalPagamento() + separador;
             linhasBuilder += c.getDinheiroInicial() + separador;
-            linhasBuilder += c.getDinheiroFinal();
+            linhasBuilder += c.getDinheiroFinal() + separador;
+            linhasBuilder += c.funcionarioAbriu.numMatricula;
 
-            // TODO: adiocioar id do funcionario
 
             strList.add(linhasBuilder);
 
@@ -131,22 +148,21 @@ public class Arquivos {
 
     public static class Contas {
 
-        private static String cabecalho_contas =
-            "numMatricula," +
-            "cargo," + // define se é admin ou nao
-            "nome," +
-            "senhaLogin," +
-            "codAutorizacao";
+        private static String[] cabecalho_contas = {
+            "numMatricula",
+            "cargo", // define se é admin ou nao
+            "nome",
+            "senhaLogin",
+            "codAutorizacao"
+        };
 
         private static Path _dir = DIR_RAIZ.resolve("contas");
         private static Path contas = _dir.resolve("contas.csv");
 
         /** Cria o arquivo CSV e inicializa-o inserindo o cabeçalho */
         protected static void inicializar() {
-            String[] linhas = new String[0];
             _dir.toFile().mkdirs();
-
-            Armazenamento.escrever(new ArquivoCSV(cabecalho_contas, linhas, contas));
+            criarArquivo(cabecalho_contas, contas);
         }
 
         // TODO: finalizar
@@ -182,6 +198,16 @@ public class Arquivos {
 
             Armazenamento.escrever(csv);
             return true;
+        }
+
+        // TODO: implementar
+        public static boolean remover_conta(int id) {
+            return false;
+        }
+
+        // TODO: implementar
+        public static boolean atualizar_conta(int id, sistema.modelos.Funcionario f) {
+            return false;
         }
 
         public static sistema.modelos.Funcionario[] ler_contas() {
@@ -228,30 +254,32 @@ public class Arquivos {
 
     public static class Pedidos {
 
-        private static String cabecalho_pedidosAntigos =
-            "id_caixa, " +
-            "id, " +
-            "finalizado_em, " +
-            "forma_pagamento, " +
-            "taxa_cartao, " +
-            "preco_venda_total";
+        private static String[] cabecalho_pedidosAntigos = {
+            "id_caixa",
+            "id",
+            "finalizado_em",
+            "forma_pagamento",
+            "taxa_cartao",
+            "preco_venda_total"
+        };
+
+        private static String[] cabecalho_itensPedido = {
+            "id_pedido",
+            "id",
+            "quantidade",
+            "id_produto"
+        };
 
         private static Path _dir = DIR_RAIZ.resolve("pedidos");
-        private static Path itemsPedido = _dir.resolve("itemsPedido.csv");
+        private static Path itensPedido = _dir.resolve("itensPedido.csv");
         private static Path pedidosAntigos = _dir.resolve("pedidosAntigos.csv");
 
         /** Cria o arquivo CSV e inicializa-o inserindo o cabeçalho */
         public static void inicializar() {
-            String[] linhas = new String[0];
-            String cabecalho = "todo, todo, todo";
             _dir.toFile().mkdirs();
 
-            Armazenamento.escrever(
-                new ArquivoCSV(cabecalho, linhas, itemsPedido)
-            );
-            Armazenamento.escrever(
-                new ArquivoCSV(cabecalho, linhas, pedidosAntigos)
-            );
+            criarArquivo(cabecalho_pedidosAntigos, pedidosAntigos);
+            criarArquivo(cabecalho_itensPedido, itensPedido);
         }
 
         /** Insere um novo registro de pedido antigo nos arquivos, associando-o ao caixa informado.
@@ -291,6 +319,12 @@ public class Arquivos {
             Armazenamento.escrever(csv);
             return true;
         }
+
+
+        // TODO: implementar
+        public static sistema.modelos.Pedido[] ler_pedidos() {
+            return null;
+        }
     }
 
     public static class Produtos {
@@ -308,23 +342,8 @@ public class Arquivos {
 
         /** Cria o arquivo CSV e inicializa-o inserindo o cabeçalho */
         public static void inicializar() {
-            String[] linhas = new String[0];
-            String cabecalho = "";
-            String separador = ",";
-
             _dir.toFile().mkdirs();
-
-            for (var coluna: cabecalho_catalogoProdutos) {
-                cabecalho += (coluna + separador);
-            }
-
-            cabecalho = cabecalho.substring(
-                0, cabecalho.length()-1
-            ); // remove último separador
-
-            Armazenamento.escrever(
-                new ArquivoCSV(cabecalho, linhas, catalogoProdutos)
-            );
+            criarArquivo(cabecalho_catalogoProdutos, catalogoProdutos);
         }
 
         // TODO: finalizar
