@@ -42,10 +42,10 @@ public class Produto {
 		this.precoVenda = precoVenda;
 	}
 
-	public Produto(int idProduto, String nomeProduto, double precoCusto, double precoVenda) {
+	public Produto(int id, String nome, double precoCusto, double precoVenda) {
 		super();
-		this.id = idProduto;
-		this.nome = nomeProduto;
+		this.id = id;
+		this.nome = nome;
 		this.precoCusto = precoCusto;
 		this.precoVenda = precoVenda;
 	}
