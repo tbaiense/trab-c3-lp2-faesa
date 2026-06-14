@@ -1,7 +1,5 @@
 package sistema.interfaces;
 
-import sistema.modelos.Admin;
-import sistema.modelos.Atendente;
 
 public class TesteLogin {
 

@@ -2,10 +2,10 @@ package sistema.modelos;
 
 import java.time.LocalDateTime; //biblioteca para pegar data e hora.
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 import sistema.io.Arquivos;
-import sistema.modelos.Pedido.Estado;
 
 public class Caixa {
 
@@ -29,6 +29,12 @@ public class Caixa {
 		this.funcionarioAbriu = funcAbriu;
 		this.dinheiroInicial = dinheiroInicial;
 		this.dinheiroFinal = dinheiroInicial;
+	}
+
+
+	public Caixa(Funcionario funcAbriu, double dinheiroInicial, Pedido[] pedidosAntigos) {
+    	this(funcAbriu, dinheiroInicial);
+        this.pedidosAntigos.addAll(Arrays.asList(pedidosAntigos));
 	}
 
     public int getId() {
@@ -82,33 +88,35 @@ public class Caixa {
 	}
 
 	/** Conclui o pedido e armazena nos arquivos */
-	public boolean concluirPedidoAtual() {
+	public void concluirPedidoAtual() {
 		if (!possuiPedidoAtual()) {
-			return false;
+		    throw new Error(
+    			"não é possível concluir o pedido atual, pois não há um pedido atual associado à loja"
+			);
 		}
 
 		if (pedidoAtual.getItens().isEmpty()) {
-		    return false;
+            throw new Error(
+                "Não é possível concluir o pedido, pois não há itens cadastrados"
+            );
 		}
 
 		pedidoAtual.setEstado(Pedido.Estado.CONCLUIDO);
 		pedidoAtual.setFinalizadoEm(LocalDateTime.now());
 
 		pedidosAntigos.add(pedidoAtual);
-		setPedidoAtual(null);
+		setTotalPagamento(pedidoAtual.getPrecoVendaTotal()); // TODO: talvez mudar a forma de calcular o preco total (colocar a taxa de cartão para o cliente pagar? assim mantemos somente um valor final de pagamento)
 
 		Arquivos.Pedidos.inserir_pedidoAntigo(pedidoAtual, this);
-		return true;
+		setPedidoAtual(null);
 	}
 
 	/** Cancela o pedido e armazena nos arquivos */
-	public boolean cancelarPedidoAtual() {
+	public void cancelarPedidoAtual() {
 		if(!possuiPedidoAtual()) {
-			return false;
-		}
-
-		if (pedidoAtual.getItens().isEmpty()) {
-		    return false;
+            throw new Error(
+    			"não é possível concluir o pedido atual, pois não há um pedido atual associado à loja"
+            );
 		}
 
 		pedidoAtual.setEstado(Pedido.Estado.CANCELADO);
@@ -118,7 +126,6 @@ public class Caixa {
 		setPedidoAtual(null);
 
 		Arquivos.Pedidos.inserir_pedidoAntigo(pedidoAtual, this);
-		return true;
 	}
 
 
@@ -126,7 +133,7 @@ public class Caixa {
         return abertoEm;
     }
 
-    protected void setAbertoEm(LocalDateTime abertoEm) {
+    public void setAbertoEm(LocalDateTime abertoEm) {
         this.abertoEm = abertoEm;
     }
 
@@ -134,7 +141,7 @@ public class Caixa {
         return fechadoEm;
     }
 
-    protected void setFechadoEm(LocalDateTime fechadoEm) {
+    public void setFechadoEm(LocalDateTime fechadoEm) {
         this.fechadoEm = fechadoEm;
     }
 

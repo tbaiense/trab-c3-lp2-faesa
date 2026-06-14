@@ -130,13 +130,12 @@ public class ProgramaPrincipal {
         int idPedidoFinalizado = pedidoAtual.getId();
         pedidoAtual = null;
 
-        if (caixaAtual.concluirPedidoAtual()) {
-            Pedido pedidoFinalizado = caixaAtual.buscarPedidoAntigo(idPedidoFinalizado);
+        caixaAtual.concluirPedidoAtual();
+        Pedido pedidoFinalizado = caixaAtual.buscarPedidoAntigo(idPedidoFinalizado);
 
-            System.out.println(
-                "[Pedido] concluído: \n" + pedidoFinalizado.toString()
-            );
-        }
+        System.out.println(
+            "[Pedido] concluído: \n" + pedidoFinalizado.toString()
+        );
 
         // Fechamento do caixa ================================================
         caixaAtual = Loja.getCaixaAtual();
@@ -145,7 +144,7 @@ public class ProgramaPrincipal {
             caixaAtual.getDinheiroFinal()
         ));
 
-        Loja.fecharCaixaAtual(); // nao remove do arquivo de caixa atual, por enquanto
+        Loja.fecharCaixaAtual();
 
         finalizarExecucao();
     }
