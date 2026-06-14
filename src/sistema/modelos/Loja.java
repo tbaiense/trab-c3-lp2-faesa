@@ -11,6 +11,7 @@ package sistema.modelos;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
+import sistema.io.Arquivos;
 import sistema.services.ContaUsuarioService;
 
 public final class Loja {
@@ -93,6 +94,7 @@ public final class Loja {
         c.setAbertoEm(LocalDateTime.now());
 
         Loja.caixaAtual = c;
+        Arquivos.Caixas.inserir_caixaAtual(c);
         return Loja.caixaAtual;
     }
 
@@ -120,6 +122,8 @@ public final class Loja {
         //TODO: calcular total de pagamentos (talvez fazer um método em caixa)
 
         Loja.caixasFechados.put(c.getId(), c);
+        Arquivos.Caixas.inserir_caixaFechado(c);
+        Arquivos.Caixas.remover_caixaAtual(c.getId());
         return true;
     }
 

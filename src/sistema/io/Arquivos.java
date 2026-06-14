@@ -261,7 +261,8 @@ public class Arquivos {
             "finalizado_em",
             "forma_pagamento",
             "taxa_cartao",
-            "preco_venda_total"
+            "preco_venda_total",
+            "lucro_total"
         };
 
         private static String[] cabecalho_itensPedido = {
@@ -297,18 +298,19 @@ public class Arquivos {
             String linhasBuilder = "";
             String separador = ",";
 
-            if (pedido == null) {
+            if (pedido == null || !pedido.isFinalizado()) {
                 return false;
             }
 
             linhasBuilder += caixaAssociado.getId() + separador;
 
-            // TODO: descomentar quando implementarem getters de Pedido
-            // linhasBuilder += pedido.getId() + separador;
-            // linhasBuilder += pedido.getFinalizadoEm() + separador;
-            // linhasBuilder += pedido.getFormaPagamento() + separador;
-            // linhasBuilder += pedido.getTaxaCartao() + separador;
-            // linhasBuilder += pedido.getPrecoVendaTotal();
+            linhasBuilder += caixaAssociado.getId() + separador;
+            linhasBuilder += pedido.getId() + separador;
+            linhasBuilder += pedido.getFinalizadoEm() + separador;
+            linhasBuilder += pedido.getFormaPagamento() + separador;
+            linhasBuilder += pedido.getTaxaCartao() + separador;
+            linhasBuilder += pedido.getPrecoVendaTotal() + separador;
+            linhasBuilder += pedido.getLucro();
 
             strList.add(linhasBuilder);
 

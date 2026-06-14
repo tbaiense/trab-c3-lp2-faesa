@@ -2,6 +2,7 @@ package sistema;
 import sistema.io.Armazenamento;
 import sistema.modelos.Caixa;
 import sistema.modelos.CatalogoProdutos;
+import sistema.modelos.ItemPedido;
 import sistema.modelos.Loja;
 import sistema.modelos.Pedido;
 import sistema.services.ContaUsuarioService;
@@ -101,12 +102,41 @@ public class ProgramaPrincipal {
             System.out.println("Produto 2 não encontrado...");
         }
 
-        Pedido pedidoAtual = caixaAtual.novoPedido();
 
         // TODO: gerenciar pedido =============================================
-        // ...
+        Pedido pedidoAtual = caixaAtual.novoPedido();
+        System.out.println("[Pedido] novo pedido aberto!\n");
 
-        caixaAtual.concluirPedidoAtual();
+        pedidoAtual.atualizarItem(prod1, 3);
+        ItemPedido item1 = pedidoAtual.buscarItem(prod1.getId());
+
+        System.out.println(
+            "[Pedido] item adicionado: \n\t"
+            + item1.toString()
+        );
+
+        var prod3 = CatalogoProdutos.buscar(3);
+
+        if (prod3 != null) {
+            pedidoAtual.atualizarItem(prod3, 3);
+
+            var item3 = pedidoAtual.buscarItem(prod3.getId());
+            System.out.println(
+                "[Pedido] item adicionado: \n\t"
+                + item3.toString()
+            );
+        }
+
+        int idPedidoFinalizado = pedidoAtual.getId();
+        pedidoAtual = null;
+
+        if (caixaAtual.concluirPedidoAtual()) {
+            Pedido pedidoFinalizado = caixaAtual.buscarPedidoAntigo(idPedidoFinalizado);
+
+            System.out.println(
+                "[Pedido] concluído: \n" + pedidoFinalizado.toString()
+            );
+        }
 
         // Fechamento do caixa ================================================
         caixaAtual = Loja.getCaixaAtual();
@@ -115,7 +145,7 @@ public class ProgramaPrincipal {
             caixaAtual.getDinheiroFinal()
         ));
 
-        Loja.fecharCaixaAtual();
+        Loja.fecharCaixaAtual(); // nao remove do arquivo de caixa atual, por enquanto
 
         finalizarExecucao();
     }

@@ -118,16 +118,21 @@ public abstract class Armazenamento {
         Arquivos.Caixas.inserir_caixaAtual(c1);
 
         Pedido p = c1.novoPedido();
+        p.atualizarItem(produtosTeste[0], 3);
+        
         c1.concluirPedidoAtual();
 
         Arquivos.Pedidos.inserir_pedidoAntigo(p, c1);
 
         p = c1.novoPedido();
+        p.atualizarItem(produtosTeste[0], 2);
         c1.concluirPedidoAtual();
 
         Arquivos.Pedidos.inserir_pedidoAntigo(p, c1);
 
         p = c1.novoPedido();
+        p.atualizarItem(produtosTeste[3], 1);
+        
         c1.concluirPedidoAtual();
 
         Arquivos.Pedidos.inserir_pedidoAntigo(p, c1);

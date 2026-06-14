@@ -4,6 +4,9 @@ import java.time.LocalDateTime; //biblioteca para pegar data e hora.
 import java.util.ArrayList;
 import java.util.Objects;
 
+import sistema.io.Arquivos;
+import sistema.modelos.Pedido.Estado;
+
 public class Caixa {
 
 	private int id; // usado para associá-lo os pedidos antigos nos arquivos csv
@@ -40,50 +43,81 @@ public class Caixa {
         return pedidoAtual;
     }
 
+    public Pedido[] getPedidosAntigos() {
+        if (pedidosAntigos == null) {
+            return null;
+        }
+
+        return pedidosAntigos.toArray(new Pedido[0]);
+    }
+
     public boolean possuiPedidoAtual() {
         return pedidoAtual != null;
     }
 
     protected void setPedidoAtual(Pedido pedidoAtual) {
         this.pedidoAtual = pedidoAtual;
+        System.out.println("Pedido atual setado para " + pedidoAtual);
     }
 
     public Pedido novoPedido() {
-		//todo: Implementar validação, obter ID do pedido
-		pedidoAtual = new Pedido();
-		return pedidoAtual;
+        if (possuiPedidoAtual()) {
+            throw new Error(
+                "Não é possível abrir um novo pedido, pois já existe um aberto"
+            );
+        }
+
+		setPedidoAtual(new Pedido());
+		return getPedidoAtual();
 	}
 
-	public Pedido buscarPedido(int id) {
-		//obter parâmetro ID do pedido
-		Pedido pedidoBuscado = null;
-		for (int i = 0; i < pedidosAntigos.size(); i++) {
-			//Colocar verificação de id para finalizar for
-			pedidoBuscado = pedidosAntigos.get(i);
-			//Retorna o pedido que for achado
-			return pedidoBuscado;
+	public Pedido buscarPedidoAntigo(int id) {
+	    for (var p: getPedidosAntigos()) {
+			if (p.getId() == id) {
+    			return p;
+			}
 		}
-		//Retorna um pedido nulo
-		return pedidoBuscado;
+
+		return null;
 	}
 
+	/** Conclui o pedido e armazena nos arquivos */
 	public boolean concluirPedidoAtual() {
-		//todo: implementar validação e troca de estado
-		if(pedidoAtual == null) {
+		if (!possuiPedidoAtual()) {
 			return false;
 		}
+
+		if (pedidoAtual.getItens().isEmpty()) {
+		    return false;
+		}
+
+		pedidoAtual.setEstado(Pedido.Estado.CONCLUIDO);
+		pedidoAtual.setFinalizadoEm(LocalDateTime.now());
+
 		pedidosAntigos.add(pedidoAtual);
-		pedidoAtual = null;
+		setPedidoAtual(null);
+
+		Arquivos.Pedidos.inserir_pedidoAntigo(pedidoAtual, this);
 		return true;
 	}
 
+	/** Cancela o pedido e armazena nos arquivos */
 	public boolean cancelarPedidoAtual() {
-		//todo: implementar validação e troca de estado
-		if(pedidoAtual == null) {
+		if(!possuiPedidoAtual()) {
 			return false;
 		}
+
+		if (pedidoAtual.getItens().isEmpty()) {
+		    return false;
+		}
+
+		pedidoAtual.setEstado(Pedido.Estado.CANCELADO);
+		pedidoAtual.setFinalizadoEm(LocalDateTime.now());
+
 		pedidosAntigos.add(pedidoAtual);
-		pedidoAtual = null;
+		setPedidoAtual(null);
+
+		Arquivos.Pedidos.inserir_pedidoAntigo(pedidoAtual, this);
 		return true;
 	}
 

@@ -60,7 +60,4 @@ public class TelaFuncionarioLogin {
 			TelaAtendenteAbrirCaixa.menuTelaAtendente();
 		}
 	}
-
-
-	
 }

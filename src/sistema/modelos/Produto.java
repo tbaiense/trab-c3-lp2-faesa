@@ -52,7 +52,7 @@ public class Produto implements Cloneable {
 	@Override
 	public String toString() {
 	    return String.format(
-			"id: %-2d | nome: %-16s | custo: R$ %.2f | venda: R$ %.2f\n",
+			"id: %-2d | nome: %s | custo unitário: R$ %.2f | venda: R$ %.2f\n",
 		    this.getId(), this.getNome(), this.getPrecoCusto(), this.getPrecoVenda()
 		);
 	}
