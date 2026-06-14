@@ -87,8 +87,8 @@ public class Caixa {
 		return null;
 	}
 
-	/** Conclui o pedido e armazena nos arquivos */
-	public void concluirPedidoAtual() {
+	/** Conclui o pedido, define um id, retorna a referência para o pedido finalizado e armazena nos arquivos */
+	public Pedido concluirPedidoAtual() {
 		if (!possuiPedidoAtual()) {
 		    throw new Error(
     			"não é possível concluir o pedido atual, pois não há um pedido atual associado à loja"
@@ -101,14 +101,25 @@ public class Caixa {
             );
 		}
 
-		pedidoAtual.setEstado(Pedido.Estado.CONCLUIDO);
-		pedidoAtual.setFinalizadoEm(LocalDateTime.now());
+		if (pedidoAtual.getFormaPagamento() == null) {
+		    throw new Error(
+    			"É necessário definir a forma de pagamento antes de concluir o pedido"
+			);
+		}
 
-		pedidosAntigos.add(pedidoAtual);
-		setTotalPagamento(pedidoAtual.getPrecoVendaTotal()); // TODO: talvez mudar a forma de calcular o preco total (colocar a taxa de cartão para o cliente pagar? assim mantemos somente um valor final de pagamento)
-
-		Arquivos.Pedidos.inserir_pedidoAntigo(pedidoAtual, this);
+		var finalizado = pedidoAtual; // copia a referência
 		setPedidoAtual(null);
+
+		finalizado.setEstado(Pedido.Estado.CONCLUIDO);
+		finalizado.setFinalizadoEm(LocalDateTime.now());
+
+		pedidosAntigos.add(finalizado);
+		setTotalPagamento(finalizado.getPrecoVendaTotal()); // TODO: talvez mudar a forma de calcular o preco total (colocar a taxa de cartão para o cliente pagar? assim mantemos somente um valor final de pagamento)
+
+		finalizado.setId(Arquivos.Pedidos.ler_pedidos().length);
+		Arquivos.Pedidos.inserir_pedidoAntigo(finalizado, this);
+
+		return finalizado; // TODO: retornar um clone
 	}
 
 	/** Cancela o pedido e armazena nos arquivos */

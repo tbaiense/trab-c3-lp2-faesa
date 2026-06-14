@@ -11,6 +11,7 @@ package sistema.modelos;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
+import sistema.io.Armazenamento;
 import sistema.io.Arquivos;
 import sistema.services.ContaUsuarioService;
 
@@ -88,7 +89,7 @@ public final class Loja {
         }
 
         Caixa c = new Caixa(Loja.contaAtual, dinheiroInicial);
-        c.setId((int)Math.random() * 10000); // TODO: obter id do arquivo (sequencial)
+        c.setId(Arquivos.Caixas.ler_caixasFechados().length + 1);
         c.setAbertoEm(LocalDateTime.now());
 
         Loja.caixaAtual = c;

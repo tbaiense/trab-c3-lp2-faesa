@@ -138,33 +138,22 @@ public abstract class Armazenamento {
         Loja.inicializar(joao);
         Caixa c1 = Loja.abrirCaixa(200.0);
 
-        Arquivos.Caixas.inserir_caixaAtual(c1);
-
         Pedido p = c1.novoPedido();
         p.atualizarItem(produtosTeste[0], 3);
-
+        p.receberPagamento("DINHEIRO", p.getPrecoVendaTotal() * 1.1);
         c1.concluirPedidoAtual();
-
-        Arquivos.Pedidos.inserir_pedidoAntigo(p, c1);
 
         p = c1.novoPedido();
         p.atualizarItem(produtosTeste[0], 2);
+        p.receberPagamento("CARTAO", p.getPrecoVendaTotal());
         c1.concluirPedidoAtual();
-
-        Arquivos.Pedidos.inserir_pedidoAntigo(p, c1);
 
         p = c1.novoPedido();
         p.atualizarItem(produtosTeste[3], 1);
-
+        p.receberPagamento("PIX", p.getPrecoVendaTotal());
         c1.concluirPedidoAtual();
 
-        Arquivos.Pedidos.inserir_pedidoAntigo(p, c1);
 
         Loja.fecharCaixaAtual();
-
-        c1.setTotalPagamento(1000.0);
-        c1.setDinheiroFinal(800.0);
-
-        Arquivos.Caixas.inserir_caixaFechado(c1);
     }
 }

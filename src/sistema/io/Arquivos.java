@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import sistema.modelos.Admin;
 import sistema.modelos.Atendente;
 import sistema.modelos.Caixa;
+import sistema.modelos.ItemPedido;
+import sistema.modelos.Pedido;
 import sistema.modelos.Produto;
 
 public class Arquivos {
@@ -210,10 +212,6 @@ public class Arquivos {
             var caixasList = new ArrayList<sistema.modelos.Caixa>();
             var csv = Armazenamento.ler(caixasFechados);
             String[] coluna;
-
-            if (csv == null || csv.linhas.length == 0) {
-                return null;
-            }
 
             int id;
             LocalDateTime abertoEm, fechadoEm;
@@ -419,8 +417,6 @@ public class Arquivos {
             }
 
             linhasBuilder += caixaAssociado.getId() + separador;
-
-            linhasBuilder += caixaAssociado.getId() + separador;
             linhasBuilder += pedido.getId() + separador;
             linhasBuilder += pedido.getFinalizadoEm() + separador;
             linhasBuilder += pedido.getFormaPagamento() + separador;
@@ -442,7 +438,8 @@ public class Arquivos {
 
         // TODO: implementar
         public static sistema.modelos.Pedido[] ler_pedidos() {
-            return null;
+            int qtdLinhas = Armazenamento.ler(pedidosAntigos).linhas.length;
+            return new Pedido[qtdLinhas];
         }
 
         // TODO: implementar
@@ -452,7 +449,8 @@ public class Arquivos {
 
         // TODO: implementar
         public static sistema.modelos.ItemPedido[] ler_itensPedido(int idPedido) {
-            return null;
+            int qtdLinhas = Armazenamento.ler(itensPedido).linhas.length;
+            return new ItemPedido[qtdLinhas];
         }
     }
 

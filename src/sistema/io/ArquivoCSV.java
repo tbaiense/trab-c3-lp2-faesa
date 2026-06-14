@@ -1,3 +1,8 @@
+/**
+ *
+ * @author Thiago M. Baiense <thiagomourabaiense@gmail.com>
+ */
+
 package sistema.io;
 
 import java.nio.file.Path;
