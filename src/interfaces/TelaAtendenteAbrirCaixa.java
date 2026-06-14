@@ -1,8 +1,14 @@
+/**
+ * Classe responsável pela interface de terminal do atendente.
+ * Controla o fluxo de abertura, fechamento de caixa e listagem de produtos.
+ * 
+ * @author Igor Rios Simões <riossigor@gmail.com>
+ */
+
 package interfaces;
 
 import java.util.Scanner;
 
-import sistema.modelos.Admin;
 import sistema.modelos.Caixa;
 import sistema.modelos.CatalogoProdutos;
 import sistema.modelos.Loja;
@@ -11,78 +17,99 @@ public class TelaAtendenteAbrirCaixa {
 
 	private static Scanner scan = new Scanner(System.in);
 	private static Caixa caixaAtual = null;
-
 	private static int opcao = 0;
 
+	/**
+	 * Exibe o menu principal do atendente e processa a escolha do usuário.
+	 */
 	public static void menuTelaAtendente() {
+		// Renderização visual do menu no console
 		System.out.println("\n"+"=".repeat(26)+"TELA DE ATENDENTE"+"=".repeat(27));
 		System.out.println("[1] [ABRIR CAIXA]\n"+
 				"[2] [FECHAR CAIXA]\n"+
-				"[3] [LISTAR PRODUTOS]\n");
+				"[3] [LISTAR PRODUTOS]\n"+
+				"[4] [FINALIZAR PROGRAMA]");
 
 		System.out.print("Opção: ");
 		opcao = scan.nextInt();
 
+		// Direcionamento do fluxo com base na opção escolhida
 		switch (opcao) {
 		case 1:
+			// Só permite abrir se não houver outro caixa ativo no sistema
 			if(!Loja.existeCaixaAberto()) {
 				abrirCaixa();
-			}else {
+				TelaCaixaPedidos.menuTelaCaixa(); // Redireciona para a tela do caixa
+			} else {
 				System.out.println("=".repeat(20)+"[CAIXA] Existe um caixa aberto"+"=".repeat(20));
+				menuTelaAtendente(); // Recarrega o menu
 			}
-
 			break;
+            
 		case 2: 
+			// Só permite fechar se houver um caixa ativo
 			if (Loja.existeCaixaAberto()) {
 				fecharCaixa();
-			}else {
+				menuTelaAtendente();
+			} else {
 				System.out.println("=".repeat(18)+"[CAIXA] Não existe um caixa aberto"+"=".repeat(18));
+				menuTelaAtendente();
 			}
 			break;
+            
 		case 3:
+			// Exibe a lista de produtos cadastrados no catálogo
 			System.out.println(CatalogoProdutos.getProdutos());
+			menuTelaAtendente();
+			break;
+            
+		case 4:
+			// Encerra a execução da aplicação
+			System.out.println("=".repeat(21)+"[SISTEMA] Programa finalizado"+"=".repeat(20));
+			System.exit(0);
+			break;
+            
 		default:
-
+			// Tratamento para opções numéricas fora do escopo [1-4]
+			System.out.println("=".repeat(24)+"[CAIXA] Opção inválida"+"=".repeat(24));
+			menuTelaAtendente();
 		}
 	}
 
+	/**
+	 * Realiza o processo de abertura de caixa, exigindo autenticação de um Administrador.
+	 */
 	public static void abrirCaixa() {
-		int codAutorizacao = 0;
-		Admin admin = null;
+		//Pede código de autorização do admin
+		TelaAdminAutorizacao.adminAutorizaTela();
 		
-		do {
-			System.out.println("=".repeat(17)+"[PAINEL] Insira a matrícula do admin"+"=".repeat(18));
-			System.out.print("Matrícula: ");
-			int matricula = scan.nextInt();
-			admin = Loja.buscarAdmin(matricula);
-			System.out.println("=".repeat(11)+"[PAINEL] Insira o código de autorização do admin"+"=".repeat(11));
-			System.out.print("Código de autorização: ");
-			codAutorizacao = scan.nextInt();
-			if(admin.getCodAutorizacao() == codAutorizacao) {
-				System.out.println("=".repeat(24)+"[PAINEL] Código válido"+"=".repeat(24));	
-			}else {
-				System.out.println("=".repeat(23)+"[PAINEL] Código inválido"+"=".repeat(23));
-			}
-		}while(admin.getCodAutorizacao() != codAutorizacao);
-		
-		System.out.println("=".repeat(19)+"[PAINEL] Insira o saldo incicial"+"=".repeat(20));
+		// Definição do saldo inicial para a abertura do caixa
+		System.out.println("=".repeat(19)+"[PAINEL] Insira o saldo inicial"+"=".repeat(20));
 		System.out.print("Saldo: ");
-		double dinheiroIncicial = scan.nextDouble();
-		Loja.abrirCaixa(dinheiroIncicial);
-
+		double dinheiroInicial = scan.nextDouble();
+		
+		// Efetiva a abertura do caixa no sistema da loja
+		Loja.abrirCaixa(dinheiroInicial);
 	}
 
+	/**
+	 * Realiza o fechamento do caixa atual e exibe o saldo final acumulado.
+	 */
 	public static void fecharCaixa() {
+		//Pede código de autorização do admin
+		TelaAdminAutorizacao.adminAutorizaTela();
+		// Recupera a instância do caixa ativo
 		caixaAtual = Loja.getCaixaAtual();
+		
+		// Exibe o relatório de fechamento formatado com duas casas decimais
 		System.out.println(String.format(
 				"[Caixa: Fechamento] Dinheiro em caixa: R$ %.2f\n",
 				caixaAtual.getDinheiroFinal()
 				));
 
+		// Finaliza o status do caixa no sistema
 		Loja.fecharCaixaAtual();
 		System.out.println("=".repeat(18)+"[Caixa] caixa fechado com sucesso"+"=".repeat(19));
-
 	}
-
-
+	
 }
