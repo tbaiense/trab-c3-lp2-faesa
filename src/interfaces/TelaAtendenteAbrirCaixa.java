@@ -49,24 +49,22 @@ public class TelaAtendenteAbrirCaixa {
 	public static void abrirCaixa() {
 		int codAutorizacao = 0;
 		Admin admin = null;
-		try {
-			do {
-				System.out.println("=".repeat(17)+"[PAINEL] Insira a matrícula do admin"+"=".repeat(18));
-				System.out.print("Matrícula: ");
-				int matricula = scan.nextInt();
-				admin = Loja.buscarAdmin(matricula);
-				System.out.println("=".repeat(11)+"[PAINEL] Insira o código de autorização do admin"+"=".repeat(11));
-				System.out.print("Código de autorização: ");
-				codAutorizacao = scan.nextInt();
-				if(admin.getCodAutorizacao() == codAutorizacao) {
-					System.out.println("=".repeat(24)+"[PAINEL] Código válido"+"=".repeat(24));	
-				}else {
-					System.out.println("=".repeat(23)+"[PAINEL] Código inválido"+"=".repeat(23));
-				}
-			}while(admin.getCodAutorizacao() != codAutorizacao);
-		}catch(Exception e) {
-			System.err.println(e);
-		}
+		
+		do {
+			System.out.println("=".repeat(17)+"[PAINEL] Insira a matrícula do admin"+"=".repeat(18));
+			System.out.print("Matrícula: ");
+			int matricula = scan.nextInt();
+			admin = Loja.buscarAdmin(matricula);
+			System.out.println("=".repeat(11)+"[PAINEL] Insira o código de autorização do admin"+"=".repeat(11));
+			System.out.print("Código de autorização: ");
+			codAutorizacao = scan.nextInt();
+			if(admin.getCodAutorizacao() == codAutorizacao) {
+				System.out.println("=".repeat(24)+"[PAINEL] Código válido"+"=".repeat(24));	
+			}else {
+				System.out.println("=".repeat(23)+"[PAINEL] Código inválido"+"=".repeat(23));
+			}
+		}while(admin.getCodAutorizacao() != codAutorizacao);
+		
 		System.out.println("=".repeat(19)+"[PAINEL] Insira o saldo incicial"+"=".repeat(20));
 		System.out.print("Saldo: ");
 		double dinheiroIncicial = scan.nextDouble();
