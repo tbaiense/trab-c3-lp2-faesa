@@ -73,4 +73,9 @@ public class CatalogoProdutos {
     		Arrays.asList(Arquivos.Produtos.ler_produtos())
 		);
 	}
+
+	public static List<Produto> getProdutos() {
+		return produtos;
+	}
+
 }

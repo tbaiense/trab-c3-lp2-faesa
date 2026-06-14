@@ -84,7 +84,9 @@ public abstract class Armazenamento {
     public static void inserirDadosTeste() {
         // contas
         Funcionario joao = new Atendente("1", "joao", 1);
+        
         Arquivos.Contas.inserir_conta(joao);
+        
         Funcionario[] funcionarios = Arquivos.Contas.ler_contas();
 
         System.out.println("Contas cadastradas lidas: \n" + Arrays.toString(funcionarios));
