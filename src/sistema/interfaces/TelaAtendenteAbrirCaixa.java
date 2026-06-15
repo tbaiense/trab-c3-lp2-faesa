@@ -1,11 +1,11 @@
 /**
  * Classe responsável pela interface de terminal do atendente.
  * Controla o fluxo de abertura, fechamento de caixa e listagem de produtos.
- * 
+ *
  * @author Igor Rios Simões <riossigor@gmail.com>
  */
 
-package interfaces;
+package sistema.interfaces;
 
 import java.util.Scanner;
 
@@ -45,8 +45,8 @@ public class TelaAtendenteAbrirCaixa {
 				menuTelaAtendente(); // Recarrega o menu
 			}
 			break;
-            
-		case 2: 
+
+		case 2:
 			// Só permite fechar se houver um caixa ativo
 			if (Loja.existeCaixaAberto()) {
 				fecharCaixa();
@@ -56,19 +56,19 @@ public class TelaAtendenteAbrirCaixa {
 				menuTelaAtendente();
 			}
 			break;
-            
+
 		case 3:
 			// Exibe a lista de produtos cadastrados no catálogo
 			System.out.println(CatalogoProdutos.getProdutos());
 			menuTelaAtendente();
 			break;
-            
+
 		case 4:
 			// Encerra a execução da aplicação
 			System.out.println("=".repeat(21)+"[SISTEMA] Programa finalizado"+"=".repeat(20));
 			System.exit(0);
 			break;
-            
+
 		default:
 			// Tratamento para opções numéricas fora do escopo [1-4]
 			System.out.println("=".repeat(24)+"[CAIXA] Opção inválida"+"=".repeat(24));
@@ -82,12 +82,12 @@ public class TelaAtendenteAbrirCaixa {
 	public static void abrirCaixa() {
 		//Pede código de autorização do admin
 		TelaAdminAutorizacao.adminAutorizaTela();
-		
+
 		// Definição do saldo inicial para a abertura do caixa
 		System.out.println("=".repeat(19)+"[PAINEL] Insira o saldo inicial"+"=".repeat(20));
 		System.out.print("Saldo: ");
 		double dinheiroInicial = scan.nextDouble();
-		
+
 		// Efetiva a abertura do caixa no sistema da loja
 		Loja.abrirCaixa(dinheiroInicial);
 	}
@@ -100,7 +100,7 @@ public class TelaAtendenteAbrirCaixa {
 		TelaAdminAutorizacao.adminAutorizaTela();
 		// Recupera a instância do caixa ativo
 		caixaAtual = Loja.getCaixaAtual();
-		
+
 		// Exibe o relatório de fechamento formatado com duas casas decimais
 		System.out.println(String.format(
 				"[Caixa: Fechamento] Dinheiro em caixa: R$ %.2f\n",
@@ -111,5 +111,5 @@ public class TelaAtendenteAbrirCaixa {
 		Loja.fecharCaixaAtual();
 		System.out.println("=".repeat(18)+"[Caixa] caixa fechado com sucesso"+"=".repeat(19));
 	}
-	
+
 }

@@ -1,21 +1,22 @@
 /**
  * Classe de interface de usuário (Console) para a gestão do Caixa de Pedidos.
- * Atua no controle do ciclo de vida das vendas, interligando a camada de modelo 
+ * Atua no controle do ciclo de vida das vendas, interligando a camada de modelo
  * às interações diretas do atendente.
- * 
+ *
  * @author Igor Rios Simões <riossigor@gmail.com>
  */
 
-package interfaces;
+package sistema.interfaces;
 
 import java.util.Scanner;
 
+import sistema.interfaces.TelaAtendenteAbrirCaixa;
 import sistema.modelos.Caixa;
 import sistema.modelos.CatalogoProdutos;
 import sistema.modelos.Loja;
 
 public class TelaCaixaPedidos {
-	
+
 	private static Scanner scan = new Scanner(System.in);
 	private static Caixa caixaAtual = Loja.getCaixaAtual();
 	private static int opcao = 0;
@@ -40,20 +41,20 @@ public class TelaCaixaPedidos {
 			// Fluxo para iniciar uma nova venda/pedido
 			abrirNovoPedido();
 			break;
-			
-		case 2: 
+
+		case 2:
 			// Exibe os produtos do catálogo e retorna ao menu do caixa
 			System.out.println(CatalogoProdutos.getProdutos());
 			menuTelaCaixa();
 			break;
-			
+
 		case 3:
 			// TODO: Corrigir assim que for implementado
 			// Exibe o histórico de pedidos já finalizados nesta sessão de caixa
 			System.out.println(caixaAtual.getPedidosAntigos());
 			menuTelaCaixa();
 			break;
-			
+
 		case 4:
 			// Verifica o status do caixa antes de acionar a tela de fechamento
 			if (Loja.existeCaixaAberto()) {
@@ -64,14 +65,14 @@ public class TelaCaixaPedidos {
 				TelaAtendenteAbrirCaixa.menuTelaAtendente();
 			}
 			break;
-			
+
 		default:
 			// Tratamento para entradas numéricas inválidas no menu do caixa
 			System.out.println("=".repeat(24)+"[CAIXA] Opção inválida"+"=".repeat(24));
 			menuTelaCaixa();
 		}
 	}
-	
+
 	/**
 	 * Verifica as condições do caixa e inicia a criação de um novo pedido.
 	 */

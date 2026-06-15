@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import sistema.modelos.Admin;
 import sistema.modelos.Atendente;
 import sistema.modelos.Caixa;
+import sistema.modelos.ItemPedido;
+import sistema.modelos.Pedido;
 import sistema.modelos.Produto;
 
 public class Arquivos {
@@ -88,6 +90,13 @@ public class Arquivos {
         }
 
         // TODO: finalizar
+        /** Insere um novo registro de caixa atual. NÃO insere pedidos associados.
+        *
+        * Precondição: Deve ser chamado logo após abrir o caixa.
+        *
+        * @param c
+        * @return
+        */
         public static boolean inserir_caixaAtual(sistema.modelos.Caixa c) {
             // salvar caixa
             ArrayList<String> strList = new ArrayList<String>();
@@ -113,7 +122,6 @@ public class Arquivos {
             );
 
             Armazenamento.escrever(csv);
-            // salvar pedidos antigos
             return true;
         }
 
@@ -161,7 +169,6 @@ public class Arquivos {
             return caixaEncontrado;
         }
 
-        // TODO: implementar
         public static void remover_caixaAtual() {
             // csv com apenas o cabecalho
             var csv = new ArquivoCSV(
@@ -174,6 +181,7 @@ public class Arquivos {
         }
 
         // TODO: finalizar
+        /** Insere um registro de caixaFechado. NÃO insere os pedidos associados */
         public static boolean inserir_caixaFechado(sistema.modelos.Caixa c) {
             ArrayList<String> strList = new ArrayList<String>();
             String linhasBuilder;
@@ -204,16 +212,11 @@ public class Arquivos {
             return true;
         }
 
-        // TODO: implementar
         public static sistema.modelos.Caixa[] ler_caixasFechados() {
             sistema.modelos.Caixa caixa;
             var caixasList = new ArrayList<sistema.modelos.Caixa>();
             var csv = Armazenamento.ler(caixasFechados);
             String[] coluna;
-
-            if (csv == null || csv.linhas.length == 0) {
-                return null;
-            }
 
             int id;
             LocalDateTime abertoEm, fechadoEm;
@@ -383,9 +386,8 @@ public class Arquivos {
 
         private static String[] cabecalho_itensPedido = {
             "id_pedido",
-            "id",
-            "quantidade",
-            "id_produto"
+            "id_produto",
+            "quantidade"
         };
 
         private static Path _dir = DIR_RAIZ.resolve("pedidos");
@@ -401,7 +403,7 @@ public class Arquivos {
         }
 
         /** Insere um novo registro de pedido antigo nos arquivos, associando-o ao caixa informado.
-         *
+         * NÃO insere os itens associados.
          * @param pedido - O pedido finalizado
          * @param caixaAssociado - O caixa onde o pedido foi finalizado
          * @return true, se a operação foi bem sucedida
@@ -417,8 +419,6 @@ public class Arquivos {
             if (pedido == null || !pedido.isFinalizado()) {
                 return false;
             }
-
-            linhasBuilder += caixaAssociado.getId() + separador;
 
             linhasBuilder += caixaAssociado.getId() + separador;
             linhasBuilder += pedido.getId() + separador;
@@ -442,17 +442,43 @@ public class Arquivos {
 
         // TODO: implementar
         public static sistema.modelos.Pedido[] ler_pedidos() {
-            return null;
+            int qtdLinhas = Armazenamento.ler(pedidosAntigos).linhas.length;
+            return new Pedido[qtdLinhas];
         }
 
-        // TODO: implementar
-        public static boolean inserir_itensPedido (sistema.modelos.ItemPedido... itens) {
-            return false;
+        public static boolean inserir_itensPedido (Pedido pedido, sistema.modelos.ItemPedido... itens) {
+            ArrayList<String> strList = new ArrayList<String>();
+            String linhasBuilder;
+            String separador = ",";
+
+            if (pedido == null || !pedido.isFinalizado()
+                || itens == null || itens.length == 0
+            ) {
+                return false;
+            }
+
+            for (var item: itens) {
+                linhasBuilder = "";
+                linhasBuilder += pedido.getId() + separador;
+                linhasBuilder += item.getProduto().getId() + separador;
+                linhasBuilder += item.getQuantidade();
+
+                strList.add(linhasBuilder);
+            }
+
+            ArquivoCSV csv = new ArquivoCSV(
+                strList.toArray(new String[0]),
+                itensPedido
+            );
+
+            Armazenamento.escrever(csv);
+            return true;
         }
 
         // TODO: implementar
         public static sistema.modelos.ItemPedido[] ler_itensPedido(int idPedido) {
-            return null;
+            int qtdLinhas = Armazenamento.ler(itensPedido).linhas.length;
+            return new ItemPedido[qtdLinhas];
         }
     }
 

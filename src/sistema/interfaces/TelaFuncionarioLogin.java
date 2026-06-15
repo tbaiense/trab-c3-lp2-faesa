@@ -5,7 +5,7 @@
  * @author Igor Rios Simões <riossigor@gmail.com>
  */
 
-package interfaces;
+package sistema.interfaces;
 
 import java.util.Scanner;
 import sistema.modelos.Admin;
@@ -25,7 +25,7 @@ public class TelaFuncionarioLogin {
 	 */
 	public static void main(String[] args) {
 		System.out.println("=".repeat(22)+"[SISTEMA] inicializando..."+"=".repeat(22));
-		
+
 		// Inicializa e carrega os arquivos de persistência de dados do sistema (I/O)
 		Armazenamento.inicializar();
 

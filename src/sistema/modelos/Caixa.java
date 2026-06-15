@@ -20,16 +20,16 @@ public class Caixa {
 	private int id; // usado para associá-lo os pedidos antigos nos arquivos csv
 	public Funcionario funcionarioAbriu = null;
 	private Pedido pedidoAtual = null;
-	
+
 	// Controle temporal da sessão
 	private LocalDateTime abertoEm = null;
 	private LocalDateTime fechadoEm = null;
-	
+
 	// Atributos de balanço financeiro e auditoria monetária
 	private double totalPagamento = 0;
 	private double dinheiroInicial = 0;
 	private double dinheiroFinal = 0;
-	
+
 	// Coleção interna contendo o histórico de vendas processadas nesta sessão
 	private ArrayList<Pedido> pedidosAntigos = new ArrayList<Pedido>();
 
@@ -63,7 +63,7 @@ public class Caixa {
 	}
 
 	// Métodos Getters e Setters com restrição de visibilidade (protected onde aplicável)
-	
+
 	public int getId() {
 		return this.id;
 	}
@@ -126,10 +126,9 @@ public class Caixa {
 		return null;
 	}
 
-	/** * Conclui a venda atual, altera seu estado, computa o balanço financeiro,
-	 * joga o registro para o histórico e aciona o salvamento persistente no arquivo.
-	 */
-	public void concluirPedidoAtual() {
+
+	/** Conclui o pedido, define um id, retorna a referência para o pedido finalizado e armazena nos arquivos */
+	public Pedido concluirPedidoAtual() {
 		if (!possuiPedidoAtual()) {
 			throw new Error(
 				"não é possível concluir o pedido atual, pois não há um pedido atual associado à loja"
@@ -142,18 +141,31 @@ public class Caixa {
 			);
 		}
 
-		// Atualiza o estado interno do pedido e define a estampa de tempo
-		pedidoAtual.setEstado(Pedido.Estado.CONCLUIDO);
-		pedidoAtual.setFinalizadoEm(LocalDateTime.now());
+		if (pedidoAtual.getFormaPagamento() == null) {
+		    throw new Error(
+    			"É necessário definir a forma de pagamento antes de concluir o pedido"
+			);
+		}
 
-		// Atualiza as estruturas do caixa
-		pedidosAntigos.add(pedidoAtual);
-		// TODO: talvez mudar a forma de calcular o preco total (colocar a taxa de cartão para o cliente pagar? assim mantemos somente um valor final de pagamento)
-		setTotalPagamento(pedidoAtual.getPrecoVendaTotal()); 
+		var finalizado = pedidoAtual; // copia a referência
 
-		// Persiste os dados de auditoria no arquivo e desvincula o pedido ativo
-		Arquivos.Pedidos.inserir_pedidoAntigo(pedidoAtual, this);
+        // Atualiza o estado interno do pedido e define a estampa de tempo
 		setPedidoAtual(null);
+
+		finalizado.setEstado(Pedido.Estado.CONCLUIDO);
+		finalizado.setFinalizadoEm(LocalDateTime.now());
+
+		pedidosAntigos.add(finalizado);
+		setTotalPagamento(finalizado.getPrecoVendaTotal()); // TODO: talvez mudar a forma de calcular o preco total (colocar a taxa de cartão para o cliente pagar? assim mantemos somente um valor final de pagamento)
+
+		finalizado.setId(Arquivos.Pedidos.ler_pedidos().length);
+		Arquivos.Pedidos.inserir_pedidoAntigo(finalizado, this);
+		Arquivos.Pedidos.inserir_itensPedido(
+            finalizado,
+		    finalizado.getItens().toArray(new ItemPedido[0])
+		);
+
+		return finalizado; // TODO: retornar um clone
 	}
 
 	/** * Cancela e aborta o pedido em andamento no caixa, mantendo o registro histórico

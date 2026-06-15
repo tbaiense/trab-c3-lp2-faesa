@@ -102,7 +102,6 @@ public class ProgramaPrincipal {
             System.out.println("Produto 2 não encontrado...");
         }
 
-
         // TODO: gerenciar pedido =============================================
         Pedido pedidoAtual = caixaAtual.novoPedido();
         System.out.println("[Pedido] novo pedido aberto!\n");
@@ -127,11 +126,9 @@ public class ProgramaPrincipal {
             );
         }
 
-        int idPedidoFinalizado = pedidoAtual.getId();
+        pedidoAtual.receberPagamento("DINHEIRO", pedidoAtual.getPrecoVendaTotal() * 1.1);
+        Pedido pedidoFinalizado = caixaAtual.concluirPedidoAtual();
         pedidoAtual = null;
-
-        caixaAtual.concluirPedidoAtual();
-        Pedido pedidoFinalizado = caixaAtual.buscarPedidoAntigo(idPedidoFinalizado);
 
         System.out.println(
             "[Pedido] concluído: \n" + pedidoFinalizado.toString()
