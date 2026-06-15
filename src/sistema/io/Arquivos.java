@@ -257,6 +257,7 @@ public class Arquivos {
 
                 // TODO: ler pedidos antigos
                 caixa = new Caixa(funcAbriu, dinheiroInicial);
+                caixa.setId(id);
                 caixa.setAbertoEm(abertoEm);
                 caixa.setFechadoEm(fechadoEm);
                 caixa.setTotalPagamento(totalPagamento);
