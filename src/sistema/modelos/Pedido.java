@@ -2,6 +2,7 @@ package sistema.modelos;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Pedido {
@@ -48,6 +49,11 @@ public class Pedido {
         this.id = id;
     }
 
+    public void setItens(ItemPedido[] itens) {
+        this.itens = Arrays.asList(itens);
+        recalcularPrecoTotal();
+    }
+
     /** Insere um novo produto na lista de itens ou atualiza a quantidade, caso ele já exista.
     *
     * @param produto {@link Produto} a ser adicionado ou atualizado.
@@ -59,6 +65,10 @@ public class Pedido {
             return;
         }
 
+        if (produto == null) {
+        	throw new IllegalArgumentException("Produto não pode ser nulo para atualização");
+        }
+        
         ItemPedido itemExistente = buscarItem(produto.getId());
 
         if (itemExistente != null) { // se não nula, quer dizer que esse item já existia no carrinho
@@ -114,6 +124,23 @@ public class Pedido {
 
     public Funcionario getVendedor() { return vendedor; }
 
+    public void setValorEntradaCliente(double valorEntradaCliente) {
+        this.valorEntradaCliente = valorEntradaCliente;
+    }
+
+    public double getValorEntradaCliente() {
+        return this.valorEntradaCliente;
+    }
+
+    public void setTrocoEmitido(double trocoEmitido) {
+        this.trocoEmitido = trocoEmitido;
+    }
+
+    public double getTrocoEmitido() {
+        return this.trocoEmitido;
+    }
+
+
     public void setVendedor(Funcionario vendedor) { this.vendedor = vendedor; }
 
     public double getPrecoVendaTotal() { return precoVendaTotal; }
@@ -166,6 +193,9 @@ public class Pedido {
 
 
         this.formaPagamento = formaUpper;
+    }
+    public void setTaxaCartao(double taxaCartao) {
+        this.taxaCartao = taxaCartao;
     }
 
     public String getFormaPagamento() { return formaPagamento; }
@@ -237,8 +267,16 @@ public class Pedido {
     @Override
     public String toString() {
         return String.format(
-            "id: %d | precoVendaTotal: R$ %.2f",
-            this.getId(), this.getPrecoVendaTotal()
+            "id: %d | precoVendaTotal: R$ %.2f | Qtd itens: %d | Estado: %s | Finalizado em: %s",
+            this.getId(),
+            this.getPrecoVendaTotal(),
+            this.itens.size(),
+            this.estado.toString(),
+            (
+                this.finalizadoEm != null
+                ? this.finalizadoEm.toString()
+                : "NUNCA"
+            )
         );
     }
 }

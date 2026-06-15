@@ -9,9 +9,9 @@ import java.nio.file.Path;
 
 public class ArquivoCSV {
 
-    String cabecalho;
-    String[] linhas;
-    Path caminho;
+    public String cabecalho;
+    public String[] linhas;
+    public Path caminho;
 
     public ArquivoCSV() {}
 

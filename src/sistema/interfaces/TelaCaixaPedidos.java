@@ -8,6 +8,7 @@
 
 package sistema.interfaces;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 import sistema.interfaces.TelaAtendenteAbrirCaixa;
@@ -51,7 +52,7 @@ public class TelaCaixaPedidos {
 		case 3:
 			// TODO: Corrigir assim que for implementado
 			// Exibe o histórico de pedidos já finalizados nesta sessão de caixa
-			System.out.println(caixaAtual.getPedidosAntigos());
+			System.out.println(Arrays.toString(caixaAtual.getPedidosAntigos()));
 			menuTelaCaixa();
 			break;
 

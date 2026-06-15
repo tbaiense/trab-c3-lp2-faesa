@@ -30,7 +30,7 @@ public class TelaCaixaNovoPedido {
 		pedidoAtual = caixaAtual.novoPedido();
 
 		// Renderização visual das opções do painel de vendas
-		System.out.println("\n"+"=".repeat(28)+"TELA DE CAIXA"+"=".repeat(29));
+		System.out.println("\n"+"=".repeat(28)+"TELA DE NOVO PEDIDO"+"=".repeat(29));
 		System.out.println("[1] [ADICIONAR PRODUTO]\n"+
 				"[2] [LISTAR PRODUTOS]\n"+
 				"[3] [CANCELAR PEDIDO]\n"+

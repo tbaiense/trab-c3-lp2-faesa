@@ -22,7 +22,6 @@ public class CatalogoProdutos {
     */
 	public static boolean cadastrar(Produto p) {
 		int idMax = -1;
-		boolean duplicado = true;
 
 		// gera um id temporário e verifica se já foi usado
 		for (var prodAnalizar: produtos) {

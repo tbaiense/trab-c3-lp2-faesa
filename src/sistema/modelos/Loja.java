@@ -47,7 +47,7 @@ public final class Loja {
 
         caixaAtual = Arquivos.Caixas.ler_caixaAtual();
 
-        Caixa[] cFechados = Arquivos.Caixas.ler_caixasFechados();
+        Caixa[] cFechados = Arquivos.Caixas.ler_caixasFechados(); // nao le os pedidos associados
 
         if (cFechados != null && cFechados.length != 0) {
             for (var c: cFechados) {

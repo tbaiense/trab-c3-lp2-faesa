@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import sistema.io.Arquivos.Contas;
 import sistema.modelos.*;
 
 // TODO: FINALIZAR
@@ -106,9 +107,6 @@ public abstract class Armazenamento {
 
     public static void inserirDadosTeste() {
         // contas
-        Funcionario joao = new Atendente("1", "joao", 1);
-
-        Arquivos.Contas.inserir_conta(joao);
 
         Funcionario[] funcionarios = Arquivos.Contas.ler_contas();
 
@@ -135,7 +133,7 @@ public abstract class Armazenamento {
         System.out.println("Produtos cadastrados lidos: \n" + Arrays.toString(produtos));
 
         // caixa
-        Loja.inicializar(joao);
+        Loja.inicializar(Contas.ler_contas()[0]);
         Caixa c1 = Loja.abrirCaixa(200.0);
 
         Pedido p = c1.novoPedido();
@@ -152,7 +150,6 @@ public abstract class Armazenamento {
         p.atualizarItem(produtosTeste[3], 1);
         p.receberPagamento("PIX", p.getPrecoVendaTotal());
         c1.concluirPedidoAtual();
-
 
         Loja.fecharCaixaAtual();
     }

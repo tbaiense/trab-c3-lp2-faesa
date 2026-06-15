@@ -1,5 +1,6 @@
 package sistema;
 import sistema.io.Armazenamento;
+import sistema.io.Arquivos;
 import sistema.modelos.Caixa;
 import sistema.modelos.CatalogoProdutos;
 import sistema.modelos.ItemPedido;
@@ -25,7 +26,7 @@ public class ProgramaPrincipal {
 
     /** Exibe uma simulação do sistema, cadastrando dados de teste */
     private static void teste() {
-        if (ContaUsuarioService.obterTodos().length == 0) {
+        if (Arquivos.Produtos.ler_produtos().length == 0) {
             Armazenamento.inserirDadosTeste();
         }
 
@@ -143,9 +144,9 @@ public class ProgramaPrincipal {
             caixaAtual.getDinheiroFinal()
         ));
 
-        Loja.fecharCaixaAtual();
+        // Loja.fecharCaixaAtual();
 
-        finalizarExecucao();
+        // finalizarExecucao();
     }
 
     /** Encerra o sistema, salvando informações e descarregando dados */

@@ -10,14 +10,17 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import sistema.modelos.Admin;
 import sistema.modelos.Atendente;
 import sistema.modelos.Caixa;
+import sistema.modelos.CatalogoProdutos;
 import sistema.modelos.Funcionario;
 import sistema.modelos.ItemPedido;
 import sistema.modelos.Pedido;
 import sistema.modelos.Produto;
+import sistema.modelos.Pedido.Estado;
 
 public class Arquivos {
 
@@ -126,7 +129,6 @@ public class Arquivos {
             return true;
         }
 
-        // TODO: finalizar (nao le pedidosAntigos do caixa)
         public static sistema.modelos.Caixa ler_caixaAtual() {
             sistema.modelos.Caixa caixaEncontrado;
             var csv = Armazenamento.ler(caixaAtual);
@@ -137,7 +139,7 @@ public class Arquivos {
 
             String[] coluna = csv.linhas[0].split(",");
 
-            int id =                 Integer.parseInt(coluna[0]);
+            int idCaixa =            Integer.parseInt(coluna[0]);
             LocalDateTime abertoEm = LocalDateTime.parse(coluna[1]);
             double totalPagamento  = Double.parseDouble(coluna[2]);
             double dinheiroInicial = Double.parseDouble(coluna[3]);
@@ -161,12 +163,15 @@ public class Arquivos {
                 );
             }
 
-            // TODO: ler pedidos antigos
             caixaEncontrado = new Caixa(funcAbriu, dinheiroInicial);
-            caixaEncontrado.setId(id);
+            caixaEncontrado.setId(idCaixa);
             caixaEncontrado.setAbertoEm(abertoEm);
             caixaEncontrado.setTotalPagamento(totalPagamento);
             caixaEncontrado.setDinheiroFinal(dinheiroFinal);
+
+            var peds = Pedidos.ler_pedidos(idCaixa);
+
+            caixaEncontrado.setPedidosAntigos(peds);
 
             return caixaEncontrado;
         }
@@ -214,6 +219,7 @@ public class Arquivos {
             return true;
         }
 
+        /** Carrega os caixas fechados, sem carregar os pedidos associados. */
         public static sistema.modelos.Caixa[] ler_caixasFechados() {
             sistema.modelos.Caixa caixa;
             var caixasList = new ArrayList<sistema.modelos.Caixa>();
@@ -255,7 +261,6 @@ public class Arquivos {
                     );
                 }
 
-                // TODO: ler pedidos antigos
                 caixa = new Caixa(funcAbriu, dinheiroInicial);
                 caixa.setId(id);
                 caixa.setAbertoEm(abertoEm);
@@ -296,7 +301,6 @@ public class Arquivos {
             }
         }
 
-        // TODO: finalizar
         public static boolean inserir_conta(sistema.modelos.Funcionario f) {
             // salvar caixa
             ArrayList<String> strList = new ArrayList<String>();
@@ -329,16 +333,6 @@ public class Arquivos {
 
             Armazenamento.escrever(csv);
             return true;
-        }
-
-        // TODO: implementar
-        public static boolean remover_conta(int id) {
-            return false;
-        }
-
-        // TODO: implementar
-        public static boolean atualizar_conta(int id, sistema.modelos.Funcionario f) {
-            return false;
         }
 
         public static sistema.modelos.Funcionario[] ler_contas() {
@@ -388,10 +382,13 @@ public class Arquivos {
         private static String[] cabecalho_pedidosAntigos = {
             "id_caixa",
             "id",
+            "preco_venda_total",
+            "valor_entrada_cliente",
+            "troco_emitido",
+            "taxa_cartao",
             "finalizado_em",
             "forma_pagamento",
-            "taxa_cartao",
-            "preco_venda_total",
+            "estado",
             "lucro_total"
         };
 
@@ -403,7 +400,7 @@ public class Arquivos {
 
         private static Path _dir = DIR_RAIZ.resolve("pedidos");
         private static Path itensPedido = _dir.resolve("itensPedido.csv");
-        private static Path pedidosAntigos = _dir.resolve("pedidosAntigos.csv");
+        public static Path pedidosAntigos = _dir.resolve("pedidosAntigos.csv");
 
         /** Cria o arquivo CSV e inicializa-o inserindo o cabeçalho */
         public static void inicializar() {
@@ -433,10 +430,13 @@ public class Arquivos {
 
             linhasBuilder += caixaAssociado.getId() + separador;
             linhasBuilder += pedido.getId() + separador;
+            linhasBuilder += pedido.getPrecoVendaTotal() + separador;
+            linhasBuilder += pedido.getValorEntradaCliente()+ separador;
+            linhasBuilder += pedido.getTrocoEmitido()+ separador;
+            linhasBuilder += pedido.getTaxaCartao() + separador;
             linhasBuilder += pedido.getFinalizadoEm() + separador;
             linhasBuilder += pedido.getFormaPagamento() + separador;
-            linhasBuilder += pedido.getTaxaCartao() + separador;
-            linhasBuilder += pedido.getPrecoVendaTotal() + separador;
+            linhasBuilder += pedido.getEstado().toString()  + separador;
             linhasBuilder += pedido.getLucro();
 
             strList.add(linhasBuilder);
@@ -451,10 +451,55 @@ public class Arquivos {
         }
 
 
-        // TODO: implementar
-        public static sistema.modelos.Pedido[] ler_pedidos() {
-            int qtdLinhas = Armazenamento.ler(pedidosAntigos).linhas.length;
-            return new Pedido[qtdLinhas];
+        public static sistema.modelos.Pedido[] ler_pedidos(int idCaixa) {
+            sistema.modelos.Pedido p;
+            var lista = new ArrayList<sistema.modelos.Pedido>();
+            var listaItens = new ArrayList<sistema.modelos.ItemPedido>();
+            String [] coluna;
+
+            ArquivoCSV csv = Armazenamento.ler(pedidosAntigos);
+
+            int id_caixa, idPedido;
+            double precoVendaTotal, valorEntradaCliente, trocoEmitido, taxaCartao;
+            LocalDateTime finalizadoEm;
+            String formaPagamento;
+            Pedido.Estado estado;
+            double lucroTotal;
+
+            for (String l: csv.linhas) {
+                coluna = l.split(",");
+
+                id_caixa = Integer.parseInt(coluna[0]);
+
+                if (id_caixa != idCaixa) {
+                    continue;
+                }
+
+                idPedido = Integer.parseInt(coluna[1]);
+                precoVendaTotal = Double.parseDouble(coluna[2]);
+                valorEntradaCliente = Double.parseDouble(coluna[3]);
+                trocoEmitido = Double.parseDouble(coluna[4]);
+                taxaCartao = Double.parseDouble(coluna[5]);
+                finalizadoEm = LocalDateTime.parse(coluna[6]);
+                formaPagamento = coluna[7];
+                estado = Pedido.Estado.valueOf(coluna[8]);
+                lucroTotal = Double.parseDouble(coluna[9]);
+
+                // itens
+
+                p = new sistema.modelos.Pedido();
+                p.setId(idPedido);
+                p.setItens(ler_itensPedido(idPedido));
+                p.setTaxaCartao(taxaCartao);
+                p.receberPagamento(formaPagamento, valorEntradaCliente);
+                p.setEstado(estado);
+                p.setFinalizadoEm(finalizadoEm);
+
+                lista.add(p);
+            }
+
+            return lista.toArray(new sistema.modelos.Pedido[0]);
+
         }
 
         public static boolean inserir_itensPedido (Pedido pedido, sistema.modelos.ItemPedido... itens) {
@@ -486,10 +531,44 @@ public class Arquivos {
             return true;
         }
 
-        // TODO: implementar
         public static sistema.modelos.ItemPedido[] ler_itensPedido(int idPedido) {
-            int qtdLinhas = Armazenamento.ler(itensPedido).linhas.length;
-            return new ItemPedido[qtdLinhas];
+            sistema.modelos.ItemPedido item;
+            var lista = new ArrayList<sistema.modelos.ItemPedido>();
+            String [] coluna;
+
+            ArquivoCSV csv = Armazenamento.ler(itensPedido);
+
+            int id_pedido, id_produto, quantidade;
+
+            for (String l: csv.linhas) {
+                coluna = l.split(",");
+
+                id_pedido = Integer.parseInt(coluna[0]);
+
+                if (id_pedido != idPedido) {
+                    continue;
+                }
+
+                id_produto = Integer.parseInt(coluna[1]);
+                quantidade = Integer.parseInt(coluna[2]);
+
+                sistema.modelos.Produto produto = null;
+                for (var prodAnalizar: Produtos.ler_produtos()) {
+                    if (prodAnalizar.getId() == id_produto) {
+                        produto = prodAnalizar;
+                    }
+                }
+
+                if (produto == null) {
+                    throw new NullPointerException(
+                        "Um dos produtos referenciados não foi encontrado"
+                    );
+                }
+                item = new ItemPedido(produto, quantidade);
+                lista.add(item);
+            }
+
+            return lista.toArray(new sistema.modelos.ItemPedido[0]);
         }
     }
 
@@ -512,7 +591,6 @@ public class Arquivos {
             criarArquivo(cabecalho_catalogoProdutos, catalogoProdutos);
         }
 
-        // TODO: finalizar
         public static boolean inserir_produto(sistema.modelos.Produto... pList) {
             // salvar caixa
             ArrayList<String> strList = new ArrayList<String>();
@@ -532,7 +610,6 @@ public class Arquivos {
 
                 strList.add(linhasBuilder);
             }
-
 
             ArquivoCSV csv = new ArquivoCSV(
                 strList.toArray(new String[0]),

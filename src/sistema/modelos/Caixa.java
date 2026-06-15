@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
+import sistema.io.Armazenamento;
 import sistema.io.Arquivos;
 
 public class Caixa {
@@ -76,14 +77,15 @@ public class Caixa {
 		return pedidoAtual;
 	}
 
-	/**
-	 * Converte a lista interna de pedidos antigos para um Array nativo de Pedidos.
-	 * @return Array contendo o histórico de vendas da sessão.
-	 */
+	public void setPedidosAntigos(Pedido[] pedidos) {
+	    this.pedidosAntigos = new ArrayList<Pedido>(Arrays.asList(pedidos));
+	}
+
 	public Pedido[] getPedidosAntigos() {
 		if (pedidosAntigos == null) {
 			return null;
 		}
+
 		return pedidosAntigos.toArray(new Pedido[0]);
 	}
 
@@ -156,14 +158,17 @@ public class Caixa {
 		finalizado.setFinalizadoEm(LocalDateTime.now());
 
 		pedidosAntigos.add(finalizado);
-		setTotalPagamento(finalizado.getPrecoVendaTotal()); // TODO: talvez mudar a forma de calcular o preco total (colocar a taxa de cartão para o cliente pagar? assim mantemos somente um valor final de pagamento)
+		setTotalPagamento(finalizado.getPrecoVendaTotal());
 
-		finalizado.setId(Arquivos.Pedidos.ler_pedidos().length);
+		var csv = Armazenamento.ler(Arquivos.Pedidos.pedidosAntigos);
+		finalizado.setId(csv.linhas.length);
 		Arquivos.Pedidos.inserir_pedidoAntigo(finalizado, this);
 		Arquivos.Pedidos.inserir_itensPedido(
             finalizado,
 		    finalizado.getItens().toArray(new ItemPedido[0])
 		);
+
+		// TODO: alterar valor de dinheiro final com base no pedido (no arquivo de atual também)
 
 		return finalizado; // TODO: retornar um clone
 	}
