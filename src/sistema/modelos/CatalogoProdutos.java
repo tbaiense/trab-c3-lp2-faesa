@@ -15,14 +15,16 @@ public class CatalogoProdutos {
 	}
 	// métodos
 
+	/** Cadastra um novo produto no catálogo, salvando no arquivo, e define um novo id.
+	*
+    * @param p
+    * @return
+    */
 	public static boolean cadastrar(Produto p) {
-		for (Produto produto : produtos) {
-			if (produto.getId() == p.getId()) {
-				return false;
-			}
-		}
-		produtos.add(p);
+	    int id = Arquivos.Produtos.ler_produtos().length;
+		p.setId(id);
 
+		produtos.add(p);
 		Arquivos.Produtos.inserir_produto(p);
 		return true;
 	}

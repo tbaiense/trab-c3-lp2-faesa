@@ -9,6 +9,7 @@ package sistema.interfaces;
 
 import java.util.Scanner;
 
+import sistema.modelos.Admin;
 import sistema.modelos.Caixa;
 import sistema.modelos.CatalogoProdutos;
 import sistema.modelos.Loja;
@@ -18,62 +19,76 @@ public class TelaAtendenteAbrirCaixa {
 	private static Scanner scan = new Scanner(System.in);
 	private static Caixa caixaAtual = null;
 	private static int opcao = 0;
+	private static final int OPCAO_SAIR = 5;
 
 	/**
 	 * Exibe o menu principal do atendente e processa a escolha do usuário.
 	 */
 	public static void menuTelaAtendente() {
-		// Renderização visual do menu no console
-		System.out.println("\n"+"=".repeat(26)+"TELA DE ATENDENTE"+"=".repeat(27));
-		System.out.println("[1] [ABRIR CAIXA]\n"+
-				"[2] [FECHAR CAIXA]\n"+
+	    do {
+			// Renderização visual do menu no console
+			System.out.println("\n"+"=".repeat(26)+"TELA INICIAL "+"=".repeat(27));
+			System.out.println(
+			    (
+					!Loja.existeCaixaAberto()
+               	        ? "[1] [ABRIR CAIXA]\n"
+                        : "[2] [ACESSAR CAIXA ABERTO]\n"
+				) +
 				"[3] [LISTAR PRODUTOS]\n"+
-				"[4] [FINALIZAR PROGRAMA]");
+				(Loja.getContaLogada() instanceof Admin ? "[4] [PAINEL DO ADMIN]\n" : "\n") +
+				String.format("[5] [FINALIZAR PROGRAMA]", OPCAO_SAIR)
+			);
 
-		System.out.print("Opção: ");
-		opcao = scan.nextInt();
+			System.out.print("Opção: ");
+			opcao = scan.nextInt();
 
-		// Direcionamento do fluxo com base na opção escolhida
-		switch (opcao) {
-		case 1:
-			// Só permite abrir se não houver outro caixa ativo no sistema
-			if(!Loja.existeCaixaAberto()) {
-				abrirCaixa();
-				TelaCaixaPedidos.menuTelaCaixa(); // Redireciona para a tela do caixa
-			} else {
-				System.out.println("=".repeat(20)+"[CAIXA] Existe um caixa aberto"+"=".repeat(20));
-				menuTelaAtendente(); // Recarrega o menu
-			}
-			break;
+			// Direcionamento do fluxo com base na opção escolhida
+			switch (opcao) {
+			case 1:
+				// Só permite abrir se não houver outro caixa ativo no sistema
+				if(!Loja.existeCaixaAberto()) {
+					abrirCaixa();
+					TelaCaixaPedidos.menuTelaCaixa(); // Redireciona para a tela do caixa
+				} else {
+					System.out.println("=".repeat(20)+"[CAIXA] Existe um caixa aberto"+"=".repeat(20));
+					menuTelaAtendente(); // Recarrega o menu
+				}
+				break;
 
-		case 2:
-			// Só permite fechar se houver um caixa ativo
-			if (Loja.existeCaixaAberto()) {
-				fecharCaixa();
+			case 2:
+				// Só permite fechar se houver um caixa ativo
+				if (Loja.existeCaixaAberto()) {
+                    TelaCaixaPedidos.menuTelaCaixa();
+				} else {
+					System.out.println("=".repeat(18)+"[CAIXA] Não existe um caixa aberto"+"=".repeat(18));
+					menuTelaAtendente();
+				}
+				break;
+
+			case 3:
+				// Exibe a lista de produtos cadastrados no catálogo
+				System.out.println(CatalogoProdutos.getProdutos());
 				menuTelaAtendente();
-			} else {
-				System.out.println("=".repeat(18)+"[CAIXA] Não existe um caixa aberto"+"=".repeat(18));
+				break;
+			case 4:
+			    if (Loja.getContaLogada() instanceof Admin) {
+					TelaAdminOpcoes.iniciar();
+				} else {
+                    System.out.println("ERRO: Você não tem acesso a essa funcionalidade.");
+				}
+			    break;
+			case OPCAO_SAIR:
+				// Encerra a execução da aplicação
+				System.out.println("=".repeat(21)+"[SISTEMA] Programa finalizado"+"=".repeat(20));
+				System.exit(0);
+				break;
+
+			default:
+				// Tratamento para opções numéricas fora do escopo [1-4]
+				System.out.println("=".repeat(24)+"[CAIXA] Opção inválida"+"=".repeat(24));
 				menuTelaAtendente();
 			}
-			break;
-
-		case 3:
-			// Exibe a lista de produtos cadastrados no catálogo
-			System.out.println(CatalogoProdutos.getProdutos());
-			menuTelaAtendente();
-			break;
-
-		case 4:
-			// Encerra a execução da aplicação
-			System.out.println("=".repeat(21)+"[SISTEMA] Programa finalizado"+"=".repeat(20));
-			System.exit(0);
-			break;
-
-		default:
-			// Tratamento para opções numéricas fora do escopo [1-4]
-			System.out.println("=".repeat(24)+"[CAIXA] Opção inválida"+"=".repeat(24));
-			menuTelaAtendente();
-		}
+		} while (opcao != OPCAO_SAIR);
 	}
 
 	/**

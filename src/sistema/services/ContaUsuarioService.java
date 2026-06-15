@@ -7,6 +7,7 @@
 package sistema.services;
 
 import sistema.io.Arquivos;
+import sistema.modelos.Atendente;
 import sistema.modelos.Funcionario;
 
 public class ContaUsuarioService {
@@ -43,5 +44,22 @@ public class ContaUsuarioService {
     /** Remove as contas carregadas do cache da classe pra liberar memória. */
     public static void descarregarContas() {
         contas = null;
+    }
+
+    /** Cadastra um novo atendente gerando um numMatricula e senhaLogin sequencial */
+    public static Atendente cadastrarAtendente(String nome) {
+        if (nome == null) {
+            throw new IllegalArgumentException(
+                "Nome do atendente a ser cadastrado não pode ser nulo"
+            );
+        }
+
+        int numMatricula = Arquivos.Contas.ler_contas().length;
+        int senhaLogin = numMatricula;
+
+        var atendente = new Atendente(String.valueOf(numMatricula), nome, senhaLogin);
+        Arquivos.Contas.inserir_conta(atendente);
+
+        return atendente;
     }
 }

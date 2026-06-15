@@ -288,9 +288,9 @@ public class Arquivos {
             if (!contas.toFile().exists()) {
                 criarArquivo(cabecalho_contas, contas);
 
-                var admin = new Admin("1", "Ademiro", 1, 123);
+                var admin = new Admin("0", "Ademiro", 0, 123);
                 inserir_conta(admin);
-                inserir_conta(new Atendente("2", "Atendente José", 2));
+                inserir_conta(new Atendente("1", "Atendente José", 1));
 
                 System.out.println("\n[SISTEMA] Credenciais de admin:\n--> " + admin + "\n");
             }

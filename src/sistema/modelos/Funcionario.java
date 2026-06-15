@@ -26,7 +26,6 @@ public class Funcionario {
 		this.senhaLogin = senhaLogin;
 	}
 
-	// TODO: FINALIZAR
 	@Override
 	public String toString() {
 	    return String.format("numMatricula: %d | nome: %s | senhaLogin: %d\n", numMatricula, nome, senhaLogin);

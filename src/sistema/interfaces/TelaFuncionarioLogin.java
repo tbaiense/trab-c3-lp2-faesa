@@ -67,17 +67,8 @@ public class TelaFuncionarioLogin {
 		Loja.inicializar(func);
 		CatalogoProdutos.carregarProdutos();
 
-		// Avalia o tipo do objeto (Polimorfismo) para determinar o fluxo de telas subsequente
-		if(func instanceof Admin) {
-			// Realiza o Downcasting seguro para acessar atributos específicos de Administrador
-			Admin admin = (Admin) func;
-			// Exige a verificação do código de segurança do administrador
-			TelaAdminAutorizacao.adminAutoriza(admin.numMatricula);
-			System.out.println("=".repeat(16)+"[Login] Funcionário logado com sucesso"+"=".repeat(16));
-		} else if(func instanceof Atendente) {
-			// Redireciona o atendente diretamente para o painel de abertura e controle de caixa
-			System.out.println("=".repeat(16)+"[Login] Funcionário logado com sucesso"+"=".repeat(16));
-			TelaAtendenteAbrirCaixa.menuTelaAtendente();
-		}
+		// Redireciona o atendente diretamente para o painel de abertura e controle de caixa
+		System.out.println("=".repeat(16)+"[Login] Logado com sucesso"+"=".repeat(16));
+		TelaAtendenteAbrirCaixa.menuTelaAtendente();
 	}
 }
