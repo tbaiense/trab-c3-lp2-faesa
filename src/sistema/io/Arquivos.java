@@ -432,7 +432,7 @@ public class Arquivos {
             linhasBuilder += pedido.getId() + separador;
             linhasBuilder += pedido.getPrecoVendaTotal() + separador;
             linhasBuilder += pedido.getValorEntradaCliente()+ separador;
-            linhasBuilder += pedido.getTrocoEmitido()+ separador;
+            linhasBuilder += pedido.getTrocoCalculado()+ separador;
             linhasBuilder += pedido.getTaxaCartao() + separador;
             linhasBuilder += pedido.getFinalizadoEm() + separador;
             linhasBuilder += pedido.getFormaPagamento() + separador;

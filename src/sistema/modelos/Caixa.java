@@ -168,7 +168,15 @@ public class Caixa {
 		    finalizado.getItens().toArray(new ItemPedido[0])
 		);
 
-		// TODO: alterar valor de dinheiro final com base no pedido (no arquivo de atual também)
+		if (finalizado.getFormaPagamento().equals("DINHEIRO")) {
+		    if (finalizado.getTrocoCalculado() > this.dinheiroFinal) {
+				throw new IllegalStateException(
+    				"Não é possível fechar o pedido, pois o troco calculado excede o valor atual em caixa"
+				);
+			}
+
+            dinheiroFinal += finalizado.getPrecoVendaTotal();
+		}
 
 		return finalizado; // TODO: retornar um clone
 	}

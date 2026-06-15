@@ -40,7 +40,7 @@ public class TelaAtendenteAbrirCaixa {
 			);
 
 			System.out.print("Opção: ");
-			opcao = scan.nextInt();
+			opcao = Integer.parseInt(scan.nextLine());
 
 			// Direcionamento do fluxo com base na opção escolhida
 			switch (opcao) {
@@ -111,20 +111,40 @@ public class TelaAtendenteAbrirCaixa {
 	 * Realiza o fechamento do caixa atual e exibe o saldo final acumulado.
 	 */
 	public static void fecharCaixa() {
-		//Pede código de autorização do admin
-		TelaAdminAutorizacao.adminAutorizaTela();
-		// Recupera a instância do caixa ativo
-		caixaAtual = Loja.getCaixaAtual();
+    	// Recupera a instância do caixa ativo
+    	caixaAtual = Loja.getCaixaAtual();
 
-		// Exibe o relatório de fechamento formatado com duas casas decimais
-		System.out.println(String.format(
-				"[Caixa: Fechamento] Dinheiro em caixa: R$ %.2f\n",
-				caixaAtual.getDinheiroFinal()
-				));
+        // pede cod do admin
+    	TelaAdminAutorizacao.adminAutorizaTela();
 
-		// Finaliza o status do caixa no sistema
-		Loja.fecharCaixaAtual();
-		System.out.println("=".repeat(18)+"[Caixa] caixa fechado com sucesso"+"=".repeat(19));
+       	System.out.println("=".repeat(18)+"[CAIXA] CONFIRMAR FECHAMENTO "+"=".repeat(18));
+        System.out.printf(
+            "[CAIXA] Dinheiro inicial: R$ %.2f\n",
+            caixaAtual.getDinheiroInicial()
+        );
+        System.out.printf(
+            "[CAIXA] Dinheiro atual: R$ %.2f\n",
+            caixaAtual.getDinheiroFinal()
+        );
+
+        for (char input;;) { // repete até entrada ser válida
+            System.out.println("\nConfirmar fechamento? (S ou N): ");
+
+            try {
+                input = scan.nextLine().toUpperCase().charAt(0);
+
+                switch (input) {
+                    case 'S':
+                        Loja.fecharCaixaAtual();
+                        System.out.println("[CAIXA] Fechado com sucesso!");
+                        return;
+                    case 'N':
+                        System.out.println("[CAIXA] Cancelando fechamento...");
+                        return;
+                }
+            } catch (Exception ex) {}
+
+            System.out.println("\nEntrada inválida! Tente novamente...\n");
+        }
 	}
-
 }

@@ -79,8 +79,8 @@ public class ProgramaPrincipal {
         }
 
         // Simulando abertura de caixa ========================================
-        caixaAtual = Loja.abrirCaixa(0.0);
-        System.out.println("\n[Caixa] novo caixa aberto!");
+        caixaAtual = Loja.abrirCaixa(100.0);
+        System.out.printf("\n[Caixa] Caixa aberto com R$ %.2f em dinheiro\n", caixaAtual.getDinheiroInicial());
 
         // Gerenciar produtos =================================================
         var prod1 = CatalogoProdutos.buscar(1);
@@ -129,13 +129,30 @@ public class ProgramaPrincipal {
             );
         }
 
-        pedidoAtual.receberPagamento("DINHEIRO", pedidoAtual.getPrecoVendaTotal() * 1.1);
-        Pedido pedidoFinalizado = caixaAtual.concluirPedidoAtual();
-        pedidoAtual = null;
+        System.out.printf("[Pedido] Valor total do pedido: R$ %.2f \n", pedidoAtual.getPrecoVendaTotal());
 
-        System.out.println(
-            "[Pedido] concluído: \n" + pedidoFinalizado.toString()
-        );
+        // double valorEntrada = pedidoAtual.getPrecoVendaTotal() * 1.1;
+        double valorEntrada = pedidoAtual.getPrecoVendaTotal() * 0.9;
+
+        System.out.printf("[Pedido] Valor fornecido pelo cliente: R$ %.2f \n", valorEntrada);
+
+        try {
+            double trocoEmitido = pedidoAtual.receberPagamento("DINHEIRO", valorEntrada); // dá erro se valor de entrada for menor que o valor do pedido
+
+            System.out.printf("[Pedido] Troco emitido: R$ %.2f\n", trocoEmitido);
+
+            Pedido pedidoFinalizado = caixaAtual.concluirPedidoAtual();
+            pedidoAtual = null;
+
+            System.out.println(
+                "[Pedido] concluído: \n" + pedidoFinalizado.toString()
+            );
+        } catch (Exception ex) {
+            System.out.println("[Pedido] ERRO: " + ex.getMessage());
+
+            System.out.println("[Pedido] Cancelando...");
+            caixaAtual.cancelarPedidoAtual();
+        }
 
         // Fechamento do caixa ================================================
         caixaAtual = Loja.getCaixaAtual();
@@ -144,7 +161,7 @@ public class ProgramaPrincipal {
             caixaAtual.getDinheiroFinal()
         ));
 
-        // Loja.fecharCaixaAtual();
+        Loja.fecharCaixaAtual();
 
         // finalizarExecucao();
     }

@@ -25,7 +25,7 @@ public class TelaCaixaPedidos {
 	/**
 	 * Exibe o menu de operações do caixa ativo e gerencia a escolha do atendente.
 	 */
-	public static void menuTelaCaixa() {
+	public static void menuTelaCaixa() { // TODO: implementar do-while e remover chamadas para menuTelaCaixa()
 		// Renderização visual do menu de gerenciamento de pedidos
 		System.out.println("\n"+"=".repeat(28)+"TELA DE CAIXA"+"=".repeat(29));
 		System.out.println("[1] [ABRIR NOVO PEDIDO]\n"+
@@ -34,7 +34,7 @@ public class TelaCaixaPedidos {
 				"[4] [FECHAR CAIXA]");
 
 		System.out.print("Opção: ");
-		opcao = scan.nextInt();
+		opcao = Integer.parseInt(scan.nextLine());
 
 		// Processamento da funcionalidade selecionada
 		switch (opcao) {
@@ -59,7 +59,8 @@ public class TelaCaixaPedidos {
 		case 4:
 			// Verifica o status do caixa antes de acionar a tela de fechamento
 			if (Loja.existeCaixaAberto()) {
-				TelaAtendenteAbrirCaixa.fecharCaixa();
+                TelaAtendenteAbrirCaixa.fecharCaixa();
+
 				TelaAtendenteAbrirCaixa.menuTelaAtendente(); // Retorna para o menu principal do atendente
 			} else {
 				System.out.println("=".repeat(18)+"[CAIXA] Não existe um caixa aberto"+"=".repeat(18));

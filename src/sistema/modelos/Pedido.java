@@ -23,7 +23,7 @@ public class Pedido {
 
     /** Valor em dinheiro dado pelo cliente, caso forma de pagamento DINHEIRO */
     private double valorEntradaCliente;
-    private double trocoEmitido; // dinheiro dado ao cliente, caso forma de pagamento seja "DINHEIRO"
+    private double trocoCalculado; // dinheiro dado ao cliente, caso forma de pagamento seja "DINHEIRO"
 
     private double taxaCartao;
     private LocalDateTime finalizadoEm;
@@ -68,7 +68,7 @@ public class Pedido {
         if (produto == null) {
         	throw new IllegalArgumentException("Produto não pode ser nulo para atualização");
         }
-        
+
         ItemPedido itemExistente = buscarItem(produto.getId());
 
         if (itemExistente != null) { // se não nula, quer dizer que esse item já existia no carrinho
@@ -132,12 +132,12 @@ public class Pedido {
         return this.valorEntradaCliente;
     }
 
-    public void setTrocoEmitido(double trocoEmitido) {
-        this.trocoEmitido = trocoEmitido;
+    public void setTrocoCalculado(double trocoCalculado) {
+        this.trocoCalculado = trocoCalculado;
     }
 
-    public double getTrocoEmitido() {
-        return this.trocoEmitido;
+    public double getTrocoCalculado() {
+        return this.trocoCalculado;
     }
 
 
@@ -247,7 +247,7 @@ public class Pedido {
            this.valorEntradaCliente = valorEntrada;
        }
 
-       this.trocoEmitido = troco;
+       this.trocoCalculado = troco;
 
        return troco;
     }
