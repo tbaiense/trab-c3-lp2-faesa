@@ -570,16 +570,39 @@ public class Arquivos {
             return lista.toArray(new sistema.modelos.Produto[0]);
         }
 
-        // TODO: implementar
         public static boolean remover_produto(int id) {
-           return false;
+            ArquivoCSV csv = Armazenamento.ler(catalogoProdutos);
+
+            var novasLinhas = new ArrayList<String>();
+            String idEncontrado, idProcurar = String.valueOf(id);
+            boolean removido = false;
+
+            for (String linha: csv.linhas) {
+                idEncontrado = linha.split(",")[0];
+
+                if (!idEncontrado.equals(idProcurar)) {
+                    novasLinhas.add(linha);
+                } else {
+                    removido = true;
+                }
+            }
+
+            csv.linhas = novasLinhas.toArray(new String[0]);
+
+            Armazenamento.substituir(csv);
+           return removido;
         }
 
-        // TODO: implementar
         public static boolean atualizar_produto(
             int id, sistema.modelos.Produto produto
         ) {
-           return false;
+            boolean alterado = remover_produto(id);
+
+            if (alterado) {
+                inserir_produto(produto);
+            }
+
+           return alterado;
         }
     }
 }

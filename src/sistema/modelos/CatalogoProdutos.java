@@ -21,8 +21,16 @@ public class CatalogoProdutos {
     * @return
     */
 	public static boolean cadastrar(Produto p) {
-	    int id = Arquivos.Produtos.ler_produtos().length;
-		p.setId(id);
+		int idMax = -1;
+		boolean duplicado = true;
+
+		// gera um id temporário e verifica se já foi usado
+		for (var prodAnalizar: produtos) {
+		   if (prodAnalizar.getId() > idMax) {
+				idMax = prodAnalizar.getId();
+			}
+		}
+		p.setId(idMax + 1);
 
 		produtos.add(p);
 		Arquivos.Produtos.inserir_produto(p);
@@ -33,9 +41,7 @@ public class CatalogoProdutos {
 		for (Produto produto : produtos) {
 			if (produto.getId() == id) {
 				produtos.remove(produto);
-
-				// TODO: remover produto de arquivo
-				// ...
+				Arquivos.Produtos.remover_produto(id);
 
 				return produto;
 			}
@@ -60,9 +66,7 @@ public class CatalogoProdutos {
 				produto.setPrecoCusto(atualizado.getPrecoCusto());
 				produto.setPrecoVenda(atualizado.getPrecoVenda());
 
-				// TODO: atualizar produto no arquivo
-				// ...
-
+				Arquivos.Produtos.atualizar_produto(id, atualizado);
 				return produto;
 			}
 		}
