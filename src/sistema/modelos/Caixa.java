@@ -118,6 +118,10 @@ public class Caixa {
 
 		finalizado.setId(Arquivos.Pedidos.ler_pedidos().length);
 		Arquivos.Pedidos.inserir_pedidoAntigo(finalizado, this);
+		Arquivos.Pedidos.inserir_itensPedido(
+            finalizado,
+		    finalizado.getItens().toArray(new ItemPedido[0])
+		);
 
 		return finalizado; // TODO: retornar um clone
 	}
