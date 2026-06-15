@@ -131,8 +131,8 @@ public class ProgramaPrincipal {
 
         System.out.printf("[Pedido] Valor total do pedido: R$ %.2f \n", pedidoAtual.getPrecoVendaTotal());
 
-        // double valorEntrada = pedidoAtual.getPrecoVendaTotal() * 1.1;
-        double valorEntrada = pedidoAtual.getPrecoVendaTotal() * 0.9;
+        double valorEntrada = pedidoAtual.getPrecoVendaTotal() * 1.1;
+        // double valorEntrada = pedidoAtual.getPrecoVendaTotal() * 0.9;
 
         System.out.printf("[Pedido] Valor fornecido pelo cliente: R$ %.2f \n", valorEntrada);
 
