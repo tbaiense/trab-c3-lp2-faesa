@@ -7,6 +7,7 @@ import sistema.modelos.Loja;
 import sistema.modelos.Pedido;
 import sistema.services.ContaUsuarioService;
 import sistema.services.LoginService;
+import sistema.interfaces.TelaFuncionarioLogin;
 
 public class ProgramaPrincipal {
 
@@ -18,7 +19,8 @@ public class ProgramaPrincipal {
         System.out.println("[SISTEMA] inicializado com sucesso.");
 
         // Iniciar telas abaixo
-        teste();
+        // teste();
+        TelaFuncionarioLogin.iniciar();
     }
 
     /** Exibe uma simulação do sistema, cadastrando dados de teste */

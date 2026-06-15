@@ -31,4 +31,12 @@ public class Admin extends Funcionario {
         this.codAutorizacao = codAutorizacao;
     }
 
+    @Override
+    public String toString() {
+        return String.format(
+            "numMatricula: %d | senhaLogin: %d | codAutorizacao: %d ",
+            this.numMatricula, this.getSenhaLogin(), this.getCodAutorizacao()
+        );
+    }
+
 	}

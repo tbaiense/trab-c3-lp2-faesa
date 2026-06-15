@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import sistema.modelos.Admin;
 import sistema.modelos.Atendente;
 import sistema.modelos.Caixa;
+import sistema.modelos.Funcionario;
 import sistema.modelos.ItemPedido;
 import sistema.modelos.Pedido;
 import sistema.modelos.Produto;
@@ -282,7 +283,15 @@ public class Arquivos {
         /** Cria o arquivo CSV e inicializa-o inserindo o cabeçalho */
         protected static void inicializar() {
             _dir.toFile().mkdirs();
-            criarArquivo(cabecalho_contas, contas);
+            if (!contas.toFile().exists()) {
+                criarArquivo(cabecalho_contas, contas);
+
+                var admin = new Admin("1", "Ademiro", 1, 123);
+                inserir_conta(admin);
+                inserir_conta(new Atendente("2", "Atendente José", 2));
+
+                System.out.println("\n[SISTEMA] Credenciais de admin:\n--> " + admin + "\n");
+            }
         }
 
         // TODO: finalizar
