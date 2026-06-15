@@ -12,9 +12,9 @@ public class TelaAdminOpcoes {
 
 	public static void iniciar() {
 	    do {
-    	    System.out.println("\n"+"=".repeat(17)+"PAINEL DO SUPERVISOR - OPÇÕES"+"=".repeat(18));
+    	    System.out.println("\n"+"=".repeat(17)+"PAINEL DO ADMIN"+"=".repeat(18));
     		System.out.println(
-                "[1] [CADASTRAR PRODUTO]\n"+
+                "[1] [GERENCIAR PRODUTOS]\n"+
 				"[2] [CADASTRAR ATENDENTE]\n" +
 				"[3] [VOLTAR]\n"
     		);
@@ -25,7 +25,7 @@ public class TelaAdminOpcoes {
 
     		switch (opcao) {
     		case 1:
-    			cadastrarProduto();
+                TelaProdutoCrud.iniciar();
     			break;
     		case 2:
     			cadastrarAtendente();
@@ -37,28 +37,6 @@ public class TelaAdminOpcoes {
     		}
 
 		} while (opcao != 3);
-	}
-
-	public static void cadastrarProduto() {
-		System.out.println("\n"+"=".repeat(25)+"CADASTRAR PRODUTO"+"=".repeat(24));
-
-		System.out.print("NOME DO PRODUTO: ");
-		String nomeProduto = scan.nextLine();
-
-		System.out.print("PREÇO DE VENDA: ");
-		double precoVenda = scan.nextDouble();
-
-		System.out.print("PREÇO DE CUSTO: ");
-		double precoCusto = scan.nextDouble();
-		scan.nextLine();
-
-		var p = new Produto();
-		p.setNome(nomeProduto);
-		p.setPrecoVenda(precoVenda);
-		p.setPrecoCusto(precoCusto);
-
-		CatalogoProdutos.cadastrar(p);
-		System.out.println("=".repeat(15)+"[Sucesso] Produto cadastrado com sucesso"+"=".repeat(15));
 	}
 
 	public static void cadastrarAtendente() {
