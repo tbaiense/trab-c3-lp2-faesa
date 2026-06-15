@@ -7,6 +7,7 @@ import sistema.modelos.Loja;
 import sistema.modelos.Pedido;
 import sistema.services.ContaUsuarioService;
 import sistema.services.LoginService;
+import sistema.interfaces.TelaFuncionarioLogin;
 
 public class ProgramaPrincipal {
 
@@ -18,7 +19,8 @@ public class ProgramaPrincipal {
         System.out.println("[SISTEMA] inicializado com sucesso.");
 
         // Iniciar telas abaixo
-        teste();
+        // teste();
+        TelaFuncionarioLogin.iniciar();
     }
 
     /** Exibe uma simulação do sistema, cadastrando dados de teste */
@@ -102,7 +104,6 @@ public class ProgramaPrincipal {
             System.out.println("Produto 2 não encontrado...");
         }
 
-
         // TODO: gerenciar pedido =============================================
         Pedido pedidoAtual = caixaAtual.novoPedido();
         System.out.println("[Pedido] novo pedido aberto!\n");
@@ -127,16 +128,13 @@ public class ProgramaPrincipal {
             );
         }
 
-        int idPedidoFinalizado = pedidoAtual.getId();
+        pedidoAtual.receberPagamento("DINHEIRO", pedidoAtual.getPrecoVendaTotal() * 1.1);
+        Pedido pedidoFinalizado = caixaAtual.concluirPedidoAtual();
         pedidoAtual = null;
 
-        if (caixaAtual.concluirPedidoAtual()) {
-            Pedido pedidoFinalizado = caixaAtual.buscarPedidoAntigo(idPedidoFinalizado);
-
-            System.out.println(
-                "[Pedido] concluído: \n" + pedidoFinalizado.toString()
-            );
-        }
+        System.out.println(
+            "[Pedido] concluído: \n" + pedidoFinalizado.toString()
+        );
 
         // Fechamento do caixa ================================================
         caixaAtual = Loja.getCaixaAtual();
@@ -145,7 +143,7 @@ public class ProgramaPrincipal {
             caixaAtual.getDinheiroFinal()
         ));
 
-        Loja.fecharCaixaAtual(); // nao remove do arquivo de caixa atual, por enquanto
+        Loja.fecharCaixaAtual();
 
         finalizarExecucao();
     }

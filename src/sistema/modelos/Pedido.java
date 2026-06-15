@@ -12,15 +12,21 @@ public class Pedido {
         CANCELADO
     }
 
+    /** Caso forma de pagamento seja CARTAO, taxa aplicada sobre sobre o subTotal dos itens para gerar precoVendaTotal */
     public static final double TAXA_CARTAO_PADRAO = 0.15;
 
     private int id;
     private List<ItemPedido> itens; // representa carrinho de compras
     private Funcionario vendedor; // pra alinhar com projeto
-    private double precoVendaTotal;
+    private double precoVendaTotal; // valor exibido ao cliente (o mesmo independente da forma de pagamento)
+
+    /** Valor em dinheiro dado pelo cliente, caso forma de pagamento DINHEIRO */
+    private double valorEntradaCliente;
+    private double trocoEmitido; // dinheiro dado ao cliente, caso forma de pagamento seja "DINHEIRO"
+
     private double taxaCartao;
     private LocalDateTime finalizadoEm;
-    private String formaPagamento; // cartão/pix/dinheiro
+    private String formaPagamento; // CARTAO || PIX || DINHEIRO
     private Estado estado;
 
     // construtor alinhado com classe Caixa
@@ -30,6 +36,8 @@ public class Pedido {
         this.precoVendaTotal = 0.0;
         this.taxaCartao = 0.0;
         this.estado = Estado.ABERTO;
+        this.formaPagamento = null;
+        this.finalizadoEm = null;
     }
 
     public int getId() {
@@ -133,16 +141,21 @@ public class Pedido {
 
     /** Define a forma de pagamento
     *
-    * @param formaPagamento String que deve ser {@code CARTAO}, {@code PIX} ou {@code DINHEIRO}
+    * @param formaPagamento null ou String que deve ser {@code CARTAO}, {@code PIX} ou {@code DINHEIRO}
     */
-    public void setFormaPagamento(String formaPagamento) {
+    private void setFormaPagamento(String formaPagamento) {
+        if (formaPagamento == null) {
+            this.formaPagamento = null;
+            return;
+        }
+
         String formaUpper = formaPagamento.toUpperCase();
 
         if (!formaUpper.equals("CARTAO")
             && !formaUpper.equals("PIX")
             && !formaUpper.equals("DINHEIRO")
         ) {
-            throw new Error(
+            throw new IllegalArgumentException(
                 "Valor de forma de pagamento inválido. Deve ser `CARTAO`, `PIX` ou `DINHEIRO`"
             );
         }
@@ -154,7 +167,60 @@ public class Pedido {
 
         this.formaPagamento = formaUpper;
     }
+
     public String getFormaPagamento() { return formaPagamento; }
+
+    /** Retorna qual seria o valor de troco dado o valor de entrada. NÃO altera a variável interna de trocoEmitido
+    *
+    * @param valorEntrada valor pago pelo cliente. Deve ser maior ou igual ao precoCustoTotal.
+    */
+    public double calcularTroco(double valorEntrada) {
+        if (valorEntrada < 0) {
+            throw new IllegalArgumentException("Valor de entrada deve ser maior ou igual a zero");
+        }
+
+        double troco = valorEntrada - precoVendaTotal;
+
+        if (troco < 0) {
+            throw new IllegalArgumentException(
+                "Valor de entrada para pagamento deve ser maior ou igual ao total do pedido"
+            );
+        }
+
+        return troco;
+    }
+
+    /** Recebe o pagamento e calcula os valores internos do pedido.
+    * Precondição: precoTotalVenda já deve estar definido.
+    *
+    * @param formaPagamento
+    * @param valorEntrada
+    * @return o valor do troco, se for necessário
+ */
+    public double receberPagamento(String formaPagamento, double valorEntrada) {
+        if (itens.isEmpty()) {
+            throw new IllegalStateException(
+                "É necessário adicionar ao menos um item antes de receber o pagamento do pedido"
+            );
+        }
+
+        double troco = calcularTroco(valorEntrada);
+
+        try {
+            setFormaPagamento(formaPagamento);
+        } catch (Exception ex) {
+            setFormaPagamento(null);
+            throw ex;
+        }
+
+       if (formaPagamento.equals("DINHEIRO")) {
+           this.valorEntradaCliente = valorEntrada;
+       }
+
+       this.trocoEmitido = troco;
+
+       return troco;
+    }
 
     public boolean isFinalizado() {
         return estado == Estado.CONCLUIDO || estado == Estado.CANCELADO;

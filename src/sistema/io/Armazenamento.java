@@ -60,6 +60,29 @@ public abstract class Armazenamento {
         }
     }
 
+    public static boolean substituir(ArquivoCSV csv) {
+        try (
+            FileWriter fw = new FileWriter(csv.caminho.toFile(), false);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+        ) {
+            pw.println(csv.cabecalho);
+
+            // TODO: finalizar linhas com crlf (RFC 4180)
+            for (var l : csv.linhas) {
+                pw.println(l);
+            }
+
+            return true;
+        } catch (IOException ex) {
+            System.err.println(
+                "Falha ao substituir conteúdo do arquivo CSV:\n" + csv.caminho.toString()
+            );
+            return false;
+        }
+    }
+
+
     public static ArquivoCSV ler(Path caminho) {
         ArquivoCSV csv = new ArquivoCSV();
 
@@ -84,9 +107,9 @@ public abstract class Armazenamento {
     public static void inserirDadosTeste() {
         // contas
         Funcionario joao = new Atendente("1", "joao", 1);
-        
+
         Arquivos.Contas.inserir_conta(joao);
-        
+
         Funcionario[] funcionarios = Arquivos.Contas.ler_contas();
 
         System.out.println("Contas cadastradas lidas: \n" + Arrays.toString(funcionarios));
@@ -115,33 +138,22 @@ public abstract class Armazenamento {
         Loja.inicializar(joao);
         Caixa c1 = Loja.abrirCaixa(200.0);
 
-        Arquivos.Caixas.inserir_caixaAtual(c1);
-
         Pedido p = c1.novoPedido();
         p.atualizarItem(produtosTeste[0], 3);
-        
+        p.receberPagamento("DINHEIRO", p.getPrecoVendaTotal() * 1.1);
         c1.concluirPedidoAtual();
-
-        Arquivos.Pedidos.inserir_pedidoAntigo(p, c1);
 
         p = c1.novoPedido();
         p.atualizarItem(produtosTeste[0], 2);
+        p.receberPagamento("CARTAO", p.getPrecoVendaTotal());
         c1.concluirPedidoAtual();
-
-        Arquivos.Pedidos.inserir_pedidoAntigo(p, c1);
 
         p = c1.novoPedido();
         p.atualizarItem(produtosTeste[3], 1);
-        
+        p.receberPagamento("PIX", p.getPrecoVendaTotal());
         c1.concluirPedidoAtual();
 
-        Arquivos.Pedidos.inserir_pedidoAntigo(p, c1);
 
         Loja.fecharCaixaAtual();
-
-        c1.setTotalPagamento(1000.0);
-        c1.setDinheiroFinal(800.0);
-
-        Arquivos.Caixas.inserir_caixaFechado(c1);
     }
 }

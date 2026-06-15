@@ -11,6 +11,7 @@ package sistema.modelos;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
+import sistema.io.Armazenamento;
 import sistema.io.Arquivos;
 import sistema.services.ContaUsuarioService;
 
@@ -43,18 +44,16 @@ public final class Loja {
 
         carregarContasExistentes();
         contaAtual = funcionarioLogado;
-        caixaAtual = null;
 
-        // TODO: DESCOMENTAR ASSIM QUE IMPLEMENTAR LEITURA DE CAIXAS FECHADOS
-        // Caixa[] caixasFechados = Arquivos.Caixas.ler_caixasFechados();
-        //
-        // if (caixasFechados == null) {
-        //  return;
-        // }
-        //
-        // for (var c: caixasFechados) {
-        //      caixasFechados.put(c.getId(), c);
-        // }
+        caixaAtual = Arquivos.Caixas.ler_caixaAtual();
+
+        Caixa[] cFechados = Arquivos.Caixas.ler_caixasFechados();
+
+        if (cFechados != null && cFechados.length != 0) {
+            for (var c: cFechados) {
+                 caixasFechados.put(c.getId(), c);
+            }
+        }
     }
 
     public static Funcionario getContaLogada() {
@@ -90,7 +89,7 @@ public final class Loja {
         }
 
         Caixa c = new Caixa(Loja.contaAtual, dinheiroInicial);
-        c.setId((int)Math.random() * 10000); // TODO: obter id do arquivo (sequencial)
+        c.setId(Arquivos.Caixas.ler_caixasFechados().length + 1);
         c.setAbertoEm(LocalDateTime.now());
 
         Loja.caixaAtual = c;
@@ -114,8 +113,8 @@ public final class Loja {
 
         Caixa c = Loja.caixaAtual;
 
-        // TODO: remover caixa de arquivo caixaAtual.csv
         Loja.caixaAtual = null;
+        Arquivos.Caixas.remover_caixaAtual();
 
         c.setFechadoEm(LocalDateTime.now());
 
@@ -123,8 +122,21 @@ public final class Loja {
 
         Loja.caixasFechados.put(c.getId(), c);
         Arquivos.Caixas.inserir_caixaFechado(c);
-        Arquivos.Caixas.remover_caixaAtual(c.getId());
         return true;
+    }
+
+    public static HashMap<Integer, Caixa> getCaixasFechados() {
+        var caixas = new HashMap<Integer, Caixa>();
+
+        Caixa[] carregados = Arquivos.Caixas.ler_caixasFechados();
+
+        if (carregados != null) {
+            for (var c: carregados) {
+                caixas.put(c.getId(), c);
+            }
+        }
+
+        return caixas;
     }
 
     // getters e setters =======================================================
