@@ -163,6 +163,7 @@ public class Arquivos {
 
             // TODO: ler pedidos antigos
             caixaEncontrado = new Caixa(funcAbriu, dinheiroInicial);
+            caixaEncontrado.setId(id);
             caixaEncontrado.setAbertoEm(abertoEm);
             caixaEncontrado.setTotalPagamento(totalPagamento);
             caixaEncontrado.setDinheiroFinal(dinheiroFinal);

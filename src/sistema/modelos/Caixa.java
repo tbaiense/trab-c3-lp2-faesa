@@ -68,7 +68,7 @@ public class Caixa {
 		return this.id;
 	}
 
-	protected void setId(int id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
