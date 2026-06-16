@@ -94,6 +94,7 @@ public final class Loja {
 
         Loja.caixaAtual = c;
         Arquivos.Caixas.inserir_caixaAtual(c);
+        caixaAtual.setPedidosAntigos(null);
         return Loja.caixaAtual;
     }
 

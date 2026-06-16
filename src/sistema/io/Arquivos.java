@@ -491,7 +491,11 @@ public class Arquivos {
                 p.setId(idPedido);
                 p.setItens(ler_itensPedido(idPedido));
                 p.setTaxaCartao(taxaCartao);
-                p.receberPagamento(formaPagamento, valorEntradaCliente);
+
+                if (estado != Estado.CANCELADO) {
+                    p.receberPagamento(formaPagamento, valorEntradaCliente);
+                }
+
                 p.setEstado(estado);
                 p.setFinalizadoEm(finalizadoEm);
 

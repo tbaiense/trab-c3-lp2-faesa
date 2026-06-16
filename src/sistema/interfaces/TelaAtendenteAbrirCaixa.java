@@ -101,7 +101,7 @@ public class TelaAtendenteAbrirCaixa {
 		// Definição do saldo inicial para a abertura do caixa
 		System.out.println("=".repeat(19)+"[PAINEL] Insira o saldo inicial"+"=".repeat(20));
 		System.out.print("Saldo: ");
-		double dinheiroInicial = scan.nextDouble();
+		double dinheiroInicial = Double.parseDouble(scan.nextLine());
 
 		// Efetiva a abertura do caixa no sistema da loja
 		Loja.abrirCaixa(dinheiroInicial);

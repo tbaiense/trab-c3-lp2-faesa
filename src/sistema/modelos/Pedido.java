@@ -245,6 +245,8 @@ public class Pedido {
 
        if (formaPagamento.equals("DINHEIRO")) {
            this.valorEntradaCliente = valorEntrada;
+       } else {
+           setValorEntradaCliente(this.getPrecoVendaTotal());
        }
 
        this.trocoCalculado = troco;

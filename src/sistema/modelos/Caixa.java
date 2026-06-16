@@ -78,6 +78,10 @@ public class Caixa {
 	}
 
 	public void setPedidosAntigos(Pedido[] pedidos) {
+	    if (pedidos == null) {
+			this.pedidosAntigos.clear();
+			return;
+		}
 	    this.pedidosAntigos = new ArrayList<Pedido>(Arrays.asList(pedidos));
 	}
 
@@ -86,7 +90,7 @@ public class Caixa {
 			return null;
 		}
 
-		return pedidosAntigos.toArray(new Pedido[0]);
+		return Arquivos.Pedidos.ler_pedidos(getId());
 	}
 
 	/**
@@ -192,14 +196,17 @@ public class Caixa {
 		}
 
 		// Modifica o estado para cancelado mantendo o rastro temporal
+		var csv = Armazenamento.ler(Arquivos.Pedidos.pedidosAntigos);
+		pedidoAtual.setId(csv.linhas.length);
 		pedidoAtual.setEstado(Pedido.Estado.CANCELADO);
 		pedidoAtual.setFinalizadoEm(LocalDateTime.now());
 
 		pedidosAntigos.add(pedidoAtual);
-		setPedidoAtual(null);
 
 		// Registra o pedido cancelado para fins de relatório de quebras/cancelamentos
 		Arquivos.Pedidos.inserir_pedidoAntigo(pedidoAtual, this);
+
+		setPedidoAtual(null);
 	}
 
 	// Métodos Getters e Setters de controle operacional de fechamento e caixa
