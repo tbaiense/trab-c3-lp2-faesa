@@ -21,14 +21,15 @@ public class ProgramaPrincipal {
 
         // Iniciar telas abaixo
         // teste();
+        if (Arquivos.Produtos.ler_produtos().length == 0) {
+            Armazenamento.inserirDadosTeste();
+        }
+
         TelaFuncionarioLogin.iniciar();
     }
 
     /** Exibe uma simulação do sistema, cadastrando dados de teste */
     private static void teste() {
-        if (Arquivos.Produtos.ler_produtos().length == 0) {
-            Armazenamento.inserirDadosTeste();
-        }
 
         // LOGIN =============================================================
         // contas cadastradas: arquivos/contas/contas.csv

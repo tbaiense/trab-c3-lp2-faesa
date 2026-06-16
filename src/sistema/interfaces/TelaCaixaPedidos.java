@@ -18,7 +18,6 @@ import sistema.modelos.Pedido;
 public class TelaCaixaPedidos {
 
     private static Scanner scan = new Scanner(System.in);
-    private static Caixa caixaAtual = Loja.getCaixaAtual();
     private static int opcao = 0;
 
     /**
@@ -76,7 +75,7 @@ public class TelaCaixaPedidos {
      */
     public static void abrirNovoPedido() {
         // Só permite criar um novo pedido se o atual já tiver sido fechado/processado
-        if (!caixaAtual.possuiPedidoAtual()) {
+        if (!Loja.getCaixaAtual().possuiPedidoAtual()) {
             System.out.println("=".repeat(22) + "[CAIXA] Criado novo pedido" + "=".repeat(22));
             TelaCaixaNovoPedido.menuTelaNovoPedido(); // Redireciona para a interface de montagem do pedido
         } else {
@@ -92,7 +91,7 @@ public class TelaCaixaPedidos {
             "\n" + "=".repeat(20) + "[HISTÓRICO DE PEDIDOS DA SESSÃO]" + "=".repeat(20)
         );
 
-        var historico = caixaAtual.getPedidosAntigos(); // Criação de variável "historico", que chama lista das vendas finalizadas e salvas como "CONCLUÍDO"  até o momento
+        var historico = Loja.getCaixaAtual().getPedidosAntigos(); // Criação de variável "historico", que chama lista das vendas finalizadas e salvas como "CONCLUÍDO"  até o momento
         if (historico == null || historico.length == 0) {
             // Validação de existência de uma lista de pedidos guardada em historico
             System.out.println("Nenhum pedido finalizado nesta sessão de caixa."); // Caso condição if mostre que não há lista em historico, retorno um informativo ao atendente

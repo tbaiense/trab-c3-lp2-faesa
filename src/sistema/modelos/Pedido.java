@@ -269,9 +269,10 @@ public class Pedido {
     @Override
     public String toString() {
         return String.format(
-            "id: %d | precoVendaTotal: R$ %.2f | Qtd itens: %d | Estado: %s | Finalizado em: %s",
+            "id: %d | precoVendaTotal: R$ %.2f | Lucro: %.2f | Qtd itens: %d | Estado: %s | Finalizado em: %s",
             this.getId(),
             this.getPrecoVendaTotal(),
+            this.getLucro(),
             this.itens.size(),
             this.estado.toString(),
             (

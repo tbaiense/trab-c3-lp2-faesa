@@ -110,8 +110,6 @@ public abstract class Armazenamento {
 
         Funcionario[] funcionarios = Arquivos.Contas.ler_contas();
 
-        System.out.println("Contas cadastradas lidas: \n" + Arrays.toString(funcionarios));
-
         // produtos
         Produto[] produtosTeste = {
             new Produto(1,   "Agua",   1.50, 2.50),
@@ -129,8 +127,6 @@ public abstract class Armazenamento {
         Arquivos.Produtos.inserir_produto(produtosTeste);
 
         var produtos = Arquivos.Produtos.ler_produtos();
-
-        System.out.println("Produtos cadastrados lidos: \n" + Arrays.toString(produtos));
 
         // caixa
         Loja.inicializar(Contas.ler_contas()[0]);
@@ -151,6 +147,6 @@ public abstract class Armazenamento {
         p.receberPagamento("PIX", p.getPrecoVendaTotal());
         c1.concluirPedidoAtual();
 
-        Loja.fecharCaixaAtual();
+        // Loja.fecharCaixaAtual();
     }
 }

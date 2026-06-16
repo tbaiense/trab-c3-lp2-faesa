@@ -36,7 +36,6 @@ public final class Loja {
         return Loja.usuarios.size();
     }
 
-    // TODO: finalizar
     public static void inicializar(Funcionario funcionarioLogado) {
         if (funcionarioLogado == null) {
             throw new IllegalArgumentException("funcionarioLogado não pode ser null");
@@ -74,7 +73,6 @@ public final class Loja {
         return usuarios.get(numMatricula);
     }
 
-    // TODO: FINALIZAR salvando
     public static Caixa abrirCaixa(double dinheiroInicial) {
         if (Loja.caixaAtual != null) {
             throw new IllegalStateException(
@@ -103,10 +101,11 @@ public final class Loja {
     }
 
     public static Caixa getCaixaAtual() {
+        if (caixaAtual != null) {
+        }
         return Loja.caixaAtual;
     }
 
-    // TODO: finalizar escrevendo no arquivo
     public static boolean fecharCaixaAtual() {
         if (Loja.caixaAtual == null) {
             return false;
@@ -118,8 +117,6 @@ public final class Loja {
         Arquivos.Caixas.remover_caixaAtual();
 
         c.setFechadoEm(LocalDateTime.now());
-
-        //TODO: calcular total de pagamentos (talvez fazer um método em caixa)
 
         Loja.caixasFechados.put(c.getId(), c);
         Arquivos.Caixas.inserir_caixaFechado(c);
