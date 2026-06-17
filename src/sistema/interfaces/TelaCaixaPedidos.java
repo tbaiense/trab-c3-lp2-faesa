@@ -68,6 +68,10 @@ public class TelaCaixaPedidos {
 	                    );
 	                }
 	                break;
+	            case 5:
+                    // Encerra o laço para voltar à tela anterior
+                    sairTelaCaixa = true;
+                    break;
 	            default:
 	                // Tratamento para entradas numéricas inválidas no menu do caixa
 	                System.out.println("=".repeat(24) + "[CAIXA] Opção inválida" + "=".repeat(24));
