@@ -8,6 +8,10 @@ import sistema.modelos.Loja;
 import sistema.modelos.Pedido;
 import sistema.services.ContaUsuarioService;
 import sistema.services.LoginService;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import sistema.interfaces.TelaFuncionarioLogin;
 
 public class ProgramaPrincipal {
@@ -176,5 +180,16 @@ public class ProgramaPrincipal {
 
         System.exit(0);
     }
+    public static void gerarResumoDiario(Caixa caixa) {
+        String dataHoje = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        
+        System.out.println("\n=== RESUMO DIÁRIO: " + dataHoje + " ===");
+        System.out.printf("CAIXA: Inicial [R$ %.2f] -> Final [R$ %.2f]\n", caixa.getDinheiroInicial(), caixa.getDinheiroFinal());
+        
+        // NOTA: Ajuste as variáveis abaixo para chamar os métodos reais da sua classe Caixa (ex: caixa.getTotalVendas())
+        System.out.println("FINANÇAS: Vendas [R$ calcular_total_aqui] | Lucro [R$ calcular_lucro_aqui]");
+        System.out.println("PEDIDOS: [Qtd_OK] OK | [Qtd_Cancelados] CANCELADOS");
+        System.out.println("===========================================");
 
+}
 }

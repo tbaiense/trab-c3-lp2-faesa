@@ -27,46 +27,51 @@ public class TelaCaixaPedidos {
         // Renderização visual do menu de gerenciamento de pedidos
         boolean sairTelaCaixa = false;
         do {
-        System.out.println("\n" + "=".repeat(28) + "TELA DE CAIXA" + "=".repeat(29));
-        System.out.println(
-            "[1] [ABRIR NOVO PEDIDO]\n" +
+            System.out.println("\n" + "=".repeat(28) + "TELA DE CAIXA" + "=".repeat(29));
+            System.out.println(
+                "[1] [ABRIR NOVO PEDIDO]\n" +
                 "[2] [LISTAR PRODUTOS]\n" +
                 "[3] [VER PEDIDOS ANTIGOS]\n" +
-                "[4] [FECHAR CAIXA]"
-        );
+                "[4] [FECHAR CAIXA]\n" +  // Adicionado \n aqui
+                "[5] [VOLTAR]"
+            );
 
-        System.out.print("Opção: ");
-        opcao = Integer.parseInt(scan.nextLine());
+            System.out.print("Opção: ");
+            opcao = Integer.parseInt(scan.nextLine());
 
-        // Processamento da funcionalidade selecionada
-        switch (opcao) {
-            case 1:
-                // Fluxo para iniciar uma nova venda/pedido
-                abrirNovoPedido();
-                break;
-            case 2:
-                // Exibe os produtos do catálogo e retorna ao menu do caixa
-                System.out.println(CatalogoProdutos.getProdutos());
-                break;
-            case 3:
-                // Exibe o histórico de pedidos já finalizados nesta sessão de caixa
-                exibirPedidosAntigos();
-                break;
-            case 4:
-                // Verifica o status do caixa antes de acionar a tela de fechamento
-                if (Loja.existeCaixaAberto()) {
-                    TelaAtendenteAbrirCaixa.fecharCaixa();
+            // Processamento da funcionalidade selecionada
+            switch (opcao) {
+                case 1:
+                    // Fluxo para iniciar uma nova venda/pedido
+                    abrirNovoPedido();
+                    break;
+                case 2:
+                    // Exibe os produtos do catálogo e retorna ao menu do caixa
+                    System.out.println(CatalogoProdutos.getProdutos());
+                    break;
+                case 3:
+                    // Exibe o histórico de pedidos já finalizados nesta sessão de caixa
+                    exibirPedidosAntigos();
+                    break;
+                case 4:
+                    // Verifica o status do caixa antes de acionar a tela de fechamento
+                    if (Loja.existeCaixaAberto()) {
+                        TelaAtendenteAbrirCaixa.fecharCaixa();
+                        sairTelaCaixa = true;
+                    } else {
+                        System.out.println(
+                            "=".repeat(18) + "[CAIXA] Não existe um caixa aberto" + "=".repeat(18)
+                        );
+                    }
+                    break;
+                case 5:
+                    // Encerra o laço para voltar à tela anterior
                     sairTelaCaixa = true;
-                } else {
-                    System.out.println(
-                        "=".repeat(18) + "[CAIXA] Não existe um caixa aberto" + "=".repeat(18)
-                    );
-                }
-                break;
-            default:
-                // Tratamento para entradas numéricas inválidas no menu do caixa
-                System.out.println("=".repeat(24) + "[CAIXA] Opção inválida" + "=".repeat(24));
-        }
+                    break;
+                default:
+                    // Tratamento para entradas numéricas inválidas no menu do caixa
+                    System.out.println("=".repeat(24) + "[CAIXA] Opção inválida" + "=".repeat(24));
+            }
         } while (!sairTelaCaixa);
     }
 
@@ -97,7 +102,7 @@ public class TelaCaixaPedidos {
             System.out.println("Nenhum pedido finalizado nesta sessão de caixa."); // Caso condição if mostre que não há lista em historico, retorno um informativo ao atendente
         } else {
             for (Pedido p : historico) {
-                // Laço For-Each: percorre historico, intem por item, e guarda (temporariamente) cada lista localizada em p
+                // Laço For-Each: percorre historico, item por item, e guarda (temporariamente) cada lista localizada em p
                 System.out.println(p.toString()); // Executa toString() customizado da classe Pedido
             }
         }
