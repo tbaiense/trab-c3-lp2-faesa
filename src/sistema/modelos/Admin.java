@@ -1,6 +1,14 @@
+/**
+ * Representa um usuário com privilégios de Administrador/Supervisor no sistema.
+ * Esta classe herda as características básicas de um {@link Funcionario} e adiciona
+ * um código de autorização exclusivo, utilizado para liberar e validar operações
+ * restritas ou sensíveis dentro do sistema (como gerenciamento de produtos, caixas e usuários).
+ * 
+ * @author Gabriel Rodrigues <gabrielrcsj@gmail.com>
+ */
 package sistema.modelos;
 
-//meu
+
 public class Admin extends Funcionario {
 
 
