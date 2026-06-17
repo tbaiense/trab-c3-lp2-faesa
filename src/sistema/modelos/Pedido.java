@@ -4,10 +4,30 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class Pedido {
 
-    public static enum Estado {
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Pedido other = (Pedido) obj;
+		return estado == other.estado && Objects.equals(finalizadoEm, other.finalizadoEm)
+				&& Objects.equals(formaPagamento, other.formaPagamento) && id == other.id
+				&& Objects.equals(itens, other.itens)
+				&& Double.doubleToLongBits(precoVendaTotal) == Double.doubleToLongBits(other.precoVendaTotal)
+				&& Double.doubleToLongBits(taxaCartao) == Double.doubleToLongBits(other.taxaCartao)
+				&& Double.doubleToLongBits(trocoCalculado) == Double.doubleToLongBits(other.trocoCalculado)
+				&& Double.doubleToLongBits(valorEntradaCliente) == Double.doubleToLongBits(other.valorEntradaCliente)
+				&& Objects.equals(vendedor, other.vendedor);
+	}
+
+	public static enum Estado {
         ABERTO,
         CONCLUIDO,
         CANCELADO

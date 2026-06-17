@@ -1,6 +1,23 @@
 package sistema.modelos;
 
+import java.util.Objects;
+
 public class Produto implements Cloneable {
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Produto other = (Produto) obj;
+		return id == other.id && Objects.equals(nome, other.nome)
+				&& Double.doubleToLongBits(precoCusto) == Double.doubleToLongBits(other.precoCusto)
+				&& Double.doubleToLongBits(precoVenda) == Double.doubleToLongBits(other.precoVenda);
+	}
+
 	private int id;
 	private String nome;
 	private double precoCusto;

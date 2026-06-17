@@ -5,6 +5,11 @@ import sistema.modelos.CatalogoProdutos;
 import sistema.modelos.Produto;
 
 public class TelaProdutoCrud {
+	@Override
+	public String toString() {
+		return "[Tela: ProdutoCrud]";
+	}
+
 	private static Scanner scan = new Scanner(System.in);
 	private static int opcao = 0;
 	private static final int OPCAO_VOLTAR = 6;

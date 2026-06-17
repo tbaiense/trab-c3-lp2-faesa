@@ -24,7 +24,12 @@ import sistema.modelos.Pedido.Estado;
 
 public class Arquivos {
 
-    public static final Path DIR_RAIZ = FileSystems.getDefault().getPath(
+    @Override
+	public String toString() {
+		return "[io: Arquivos]";
+	}
+
+	public static final Path DIR_RAIZ = FileSystems.getDefault().getPath(
         "arquivos"
     );
 

@@ -17,7 +17,12 @@ import sistema.modelos.Pedido;
 
 public class TelaCaixaPedidos {
 
-    private static Scanner scan = new Scanner(System.in);
+    @Override
+	public String toString() {
+		return "[Tela: CaixaPedidos";
+	}
+
+	private static Scanner scan = new Scanner(System.in);
     private static int opcao = 0;
 
     /**
@@ -39,39 +44,34 @@ public class TelaCaixaPedidos {
             System.out.print("Opção: ");
             opcao = Integer.parseInt(scan.nextLine());
 
-            // Processamento da funcionalidade selecionada
-            switch (opcao) {
-                case 1:
-                    // Fluxo para iniciar uma nova venda/pedido
-                    abrirNovoPedido();
-                    break;
-                case 2:
-                    // Exibe os produtos do catálogo e retorna ao menu do caixa
-                    System.out.println(CatalogoProdutos.getProdutos());
-                    break;
-                case 3:
-                    // Exibe o histórico de pedidos já finalizados nesta sessão de caixa
-                    exibirPedidosAntigos();
-                    break;
-                case 4:
-                    // Verifica o status do caixa antes de acionar a tela de fechamento
-                    if (Loja.existeCaixaAberto()) {
-                        TelaAtendenteAbrirCaixa.fecharCaixa();
-                        sairTelaCaixa = true;
-                    } else {
-                        System.out.println(
-                            "=".repeat(18) + "[CAIXA] Não existe um caixa aberto" + "=".repeat(18)
-                        );
-                    }
-                    break;
-                case 5:
-                    // Encerra o laço para voltar à tela anterior
-                    sairTelaCaixa = true;
-                    break;
-                default:
-                    // Tratamento para entradas numéricas inválidas no menu do caixa
-                    System.out.println("=".repeat(24) + "[CAIXA] Opção inválida" + "=".repeat(24));
-            }
+	        // Processamento da funcionalidade selecionada
+	        switch (opcao) {
+	            case 1:
+	                // Fluxo para iniciar uma nova venda/pedido
+	                abrirNovoPedido();
+	                break;
+	            case 2:
+	                // Exibe os produtos do catálogo e retorna ao menu do caixa
+	                System.out.println(CatalogoProdutos.getProdutos());
+	                break;
+	            case 3:
+	                // Exibe o histórico de pedidos já finalizados nesta sessão de caixa
+	                exibirPedidosAntigos();
+	                break;
+	            case 4:
+	                // Verifica o status do caixa antes de acionar a tela de fechamento
+	                if (Loja.existeCaixaAberto()) {
+	                    sairTelaCaixa = TelaAtendenteAbrirCaixa.fecharCaixa();
+	                } else {
+	                    System.out.println(
+	                        "=".repeat(18) + "[CAIXA] Não existe um caixa aberto" + "=".repeat(18)
+	                    );
+	                }
+	                break;
+	            default:
+	                // Tratamento para entradas numéricas inválidas no menu do caixa
+	                System.out.println("=".repeat(24) + "[CAIXA] Opção inválida" + "=".repeat(24));
+	        }
         } while (!sairTelaCaixa);
     }
 

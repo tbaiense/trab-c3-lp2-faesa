@@ -11,7 +11,22 @@
 package sistema.modelos;
 
 
+import java.util.Objects;
+
+//meu
 public class Funcionario {
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Funcionario other = (Funcionario) obj;
+		return Objects.equals(nome, other.nome) && numMatricula == other.numMatricula && senhaLogin == other.senhaLogin;
+	}
 
 	public int numMatricula;
 	public String nome;

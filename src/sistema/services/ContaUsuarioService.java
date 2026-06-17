@@ -12,7 +12,17 @@ import sistema.modelos.Funcionario;
 
 public class ContaUsuarioService {
 
-    private static Funcionario[] contas = null;
+    @Override
+	public String toString() {
+		return String.format(
+			"[ContaUsuarioService] Contas carregadas: %d\n",
+			contas == null 
+			? "nenhuma" 
+			: contas.length
+		);
+	}
+
+	private static Funcionario[] contas = null;
 
     /** Lê as contas dos arquivos e armazena internamente na classe
      *

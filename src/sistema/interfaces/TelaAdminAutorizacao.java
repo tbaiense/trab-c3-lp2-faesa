@@ -13,6 +13,11 @@ import sistema.modelos.Loja;
 
 public class TelaAdminAutorizacao {
 
+	@Override
+	public String toString() {
+		return "[Tela: AdminAutorizacao]";
+	}
+
 	private static Scanner scan = new Scanner(System.in);
 	private static int codAutorizacao;
 
@@ -44,7 +49,7 @@ public class TelaAdminAutorizacao {
 	 * Interface visual autônoma que solicita e valida tanto a matrícula quanto o código do administrador.
 	 * Utilizada para interceptar operações restritas que exigem elevação de privilégio imediata.
 	 */
-	public static void adminAutorizaTela() {
+	public static boolean adminAutorizaTela() {
 		int numMatricula = 0;
 		int codAutorizacao = 0;
 		Admin admin = null;
@@ -65,6 +70,7 @@ public class TelaAdminAutorizacao {
 				// Alerta caso nenhum administrador seja encontrado com aquela matrícula
 				if(admin == null) {
 					System.out.println("=".repeat(21)+"[PAINEL] Matrícula inválida"+"=".repeat(22));
+					return false;
 				}
 			} while(admin == null); // Repete a solicitação enquanto a matrícula não existir
 
@@ -74,8 +80,10 @@ public class TelaAdminAutorizacao {
 
 			if(admin.getCodAutorizacao() == codAutorizacao) {
 				System.out.println("=".repeat(24)+"[PAINEL] Código válido"+"=".repeat(24));
+				return true;
 			} else {
 				System.out.println("=".repeat(23)+"[PAINEL] Código inválido"+"=".repeat(23));
+				return false;
 			}
 		} while(admin.getCodAutorizacao() != codAutorizacao); // Repete o loop completo se o código estiver incorreto
 	}

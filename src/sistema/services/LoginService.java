@@ -11,7 +11,12 @@ import sistema.modelos.Funcionario;
 
 public class LoginService {
 
-    /** Verifica se as credenciais correspondem a um registro de conta. */
+    @Override
+	public String toString() {
+		return "LoginService []";
+	}
+
+	/** Verifica se as credenciais correspondem a um registro de conta. */
     public static boolean credenciaisValidas(String numMatricula, String senhaLogin) {
         return buscarFuncionario(numMatricula, senhaLogin) != null;
     }

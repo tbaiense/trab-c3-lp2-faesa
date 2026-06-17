@@ -16,6 +16,11 @@ import sistema.modelos.Loja;
 
 public class TelaAtendenteAbrirCaixa {
 
+	@Override
+	public String toString() {
+		return "[Tela: AtendenteAbrirCaixa]";
+	}
+
 	private static Scanner scan = new Scanner(System.in);
 	private static Caixa caixaAtual = null;
 	private static int opcao = 0;
@@ -47,8 +52,9 @@ public class TelaAtendenteAbrirCaixa {
 			case 1:
 				// Só permite abrir se não houver outro caixa ativo no sistema
 				if(!Loja.existeCaixaAberto()) {
-					abrirCaixa();
-					TelaCaixaPedidos.menuTelaCaixa(); // Redireciona para a tela do caixa
+					if (abrirCaixa()) {
+						TelaCaixaPedidos.menuTelaCaixa(); // Redireciona para a tela do caixa
+					}
 				} else {
 					System.out.println("=".repeat(20)+"[CAIXA] Existe um caixa aberto"+"=".repeat(20));
 					menuTelaAtendente(); // Recarrega o menu
@@ -94,28 +100,37 @@ public class TelaAtendenteAbrirCaixa {
 	/**
 	 * Realiza o processo de abertura de caixa, exigindo autenticação de um Administrador.
 	 */
-	public static void abrirCaixa() {
+	public static boolean abrirCaixa() {
 		//Pede código de autorização do admin
-		TelaAdminAutorizacao.adminAutorizaTela();
+		if (!TelaAdminAutorizacao.adminAutorizaTela()) {
+			return false;
+		}
 
 		// Definição do saldo inicial para a abertura do caixa
 		System.out.println("=".repeat(19)+"[PAINEL] Insira o saldo inicial"+"=".repeat(20));
 		System.out.print("Saldo: ");
 		double dinheiroInicial = Double.parseDouble(scan.nextLine());
 
+		if (dinheiroInicial <= 0) {
+			System.out.println("Valor inválido para abertura de caixa. Deve ser maior que zero.");
+			return false;
+		}
 		// Efetiva a abertura do caixa no sistema da loja
 		Loja.abrirCaixa(dinheiroInicial);
+		return true;
 	}
 
 	/**
 	 * Realiza o fechamento do caixa atual e exibe o saldo final acumulado.
 	 */
-	public static void fecharCaixa() {
+	public static boolean fecharCaixa() {
     	// Recupera a instância do caixa ativo
     	caixaAtual = Loja.getCaixaAtual();
 
         // pede cod do admin
-    	TelaAdminAutorizacao.adminAutorizaTela();
+    	if (!TelaAdminAutorizacao.adminAutorizaTela()) {
+    		return false;
+    	}
 
        	System.out.println("=".repeat(18)+"[CAIXA] CONFIRMAR FECHAMENTO "+"=".repeat(18));
         System.out.printf(
@@ -137,14 +152,15 @@ public class TelaAtendenteAbrirCaixa {
                     case 'S':
                         Loja.fecharCaixaAtual();
                         System.out.println("[CAIXA] Fechado com sucesso!");
-                        return;
+                        return true;
                     case 'N':
                         System.out.println("[CAIXA] Cancelando fechamento...");
-                        return;
+                        return false;
                 }
             } catch (Exception ex) {}
 
             System.out.println("\nEntrada inválida! Tente novamente...\n");
+            return false;
         }
 	}
 }

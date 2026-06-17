@@ -18,6 +18,11 @@ import sistema.io.Armazenamento;
 
 public class TelaFuncionarioLogin {
 
+	@Override
+	public String toString() {
+		return "[Tela: FuncionarioLogin]";
+	}
+
 	private static Scanner scan = new Scanner(System.in);
 
 	/**

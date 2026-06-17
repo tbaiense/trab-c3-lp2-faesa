@@ -8,11 +8,24 @@
  */
 package sistema.modelos;
 
+import java.util.Objects;
 
+//meu
 public class Admin extends Funcionario {
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Admin other = (Admin) obj;
+		return codAutorizacao == other.codAutorizacao;
+	}
 
-    private int codAutorizacao;
+	private int codAutorizacao;
 
 
     public Admin(

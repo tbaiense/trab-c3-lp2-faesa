@@ -1,10 +1,24 @@
 package sistema.modelos;
 
+import java.util.Objects;
+
 // Classe representa cada item adicionado ao carrinho.
 // Junta o produto lá do catálogo com a quantidade que cliente quer.
 public class ItemPedido implements Cloneable {
 
-    private Produto produto; // Puxa classe Produto
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ItemPedido other = (ItemPedido) obj;
+		return Objects.equals(produto, other.produto) && quantidade == other.quantidade;
+	}
+
+	private Produto produto; // Puxa classe Produto
     private int quantidade;
 
     // Construtor pra instanciar item na hora de rodar gerenciamento

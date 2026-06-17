@@ -22,6 +22,11 @@ import sistema.modelos.Pedido; // Adicionada a importação da classe Pedido
 import sistema.services.ContaUsuarioService;
 
 public class TelaAdminOpcoes {
+	@Override
+	public String toString() {
+		return "[Tela: AdminOpcoes]";
+	}
+
 	private static Scanner scan = new Scanner(System.in);
 	private static int opcao = 0;
 

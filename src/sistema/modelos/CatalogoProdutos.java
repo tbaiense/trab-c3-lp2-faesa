@@ -8,6 +8,11 @@ import sistema.io.Arquivos;
 
 public class CatalogoProdutos {
 
+	@Override
+	public String toString() {
+		return "[modelos: CatalogoProdutos]";
+	}
+
 	private static List<Produto> produtos;
 
 	static {

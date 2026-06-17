@@ -17,7 +17,16 @@ import sistema.services.ContaUsuarioService;
 
 public final class Loja {
 
-    private static HashMap<Integer, Funcionario> usuarios;
+    @Override
+	public String toString() {
+		return String.format(
+			"[Caixa] Funcionario logado: %s\n", 
+			contaAtual == null 
+			? "nenhum" : contaAtual.nome 
+		);
+	}
+
+	private static HashMap<Integer, Funcionario> usuarios;
     private static Funcionario contaAtual;
     private static Caixa caixaAtual;
     private static HashMap<Integer, Caixa> caixasFechados;

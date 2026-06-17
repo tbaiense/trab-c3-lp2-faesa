@@ -22,7 +22,12 @@ public abstract class Armazenamento {
 
     // TODO: fazer usar sempre a raíz do repositório e não baseado no atual
 
-    // public static void main(String[] args) {
+    @Override
+	public String toString() {
+		return "[io: Armazenamento]";
+	}
+
+	// public static void main(String[] args) {
         // Arquivos.inicializar();
         // teste();
     // }

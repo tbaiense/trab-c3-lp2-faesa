@@ -12,7 +12,12 @@ package sistema.modelos;
 
 public class Atendente extends Funcionario {
 
-    public Atendente(String numMatricula, String nome, int senhaLogin) {
+    @Override
+	public String toString() {
+		return "[modelos: Atendente]";
+	}
+
+	public Atendente(String numMatricula, String nome, int senhaLogin) {
         super(numMatricula, nome, senhaLogin);
     }
 

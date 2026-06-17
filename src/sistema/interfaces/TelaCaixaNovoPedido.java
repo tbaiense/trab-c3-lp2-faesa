@@ -18,7 +18,12 @@ import sistema.modelos.Produto;
 
 public class TelaCaixaNovoPedido {
 
-    private static Scanner scan = new Scanner(System.in);
+    @Override
+	public String toString() {
+		return "[Tela: CaixaNovoPedido]";
+	}
+
+	private static Scanner scan = new Scanner(System.in);
     private static Pedido pedidoAtual = null;
     private static Caixa caixaAtual = Loja.getCaixaAtual();
     private static int opcao = 0;

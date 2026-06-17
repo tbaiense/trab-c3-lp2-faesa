@@ -191,5 +191,11 @@ public class ProgramaPrincipal {
         System.out.println("PEDIDOS: [Qtd_OK] OK | [Qtd_Cancelados] CANCELADOS");
         System.out.println("===========================================");
 
-}
+
+    }
+    
+    @Override
+    public String toString() {
+        return "[Tela: ProgramaPrincipal]";
+    }
 }
