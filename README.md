@@ -1,4 +1,4 @@
-# Sistema de frente de loja (POS)
+# SisLoja - Sistema de frente de loja (POS)
 
 Este é um trabalho para a disciplina de _Laboratório de Programação II_, para o conceito 3. Os membros do grupo são:
 
