@@ -21,12 +21,6 @@ O propósito deste sistema é permitir o gerenciamento de pedidos. Para acessar 
 
 ### Dados
 
-dados:
-- usuarios: nome, e cargo (atendente ou admin (codigo))
-- produtos: id, nome, preco unitario venda e custo, ~categoria~ (removido na ultima reuniao)
-- itemPedido: produto, quantidade, precoSubTotal (somente no arquivo gerado)
-- pedido: itemsPedido[], vendedor, preco total, taxa do cartão, data e hora, forma de pagamento
-
 ### Contas de usuário
 
 O sistema possui dois tipos usuários: atendente ou administrador. Os atendentes podem gerar pedidos, usando os produtos já cadastrados. Os adminstradores possuem um código de autorização e podem gerenciar produtos, usuários e gerar e cancelar pedidos. 
