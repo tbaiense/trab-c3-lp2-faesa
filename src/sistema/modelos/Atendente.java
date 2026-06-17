@@ -14,7 +14,7 @@ public class Atendente extends Funcionario {
 
     @Override
 	public String toString() {
-		return "[modelos: Atendente]";
+		return "[Atendente] " + super.toString();
 	}
 
 	public Atendente(String numMatricula, String nome, int senhaLogin) {
