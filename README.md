@@ -19,8 +19,6 @@ O propósito deste sistema é permitir o gerenciamento de pedidos. Para acessar 
 
 ## Regra de negócio
 
-### Dados
-
 ### Contas de usuário
 
 O sistema possui dois tipos usuários: atendente ou administrador. Os atendentes podem gerar pedidos, usando os produtos já cadastrados. Os adminstradores possuem um código de autorização e podem gerenciar produtos, usuários e gerar e cancelar pedidos. 
